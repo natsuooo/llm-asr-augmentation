@@ -58,17 +58,21 @@
 <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">		
 	<h2 id="model-overview" style="text-align: center;">Overview</h2>
 	<body>
-		<p style="text-align: center;">
-			<img src="pics/overview_1.png" width="800">
-		</p>
+		<div style="display: flex; justify-content: center;">
+		  <div style="background: white; padding: 16px; display: inline-block;">
+		    <img src="pics/overview_1.svg" width="800" alt="Overview">
+		  </div>
+		</div>
 	</body>
 	<p>
 		<b>LLM-based text augmentation pipeline</b> first over-generates a large pool of candidate sentences (steps 1-5: domain seed, context seed, multilingual prompting, paraphrasing, multiple LLMs) and then applies filtering (step 6) which optimizes TTR, perplexity, and domain-specific terms weighting.
 	</p>
 	<body>
-		<p style="text-align: center;">
-			<img src="pics/overview_2.png" width="800">
-		</p>
+		<div style="display: flex; justify-content: center;">
+		  <div style="background: white; padding: 16px; display: inline-block;">
+		    <img src="pics/overview_2.svg" width="800" alt="Overview">
+		  </div>
+		</div>
 	</body>
 	<p>
 		<b>LLM-based phonetic respelling</b> rewrites text with LLMs into alternative spellings that approximate natural spoken pronunciation, introducing realistic pronunciation variability without relying on phonetic symbols.
@@ -78,7 +82,7 @@
 </div>
 
 <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
-	<h2 id="sr-samples" style="text-align: center;">LibriSpeech Samples</h2>
+	<h2 id="sr-samples" style="text-align: center;">ATCOSIM Samples</h2>
 		<div class="table-responsive pt-3">
 			<table class="table table-hover pt-2">
 			<thead>
