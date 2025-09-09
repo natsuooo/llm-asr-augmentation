@@ -2,14 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ASR Domain Adaptation Demo</title>
+  <title>Demo Page: A Robust ASR Domain Adaptation via LLM-based Text Augmentation Pipeline and Phonetic Respellings</title>
   <link rel="stylesheet" href="style.css">
   <script src="data.js"></script>
 </head>
 <body>
-  <h1>ASR Domain Adaptation Demo</h1>
+  <h1>Demo: A Robust ASR Domain Adaptation via LLM-based Text Augmentation Pipeline and Phonetic Respellings</h1>
+
+  <p><b>Authors:</b> Natsuo Yamashita, Koichi Nagatsuka, Hiroaki Kokubo, Kota Dohi, Tuan Vu Ho, Yohei Kawaguchi</p>
+  <p><b>Affiliation:</b> Hitachi, Ltd., Japan</p>
+
+  <h2>Abstract</h2>
   <p>
-    This page demonstrates the step-by-step outputs for four datasets:<br>
+    End-to-end automatic speech recognition (ASR) systems often suffer from performance degradation when applied to domain-specific data due to scarce in-domain resources.
+    To address this challenge, we propose a robust domain adaptation framework that combines (i) a large language model (LLM)-based text augmentation pipeline and (ii) an LLM-based phonetic respelling method.
+    Our pipeline produces domain-relevant texts by combining multi-stage LLM-based augmentation with a novel filtering strategy that optimizes lexical diversity, perplexity, and domain-specific vocabulary weighting.
+    The phonetic respelling method introduces pronunciation variability directly at the text generation stage, simulating a wider range of realistic speech variations for synthetic speech.
+    Experimental results across multiple domain-specific datasets demonstrate that the proposed methods consistently improve recognition accuracy.
+  </p>
+
+  <h2>Step-by-Step Demo for Four Datasets</h2>
+  <p>
+    This page demonstrates step-by-step outputs for four datasets:<br>
     <b>ATCOSIM, ATCO2, Court, MedSyn</b>.
   </p>
 
