@@ -91,9 +91,9 @@
 	<h2 id="model-overview" style="text-align: center;">Overview</h2>
 	<div class="text-center mb-4">
 		<div class="d-inline-block bg-white p-3">
-			<div class="overview-image" style="width: 800px; height: 300px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; border-radius: 8px;">
-				LLM-based Text Augmentation Pipeline Overview
-			</div>
+			<div style="background: white; padding: 16px; display: inline-block;">
+		    	<img src="pics/overview_1.svg" width="800" alt="Overview">
+		  	</div>
 		</div>
 	</div>
 	<p>
@@ -101,9 +101,9 @@
 	</p>
 	<div class="text-center mb-4">
 		<div class="d-inline-block bg-white p-3">
-			<div class="overview-image" style="width: 800px; height: 300px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; border-radius: 8px;">
-				LLM-based Phonetic Respelling Overview
-			</div>
+			<div style="background: white; padding: 16px; display: inline-block;">
+		    	<img src="pics/overview_2.svg" width="800" alt="Overview">
+		  	</div>
 		</div>
 	</div>
 	<p>
@@ -132,216 +132,320 @@
     <div class="tab-content" id="datasetTabContent">
         <!-- ATCOSIM Tab -->
         <div class="tab-pane fade show active" id="atcosim" role="tabpanel" aria-labelledby="atcosim-tab">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center">Text</th>
-                            <th style="text-align: center">Prompt</th>
-                            <th style="text-align: center">Ground Truth</th>
-                            <th style="text-align: center">Baseline</th>
-                            <th style="text-align: center">NaturalSpeech 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle; width: 300px;">
-                                "Tower, Delta 123, request takeoff clearance runway 25 left"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle;">
-                                "Ground control, American 456, pushing back gate 12"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <ul class="nav nav-pills justify-content-center mb-3" id="atcosim-lang-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="atcosim-en-tab" data-bs-toggle="pill" data-bs-target="#atcosim-en" type="button" role="tab">English</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="atcosim-cn-tab" data-bs-toggle="pill" data-bs-target="#atcosim-cn" type="button" role="tab">Chinese</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="atcosim-jp-tab" data-bs-toggle="pill" data-bs-target="#atcosim-jp" type="button" role="tab">Japanese</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="atcosim-en" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate air traffic control communications for approach and departure procedures. Include standard phraseology for runway assignments, altitude clearances, and weather updates."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Tower, Delta 123, request takeoff clearance runway 25 left"</li>
+                                        <li class="mb-2">• "Ground control, American 456, pushing back gate 12"</li>
+                                        <li class="mb-2">• "Approach control, descend and maintain flight level 100"</li>
+                                        <li class="mb-2">• "Traffic alert, aircraft on final approach runway 07"</li>
+                                        <li class="mb-2">• "Wind 280 at 15 knots, visibility 10 miles, cleared to land"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="atcosim-cn" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"生成中文航空管制通信，包括起飞和降落许可、高度指令和天气通报的标准用语。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "塔台，东航123，请求25左跑道起飞许可"</li>
+                                        <li class="mb-2">• "地面管制，国航456，在12号登机口推出"</li>
+                                        <li class="mb-2">• "进近管制，下降保持高度3000米"</li>
+                                        <li class="mb-2">• "交通警告，有飞机在07跑道最后进近"</li>
+                                        <li class="mb-2">• "风向280度，风速15节，能见度10公里，可以着陆"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="atcosim-jp" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"航空管制通信の日本語テキストを生成してください。離着陸許可、高度指示、気象情報の標準用語を含めてください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "タワー、JAL123、滑走路25レフトの離陸許可を要求します"</li>
+                                        <li class="mb-2">• "グランドコントロール、ANA456、ゲート12からプッシュバック"</li>
+                                        <li class="mb-2">• "アプローチコントロール、高度3000フィートまで降下"</li>
+                                        <li class="mb-2">• "トラフィックアラート、滑走路07にファイナルアプローチ中の航空機"</li>
+                                        <li class="mb-2">• "風向280度、風速15ノット、視程10マイル、着陸許可"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <!-- ATCO2 Tab -->
         <div class="tab-pane fade" id="atco2" role="tabpanel" aria-labelledby="atco2-tab">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center">Text</th>
-                            <th style="text-align: center">Prompt</th>
-                            <th style="text-align: center">Ground Truth</th>
-                            <th style="text-align: center">Baseline</th>
-                            <th style="text-align: center">NaturalSpeech 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle; width: 300px;">
-                                "Approach control, United 789, descending flight level 280"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle;">
-                                "Center, Southwest 321, level at flight level 350"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <ul class="nav nav-pills justify-content-center mb-3" id="atco2-lang-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="atco2-en-tab" data-bs-toggle="pill" data-bs-target="#atco2-en" type="button" role="tab">English</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="atco2-cn-tab" data-bs-toggle="pill" data-bs-target="#atco2-cn" type="button" role="tab">Chinese</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="atco2-jp-tab" data-bs-toggle="pill" data-bs-target="#atco2-jp" type="button" role="tab">Japanese</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="atco2-en" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Create realistic air traffic control communications for busy international airports. Include emergency procedures and complex routing instructions."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Approach control, United 789, descending flight level 280"</li>
+                                        <li class="mb-2">• "Center, Southwest 321, level at flight level 350"</li>
+                                        <li class="mb-2">• "Emergency declared, aircraft requesting immediate landing"</li>
+                                        <li class="mb-2">• "Proceed direct WAYPOINT, then as filed to destination"</li>
+                                        <li class="mb-2">• "Hold short of runway 09, traffic departing opposite direction"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="atco2-cn" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"为繁忙的国际机场创建真实的航空管制通信。包括应急程序和复杂的航路指令。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "进近管制，联合航空789，从高度层280下降"</li>
+                                        <li class="mb-2">• "区域管制，西南航空321，保持高度层350"</li>
+                                        <li class="mb-2">• "宣布紧急情况，飞机要求立即着陆"</li>
+                                        <li class="mb-2">• "直飞导航点，然后按计划飞往目的地"</li>
+                                        <li class="mb-2">• "在跑道09前等待，有飞机从相反方向起飞"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="atco2-jp" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"混雑する国際空港のリアルな航空管制通信を作成してください。緊急手順と複雑なルート指示を含めてください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "アプローチコントロール、ユナイテッド789、フライトレベル280から降下中"</li>
+                                        <li class="mb-2">• "センター、サウスウエスト321、フライトレベル350で水平飛行"</li>
+                                        <li class="mb-2">• "緊急事態宣言、航空機が緊急着陸を要求"</li>
+                                        <li class="mb-2">• "ウェイポイントへ直行、その後計画通り目的地へ"</li>
+                                        <li class="mb-2">• "滑走路09手前で待機、反対方向から離陸する航空機あり"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <!-- Court Tab -->
         <div class="tab-pane fade" id="court" role="tabpanel" aria-labelledby="court-tab">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center">Text</th>
-                            <th style="text-align: center">Prompt</th>
-                            <th style="text-align: center">Ground Truth</th>
-                            <th style="text-align: center">Baseline</th>
-                            <th style="text-align: center">NaturalSpeech 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle; width: 300px;">
-                                "Your Honor, I object to the leading question"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle;">
-                                "The defendant pleads not guilty to all charges"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <ul class="nav nav-pills justify-content-center mb-3" id="court-lang-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="court-en-tab" data-bs-toggle="pill" data-bs-target="#court-en" type="button" role="tab">English</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="court-cn-tab" data-bs-toggle="pill" data-bs-target="#court-cn" type="button" role="tab">Chinese</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="court-jp-tab" data-bs-toggle="pill" data-bs-target="#court-jp" type="button" role="tab">Japanese</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="court-en" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate formal courtroom dialogue including judicial proceedings, legal objections, witness testimonies, and procedural statements."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Your Honor, I object to the leading question"</li>
+                                        <li class="mb-2">• "The defendant pleads not guilty to all charges"</li>
+                                        <li class="mb-2">• "Will the witness please state their full name for the record"</li>
+                                        <li class="mb-2">• "Objection sustained, the jury will disregard that statement"</li>
+                                        <li class="mb-2">• "Court is now in session, please be seated"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="court-cn" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"生成正式的法庭对话，包括司法程序、法律异议、证人证词和程序性陈述。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "法官大人，我反对这个引导性问题"</li>
+                                        <li class="mb-2">• "被告对所有指控均不认罪"</li>
+                                        <li class="mb-2">• "请证人陈述您的全名以供记录"</li>
+                                        <li class="mb-2">• "反对成立，陪审团请忽略该陈述"</li>
+                                        <li class="mb-2">• "法庭现在开庭，请就座"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="court-jp" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"正式な法廷での対話を生成してください。司法手続き、法的異議、証人の証言、手続き上の発言を含めてください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "裁判長、誘導尋問に異議があります"</li>
+                                        <li class="mb-2">• "被告人は全ての罪状について無罪を主張します"</li>
+                                        <li class="mb-2">• "証人は記録のために氏名を述べてください"</li>
+                                        <li class="mb-2">• "異議を認めます、陪審員はその発言を無視してください"</li>
+                                        <li class="mb-2">• "開廷いたします、ご着席ください"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
         <!-- MedSyn Tab -->
         <div class="tab-pane fade" id="medsyn" role="tabpanel" aria-labelledby="medsyn-tab">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center">Text</th>
-                            <th style="text-align: center">Prompt</th>
-                            <th style="text-align: center">Ground Truth</th>
-                            <th style="text-align: center">Baseline</th>
-                            <th style="text-align: center">NaturalSpeech 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle; width: 300px;">
-                                "Patient presents with acute myocardial infarction"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; vertical-align: middle;">
-                                "Administer 325mg aspirin and initiate cardiac monitoring"
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-primary">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-success">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-warning">Play Audio</button>
-                            </td>
-                            <td style="text-align: center">
-                                <button class="btn btn-sm btn-outline-info">Play Audio</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+            <ul class="nav nav-pills justify-content-center mb-3" id="medsyn-lang-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="medsyn-en-tab" data-bs-toggle="pill" data-bs-target="#medsyn-en" type="button" role="tab">English</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="medsyn-cn-tab" data-bs-toggle="pill" data-bs-target="#medsyn-cn" type="button" role="tab">Chinese</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="medsyn-jp-tab" data-bs-toggle="pill" data-bs-target="#medsyn-jp" type="button" role="tab">Japanese</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="medsyn-en" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate medical terminology and clinical communications including patient presentations, diagnoses, treatment plans, and medical procedures."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Patient presents with acute myocardial infarction"</li>
+                                        <li class="mb-2">• "Administer 325mg aspirin and initiate cardiac monitoring"</li>
 </div>
 
 <!-- VCTK Samples -->
