@@ -1,36 +1,63 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 40px;
-  background: #f9faff;
+  font-family: Georgia, serif;
+  line-height: 1.6;
+  background: #fafafa;
+  margin: 0;
+  padding: 0;
 }
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
 h1 {
-  color: #2d7be5;
+  text-align: center;
+  font-size: 2.2em;
+  margin-bottom: 0.2em;
 }
-.dataset {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 40px;
-  padding: 24px 36px;
-  background: #fff;
-  box-shadow: 0 2px 5px #eee;
+
+h2 {
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: normal;
+  margin-bottom: 1.5em;
+  color: #444;
 }
-.dataset h2 {
-  color: #1a4a7d;
-  margin-top: 0;
+
+.authors {
+  text-align: center;
+  font-size: 0.95em;
 }
-.label {
+
+.affiliations {
+  text-align: center;
+  font-size: 0.9em;
+  color: #444;
+  margin-bottom: 1em;
+}
+
+.link {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.link a {
+  text-decoration: none;
+  color: #0066cc;
+}
+
+.abstract {
+  text-align: justify;
+  margin-bottom: 1.5em;
+}
+
+.note {
+  font-size: 0.85em;
   color: #555;
-  font-weight: bold;
-  margin-top: 12px;
-}
-.respelling {
-  color: #b57200;
-  margin-bottom: 18px;
-}
-audio {
-  margin-top: 8px;
-  margin-bottom: 12px;
-}
-@media (max-width: 700px) {
-  .dataset { padding: 12px; }
+  text-align: center;
 }
