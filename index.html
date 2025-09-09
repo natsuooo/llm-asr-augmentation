@@ -1,41 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NaturalSpeech 3</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM-based ASR Domain Adaptation Demo</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>NaturalSpeech 3:</h1>
-    <h2>Zero-Shot Speech Synthesis with Factorized Codec and Diffusion Models</h2>
 
-    <p class="authors">
-      Zeqian Ju<sup>1,2*</sup>, Yuancheng Wang<sup>3*</sup>, Kai Shen<sup>4,1*</sup>, Xu Tan<sup>1*</sup>, Detai Xin<sup>1,5</sup>, Dongchao Yang<sup>1</sup>, Yanqing Liu<sup>1</sup>, Yichong Leng<sup>1</sup>, Kaitao Song<sup>1</sup>, Siliang Tang<sup>4</sup>, Zhizheng Wu<sup>3</sup>, Tao Qin<sup>1</sup>,<br>
-      Xiang-Yang Li<sup>2</sup>, Wei Ye<sup>6</sup>, Shikun Zhang<sup>6</sup>, Jiang Bian<sup>1</sup>, Lei He<sup>1</sup>, Jinyu Li<sup>1</sup>, Sheng Zhao<sup>1</sup>
-    </p>
+  <h1>Robust ASR Domain Adaptation via LLM-based Text Augmentation and Phonetic Respelling</h1>
+  <p><strong>Natsuo Yamashita</strong>, Koichi Nagatsuka, Hiroaki Kokubo, Kota Dohi, Tuan Vu Ho, Yohei Kawaguchi<br /> 
+  Hitachi, Ltd., Japan</p>
 
-    <p class="affiliations">
-      <sup>1</sup> Microsoft Research Asia & Microsoft Azure Speech  
-      <sup>2</sup> University of Science and Technology of China  
-      <sup>3</sup> The Chinese University of Hong Kong, Shenzhen  
-      <sup>4</sup> Zhejiang University  
-      <sup>5</sup> The University of Tokyo  
-      <sup>6</sup> Peking University  
-    </p>
+  <p><em>Abstract.</em> End-to-end automatic speech recognition often degrades on domain-specific data due to scarce in-domain resources. To address this challenge, we propose a domain adaptation framework that combines (i) a large language model (LLM)-based text augmentation pipeline and (ii) an LLM-based phonetic respelling method. Our pipeline produces domain-relevant texts by multi-stage augmentation with a novel filtering strategy optimizing lexical diversity, perplexity, and domain-specific vocabulary coverage. The phonetic respelling method introduces pronunciation variability at the text generation stage, simulating a wider range of realistic speech variations for synthetic speech. Experimental results across multiple domain-specific datasets demonstrate that the proposed methods consistently improve recognition accuracy.</p>
 
-    <p class="link"><a href="#">[Paper]</a></p>
+  <p><em>This page is for research demonstration purposes only.</em></p>
 
-    <h3>Abstract.</h3>
-    <p class="abstract">
-      While recent large-scale text-to-speech (TTS) models have achieved significant progress, they still fall short in speech quality, similarity, and prosody. Considering speech intricately encompasses various attributes (e.g., content, prosody, timbre, and acoustic details) that pose significant challenges for generation, a natural idea is to factorize speech into individual subspaces representing different attributes and generate them individually. Motivated by it, we propose NaturalSpeech 3, a TTS system with novel factorized diffusion models to generate natural speech in a zero-shot way...
-    </p>
+  <h2>Overview</h2>
+  <p>Our approach consists of an LLM-based text augmentation pipeline and a phonetic respelling strategy for improving ASR in specific domains. The text augmentation pipeline generates diverse in-domain text using multiple prompting and translation steps, then filters them to maximize lexical diversity and include important domain terms. The phonetic respelling introduces realistic pronunciation variations by converting text into how it might sound (using regular letters instead of phonetic symbols), which helps the ASR model handle spoken variations. The figure below illustrates the pipeline and an example of phonetic respelling.</p>
+  <img src="pics/overview.png" alt="Overview of the proposed method" />
 
-    <h3>Update.</h3>
-    <p>We release the <b>code and pre-trained checkpoint of FACodec</b> at <a href="#">here</a>!</p>
+  <h3>Phonetic Respelling Example</h3>
+  <p>For example, the sentence:</p>
+  <p><strong>Original:</strong> “Zhang Feng piloted the Boeing Seven Three Seven aircraft.”</p>
+  <p>can be respelled as:</p>
+  <p><strong>Respelling:</strong> “Jang Feng pilotid ze Bo-in Sevem Three Sevem eer-kraft.”</p>
+  <p>This respelled sentence uses English letters to mimic how the words sound (capturing accents, mispronunciations, or idiosyncrasies), introducing pronunciation variability for training.</p>
 
-    <p class="note">This research is done in alignment with Microsoft's responsible AI principles.</p>
-    <p class="note"><i>This page is for research demonstration purposes only.</i></p>
-  </div>
+  <h2>Sample Results</h2>
+  <p>We demonstrate the effect of our domain adaptation on various domain-specific speech samples. Each example below shows a short audio clip, the ground truth transcription, and the ASR outputs from a baseline model (before adaptation) and our adapted model.</p>
+
+  <h3>Air Traffic Control (ATCOSIM) Example</h3>
+  <table>
+    <tr>
+      <th>Audio</th>
+      <th>Ground Truth</th>
+      <th>Baseline ASR</th>
+      <th>Adapted ASR</th>
+    </tr>
+    <tr>
+      <td><audio controls src="audio/atc_sample.wav">Your browser does not support the audio element.</audio></td>
+      <td>Air France 210, you are <strong>recleared</strong> to flight level 300.</td>
+      <td>Air France 210, you are cleared to flight level 300.</td>
+      <td>Air France 210, you are <strong>recleared</strong> to flight level 300.</td>
+    </tr>
+  </table>
+
+  <h3>Courtroom Proceedings Example</h3>
+  <table>
+    <tr>
+      <th>Audio</th>
+      <th>Ground Truth</th>
+      <th>Baseline ASR</th>
+      <th>Adapted ASR</th>
+    </tr>
+    <tr>
+      <td><audio controls src="audio/court_sample.wav">Your browser does not support the audio element.</audio></td>
+      <td>The <strong>Petitioner</strong> respectfully addresses the Hon’ble Court.</td>
+      <td>The petitioner respectfully addresses the Honorable Court.</td>
+      <td>The <strong>Petitioner</strong> respectfully addresses the Hon’ble Court.</td>
+    </tr>
+  </table>
+
+  <h3>Medical Documentation (MedSyn) Example</h3>
+  <table>
+    <tr>
+      <th>Audio</th>
+      <th>Ground Truth</th>
+      <th>Baseline ASR</th>
+      <th>Adapted ASR</th>
+    </tr>
+    <tr>
+      <td><audio controls src="audio/medical_sample.wav">Your browser does not support the audio element.</audio></td>
+      <td>The patient is prescribed 5 mg of <strong>Atorvastatin</strong> daily.</td>
+      <td>The patient is prescribed 5 milligrams of a tour vastatin daily.</td>
+      <td>The patient is prescribed 5 mg of <strong>Atorvastatin</strong> daily.</td>
+    </tr>
+  </table>
+
+  <p><em>Note:</em> In each case, the adapted model correctly transcribes the domain-specific terms (shown in bold) that the baseline model misrecognizes.</p>
+
+  <h2>Reference</h2>
+  <p>For more details, please see our paper or contact the authors.</p>
+  <p><a href="paper.pdf" target="_blank" rel="noopener">[Paper]</a></p>
+
 </body>
 </html>
