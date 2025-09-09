@@ -1,62 +1,39 @@
-import os
-
-datasets = [
-    {
-        "name": "ATCOSIM",
-        "prompt": "Generate an utterance for air traffic control: A pilot requests descent clearance at Munich airport.",
-        "generated_text": "Captain James requests descent clearance from Munich tower.",
-        "tts_audio": "audio/atcosim_original.wav",
-        "respelling": "Cap-tin Jeymz re-kwests desent kleer-ans from Myoo-nik tower.",
-        "respelling_audio": "audio/atcosim_respelling.wav"
-    },
-    # 追加: ATCO2, Court, MedSyn など
-]
-
-html = """
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>ASR Domain Adaptation Demo</title>
-<style>
-body { font-family: Arial, sans-serif; margin: 40px; }
-h1 { color: #2d7be5; }
-.dataset { border: 1px solid #ccc; border-radius: 8px; margin-bottom: 40px; padding: 24px; background: #f9f9fa; }
-.block { margin-bottom: 24px; }
-.prompt { font-weight: bold; color: #1a4a7d; }
-.respelling { color: #b57200; }
-audio { display: block; margin-top: 8px; }
-</style>
+  <meta charset="UTF-8">
+  <title>ASR Domain Adaptation Demo</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js"></script>
 </head>
 <body>
-<h1>ASR Domain Adaptation Demo</h1>
-<p>This page demonstrates step-by-step outputs for four datasets: <b>ATCOSIM, ATCO2, Court, MedSyn</b>.</p>
-"""
+  <h1>ASR Domain Adaptation Demo</h1>
+  <p>
+    This page demonstrates the step-by-step outputs for four datasets:<br>
+    <b>ATCOSIM, ATCO2, Court, MedSyn</b>.
+  </p>
 
-for d in datasets:
-    html += f"""
-    <div class="dataset">
-        <h2>{d['name']}</h2>
-        <div class="block prompt">Prompt:<br>{d['prompt']}</div>
-        <div class="block">Generated Text:<br>{d['generated_text']}</div>
-        <div class="block">TTS Audio:<br>
-            <audio controls src="{d['tts_audio']}"></audio>
-        </div>
-        <div class="block respelling">Phonetic Respelling:<br>{d['respelling']}</div>
-        <div class="block">Respelling TTS Audio:<br>
-            <audio controls src="{d['respelling_audio']}"></audio>
-        </div>
-    </div>
-    """
+  <div id="demo"></div>
 
-html += """
+  <script>
+    const demo = document.getElementById('demo');
+    datasets.forEach(d => {
+      demo.innerHTML += `
+      <div class="dataset">
+        <h2>${d.name}</h2>
+        <div class="label">Prompt:</div>
+        <div>${d.prompt}</div>
+        <div class="label">Generated Text:</div>
+        <div>${d.generated_text}</div>
+        <div class="label">TTS Audio:</div>
+        <audio controls src="${d.tts_audio}"></audio>
+        <div class="label">Phonetic Respelling:</div>
+        <div class="respelling">${d.respelling}</div>
+        <div class="label">Respelling TTS Audio:</div>
+        <audio controls src="${d.respelling_audio}"></audio>
+      </div>
+      `;
+    });
+  </script>
 </body>
 </html>
-"""
-
-# 書き出し
-os.makedirs("docs/audio", exist_ok=True)  # 必要ならaudioフォルダ作成
-with open("docs/index.html", "w", encoding="utf-8") as f:
-    f.write(html)
-
-print("HTML demo page written to docs/index.html")
