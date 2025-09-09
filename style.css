@@ -1,63 +1,67 @@
 body {
-  font-family: Georgia, serif;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
   line-height: 1.6;
-  background: #fafafa;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  max-width: 800px;
-  margin: 40px auto;
-  background: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  color: #333;
+  background-color: #fff;
 }
 
 h1 {
-  text-align: center;
-  font-size: 2.2em;
-  margin-bottom: 0.2em;
+  font-size: 1.8em;
+  margin: 0.5em 0;
 }
 
 h2 {
-  text-align: center;
   font-size: 1.4em;
-  font-weight: normal;
-  margin-bottom: 1.5em;
-  color: #444;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.2em;
 }
 
-.authors {
-  text-align: center;
-  font-size: 0.95em;
+h3 {
+  font-size: 1.2em;
+  margin: 1em 0 0.5em;
 }
 
-.affiliations {
-  text-align: center;
-  font-size: 0.9em;
-  color: #444;
-  margin-bottom: 1em;
+p {
+  margin: 0.5em 0;
 }
 
-.link {
-  text-align: center;
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
   margin: 1em 0;
 }
 
-.link a {
-  text-decoration: none;
-  color: #0066cc;
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  vertical-align: middle;
+  text-align: left;
 }
 
-.abstract {
-  text-align: justify;
-  margin-bottom: 1.5em;
+th {
+  background-color: #f9f9f9;
 }
 
-.note {
-  font-size: 0.85em;
-  color: #555;
-  text-align: center;
+audio {
+  display: inline-block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em 0;
 }
