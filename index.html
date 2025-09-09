@@ -2,52 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Demo Page: A Robust ASR Domain Adaptation via LLM-based Text Augmentation Pipeline and Phonetic Respellings</title>
+  <title>NaturalSpeech 3</title>
   <link rel="stylesheet" href="style.css">
-  <script src="data.js"></script>
 </head>
 <body>
-  <h1>Demo: A Robust ASR Domain Adaptation via LLM-based Text Augmentation Pipeline and Phonetic Respellings</h1>
+  <div class="container">
+    <h1>NaturalSpeech 3:</h1>
+    <h2>Zero-Shot Speech Synthesis with Factorized Codec and Diffusion Models</h2>
 
-  <p><b>Authors:</b> Natsuo Yamashita, Koichi Nagatsuka, Hiroaki Kokubo, Kota Dohi, Tuan Vu Ho, Yohei Kawaguchi</p>
-  <p><b>Affiliation:</b> Hitachi, Ltd., Japan</p>
+    <p class="authors">
+      Zeqian Ju<sup>1,2*</sup>, Yuancheng Wang<sup>3*</sup>, Kai Shen<sup>4,1*</sup>, Xu Tan<sup>1*</sup>, Detai Xin<sup>1,5</sup>, Dongchao Yang<sup>1</sup>, Yanqing Liu<sup>1</sup>, Yichong Leng<sup>1</sup>, Kaitao Song<sup>1</sup>, Siliang Tang<sup>4</sup>, Zhizheng Wu<sup>3</sup>, Tao Qin<sup>1</sup>,<br>
+      Xiang-Yang Li<sup>2</sup>, Wei Ye<sup>6</sup>, Shikun Zhang<sup>6</sup>, Jiang Bian<sup>1</sup>, Lei He<sup>1</sup>, Jinyu Li<sup>1</sup>, Sheng Zhao<sup>1</sup>
+    </p>
 
-  <h2>Abstract</h2>
-  <p>
-    End-to-end automatic speech recognition (ASR) systems often suffer from performance degradation when applied to domain-specific data due to scarce in-domain resources.
-    To address this challenge, we propose a robust domain adaptation framework that combines (i) a large language model (LLM)-based text augmentation pipeline and (ii) an LLM-based phonetic respelling method.
-    Our pipeline produces domain-relevant texts by combining multi-stage LLM-based augmentation with a novel filtering strategy that optimizes lexical diversity, perplexity, and domain-specific vocabulary weighting.
-    The phonetic respelling method introduces pronunciation variability directly at the text generation stage, simulating a wider range of realistic speech variations for synthetic speech.
-    Experimental results across multiple domain-specific datasets demonstrate that the proposed methods consistently improve recognition accuracy.
-  </p>
+    <p class="affiliations">
+      <sup>1</sup> Microsoft Research Asia & Microsoft Azure Speech  
+      <sup>2</sup> University of Science and Technology of China  
+      <sup>3</sup> The Chinese University of Hong Kong, Shenzhen  
+      <sup>4</sup> Zhejiang University  
+      <sup>5</sup> The University of Tokyo  
+      <sup>6</sup> Peking University  
+    </p>
 
-  <h2>Step-by-Step Demo for Four Datasets</h2>
-  <p>
-    This page demonstrates step-by-step outputs for four datasets:<br>
-    <b>ATCOSIM, ATCO2, Court, MedSyn</b>.
-  </p>
+    <p class="link"><a href="#">[Paper]</a></p>
 
-  <div id="demo"></div>
+    <h3>Abstract.</h3>
+    <p class="abstract">
+      While recent large-scale text-to-speech (TTS) models have achieved significant progress, they still fall short in speech quality, similarity, and prosody. Considering speech intricately encompasses various attributes (e.g., content, prosody, timbre, and acoustic details) that pose significant challenges for generation, a natural idea is to factorize speech into individual subspaces representing different attributes and generate them individually. Motivated by it, we propose NaturalSpeech 3, a TTS system with novel factorized diffusion models to generate natural speech in a zero-shot way...
+    </p>
 
-  <script>
-    const demo = document.getElementById('demo');
-    datasets.forEach(d => {
-      demo.innerHTML += `
-      <div class="dataset">
-        <h2>${d.name}</h2>
-        <div class="label">Prompt:</div>
-        <div>${d.prompt}</div>
-        <div class="label">Generated Text:</div>
-        <div>${d.generated_text}</div>
-        <div class="label">TTS Audio:</div>
-        <audio controls src="${d.tts_audio}"></audio>
-        <div class="label">Phonetic Respelling:</div>
-        <div class="respelling">${d.respelling}</div>
-        <div class="label">Respelling TTS Audio:</div>
-        <audio controls src="${d.respelling_audio}"></audio>
-      </div>
-      `;
-    });
-  </script>
+    <h3>Update.</h3>
+    <p>We release the <b>code and pre-trained checkpoint of FACodec</b> at <a href="#">here</a>!</p>
+
+    <p class="note">This research is done in alignment with Microsoft's responsible AI principles.</p>
+    <p class="note"><i>This page is for research demonstration purposes only.</i></p>
+  </div>
 </body>
 </html>
