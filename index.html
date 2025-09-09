@@ -39,16 +39,11 @@
 	</div>
 	<p>
         <b>Abstract.</b> 
-		While text-to-speech (TTS) systems (e.g., NaturalSpeech) have achieved high speech quality on single-speaker recording-studio datasets, these datasets are
-not enough to capture the diversity in human speech such as speaker identities, prosodies, styles (e.g., singing). When scaling to large-scale, multi-speaker, and in-
-the-wild datasets, current TTS systems usually quantize speech into discrete tokens and use language models to generate these tokens one by one, which suffer from
-unstable prosody, word skipping/repeating issue, and poor voice quality. In this paper, we develop NaturalSpeech 2, a TTS system that uses a latent diffusion model
-to synthesize natural voices with high expressiveness/robustness/fidelity and strong zero-shot ability. Specifically, we leverage a neural audio codec with residual
-vector quantizers to reconstruct speech waveform and get the quantized latent vectors, and then use a diffusion model to generate these latent vectors conditioned
-on text input. To enhance the zero-shot capability, we design a speech prompting mechanism to facilitate in-context learning in the duration/pitch predictor and
-diffusion model. We scale NaturalSpeech 2 to large-scale datasets with 44K hours of speech and singing data and evaluate its voice quality on unseen (zero-shot)
-speakers. NaturalSpeech 2 outperforms previous TTS systems by a large margin in terms of prosody/timbre similarity, robustness, and voice quality, and can perform
-novel zero-shot singing synthesis with only a speech prompt.
+		End-to-end automatic speech recognition often degrades on domain-specific data due to scarce in-domain resources. 
+		To address this challenge, we propose a robust domain adaptation framework that combines (i) a large language model (LLM)-based text augmentation pipeline and (ii) an LLM-based phonetic respelling method.
+		Our pipeline produces domain-relevant texts by combining multi-stage LLM-based augmentation with a novel filtering strategy that optimizes lexical diversity, perplexity, and domain-specific vocabulary weighting. 
+		The phonetic respelling method introduces pronunciation variability directly at the text generation stage, simulating a wider range of realistic speech variations for synthetic speech. 
+		Experimental results across multiple domain-specific datasets demonstrate that the proposed methods consistently improve recognition accuracy.
 		<br>
 		<br>
 		This research is done in alignment with Microsoft's responsible AI principles.
