@@ -38,7 +38,7 @@
         <p><b>Hitachi, Ltd., Japan</b></p>
 	</div>
 	<p>
-        <b>Abstract.</b> 
+        <b>Abstract</b> 
 		End-to-end automatic speech recognition often degrades on domain-specific data due to scarce in-domain resources. 
 		To address this challenge, we propose a robust domain adaptation framework that combines (i) a large language model (LLM)-based text augmentation pipeline and (ii) an LLM-based phonetic respelling method.
 		Our pipeline produces domain-relevant texts by combining multi-stage LLM-based augmentation with a novel filtering strategy that optimizes lexical diversity, perplexity, and domain-specific vocabulary weighting. 
@@ -81,79 +81,52 @@
 
 </div>
 
+<!-- ① データセット切替タブ部分 -->
 <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
-	<h2 id="sr-samples" style="text-align: center;">ATCOSIM Samples</h2>
-		<div class="table-responsive pt-3">
-			<table class="table table-hover pt-2">
-			<thead>
-			<tr>
-			<th style="text-align: center">Text</th>
-			<th style="text-align: center">Prompt</th>
-			<th style="text-align: center">Ground Truth</th>
-			<th style="text-align: center">Baseline</th>
-			<th style="text-align: center">NaturalSpeech 2</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-			<td style="text-align: left;vertical-align:middle;width: 500px">Indeed, there were only one or two strangers who could be admitted among the sisters without producing the same result.</td>
-			<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case1/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case1/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case1/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case1/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			<tr>
-				<td style="text-align: left;vertical-align:middle;width: 500px">For if he's anywhere on the farm, we can send for him in a minute.</td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case2/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case2/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case2/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case2/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			<tr>
-				<td style="text-align: left;vertical-align:middle;width: 500px">Their piety would be like their names, like their faces, like their clothes, and it was idle for him to tell himself that their humble and contrite hearts it might be paid a far-richer tribute of devotion than his had ever been. A gift tenfold more acceptable than his elaborate adoration.</td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case3/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case3/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case3/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case3/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			<tr>
-				<td style="text-align: left;vertical-align:middle;width: 500px">The air and the earth are curiously mated and intermingled as if the one were the breath of the other.</td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case5/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case5/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case5/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case5/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			<tr>
-				<td style="text-align: left;vertical-align:middle;width: 500px">I had always known him to be restless in his manner, but on this particular occasion he was in such a state of uncontrollable agitation that it was clear something very unusual had occurred.</td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case6/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case6/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case6/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case6/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			<tr>
-				<td style="text-align: left;vertical-align:middle;width: 500px">His death in this conjuncture was a public misfortune.</td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case8/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case8/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case8/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case8/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			<tr>
-				<td style="text-align: left;vertical-align:middle;width: 500px">It is this that is of interest to theory of knowledge.</td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case9/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case9/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case9/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case9/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			<tr>
-				<td style="text-align: left;vertical-align:middle;width: 500px">For a few miles, she followed the line hitherto presumably occupied by the coast of Algeria, but no land appeared to the south.</td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case10/reference.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case10/gt.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case10/yourtts.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-				<td style="text-align: center"><audio controls="controls" style="width: 160px;"><source src="audio/librispeech_examples/case10/ns.wav" autoplay/>Your browser does not support the audio element.</audio></td>
-			</tr>
-			</tbody>
-			</table>
-		</div>
+    <h2 style="text-align: center;">Dataset Samples</h2>
+    <ul class="nav nav-tabs justify-content-center" id="datasetTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="atcosim-tab" data-bs-toggle="tab" data-bs-target="#atcosim" type="button" role="tab">ATCOSIM</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="atco2-tab" data-bs-toggle="tab" data-bs-target="#atco2" type="button" role="tab">ATCO2</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="court-tab" data-bs-toggle="tab" data-bs-target="#court" type="button" role="tab">Court</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="medsyn-tab" data-bs-toggle="tab" data-bs-target="#medsyn" type="button" role="tab">MedSyn</button>
+        </li>
+    </ul>
+
+    <!-- ② タブごとの内容：idとdata-bs-targetを合わせる -->
+    <div class="tab-content pt-4" id="datasetTabContent">
+        <!-- ATCOSIM Tab -->
+        <div class="tab-pane fade show active" id="atcosim" role="tabpanel">
+            <!-- ↓今のATCOSIMサンプルtableをここに配置 -->
+            <div class="table-responsive pt-3">
+                <!-- ...既存のATCOSIM table... -->
+            </div>
+        </div>
+        <!-- ATCO2 Tab -->
+        <div class="tab-pane fade" id="atco2" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <!-- ここにATCO2 samples table（ATCOSIMと同じ構造）を配置 -->
+            </div>
+        </div>
+        <!-- Court Tab -->
+        <div class="tab-pane fade" id="court" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <!-- ここにCourt samples tableを配置 -->
+            </div>
+        </div>
+        <!-- MedSyn Tab -->
+        <div class="tab-pane fade" id="medsyn" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <!-- ここにMedSyn samples tableを配置 -->
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
