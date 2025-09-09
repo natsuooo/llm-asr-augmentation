@@ -1,12 +1,62 @@
+import os
+
+datasets = [
+    {
+        "name": "ATCOSIM",
+        "prompt": "Generate an utterance for air traffic control: A pilot requests descent clearance at Munich airport.",
+        "generated_text": "Captain James requests descent clearance from Munich tower.",
+        "tts_audio": "audio/atcosim_original.wav",
+        "respelling": "Cap-tin Jeymz re-kwests desent kleer-ans from Myoo-nik tower.",
+        "respelling_audio": "audio/atcosim_respelling.wav"
+    },
+    # 追加: ATCO2, Court, MedSyn など
+]
+
+html = """
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>My Project Demo</title>
+<meta charset="UTF-8">
+<title>ASR Domain Adaptation Demo</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 40px; }
+h1 { color: #2d7be5; }
+.dataset { border: 1px solid #ccc; border-radius: 8px; margin-bottom: 40px; padding: 24px; background: #f9f9fa; }
+.block { margin-bottom: 24px; }
+.prompt { font-weight: bold; color: #1a4a7d; }
+.respelling { color: #b57200; }
+audio { display: block; margin-top: 8px; }
+</style>
 </head>
 <body>
-  <h1>My Project</h1>
-  <p>Welcome to my project page!</p>
-  <audio controls src="sample.wav"></audio>
+<h1>ASR Domain Adaptation Demo</h1>
+<p>This page demonstrates step-by-step outputs for four datasets: <b>ATCOSIM, ATCO2, Court, MedSyn</b>.</p>
+"""
+
+for d in datasets:
+    html += f"""
+    <div class="dataset">
+        <h2>{d['name']}</h2>
+        <div class="block prompt">Prompt:<br>{d['prompt']}</div>
+        <div class="block">Generated Text:<br>{d['generated_text']}</div>
+        <div class="block">TTS Audio:<br>
+            <audio controls src="{d['tts_audio']}"></audio>
+        </div>
+        <div class="block respelling">Phonetic Respelling:<br>{d['respelling']}</div>
+        <div class="block">Respelling TTS Audio:<br>
+            <audio controls src="{d['respelling_audio']}"></audio>
+        </div>
+    </div>
+    """
+
+html += """
 </body>
 </html>
+"""
+
+# 書き出し
+os.makedirs("docs/audio", exist_ok=True)  # 必要ならaudioフォルダ作成
+with open("docs/index.html", "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("HTML demo page written to docs/index.html")
