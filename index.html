@@ -82,7 +82,7 @@
 		Experimental results across multiple domain-specific datasets demonstrate that the proposed methods consistently improve recognition accuracy.
 		<br>
 		<br>
-			This page is <b> for research demonstration purposes </b> only.
+			This page is <b> for research demonstration purposes </b> only, which provides prompt examples, generated texts and synthesized audio with proposed methods.
 		<br>
       </p>
 </div>
@@ -114,6 +114,7 @@
 <!-- Dataset Samples with Tabs -->
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
     <h2 style="text-align: center;">LLM-based test augmentation pipeline</h2>
+    <br>
     <ul class="nav nav-tabs justify-content-center mb-4" id="datasetTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="atcosim-tab" data-bs-toggle="tab" data-bs-target="#atcosim" type="button" role="tab" aria-controls="atcosim" aria-selected="true">ATCOSIM</button>
@@ -151,25 +152,122 @@
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"Generate <i>{n}</i> situations/scenarios in English where air traffic controllers are speaking in air traffic control.
-										Note that you should generate the scenarios or situations in which utterances take place, not the utterances themselves.
-										No annotations or explanations are needed; output only {n} scenarios or situations in English.
-										Please generate as diverse a set of scenarios and situations as possible.
-										Ensure that each sentence is at least 5 characters and at most 200 characters long.
-										Annotations, explanations, or repetitions are not needed. "</p>
+                                    <p>"Generate <i><strong>{n}</strong></i> situations/scenarios in English where air traffic controllers are speaking in air traffic control.<br>
+										Note that you should generate the scenarios or situations in which utterances take place, not the utterances themselves.<br>
+										No annotations or explanations are needed; output only <i><strong>{n}</strong></i> scenarios or situations in English.<br>
+										Please generate as diverse a set of scenarios and situations as possible.<br>
+										Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+										Annotations, explanations, or repetitions are not needed."</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "Tower, Delta 123, request takeoff clearance runway 25 left"</li>
-                                        <li class="mb-2">• "Ground control, American 456, pushing back gate 12"</li>
-                                        <li class="mb-2">• "Approach control, descend and maintain flight level 100"</li>
-                                        <li class="mb-2">• "Traffic alert, aircraft on final approach runway 07"</li>
-                                        <li class="mb-2">• "Wind 280 at 15 knots, visibility 10 miles, cleared to land"</li>
+                                        <li class="mb-2">• "Instructing an aircraft to taxi to a runway"</li>
+                                        <li class="mb-2">• "Denying pushback due to ramp congestion"</li>
+                                        <li class="mb-2">• "Granting clearance to cross active runway"</li>
+                                        <li class="mb-2">• "Assigning runway for departure"</li>
+                                        <li class="mb-2">• "Issuing landing clearance"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate 10 English sentences according to following scenario in air traffic control in Europe.<br>
+                                    Scenario: <i><strong>{scenario}</strong></i><br>
+                                    <br>
+                                    Make sure each sentence include as diverse names, locations, aircraft names, and technical terms as possible.<br>
+                                    Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+                                    Annotations, explanations, or repetitions are not needed.<br>
+                                    Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Lufthansa 307, taxi via Juliet and Alpha to holding point Runway 27R, contact Ground on 121.8."</li>
+                                        <li class="mb-2">• "Alitalia 452, proceed to Runway 04L via taxiways Bravo and Kilo, hold short at Sierra intersection."</li>
+                                        <li class="mb-2">• "KLM 263, proceed via Golf and Uniform to holding point Runway 36C, give way to the arriving Embraer."</li>
+                                        <li class="mb-2">• "Swiss 118, taxi to Runway 18R via Lima, Oscar, cross Runway 14, advise when ready for departure."</li>
+                                        <li class="mb-2">• "Air France 214, taxi via Charlie and Mike to Runway 09, hold short of Whiskey, expect departure shortly."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>Generate 10 English sentences in the different scenarios of air traffic control in Europe, including the term of '<i><strong>{domain-specific term}</strong></i>'. <br>
+                                    Make sure that each sentence is a single sentence and use as different names, locations, aircraft names, technical terms, numbers, and contexts as possible. <br>
+                                    Each sentence should be output on its own line, separated by line breaks.<br>
+                                    Ensure that each sentence is at most 200 characters long.<br>
+                                    The main language is English. <br>
+                                    Use the terms of <i><strong>{domain-specific term}</strong></i> itself, do not change the language for the term of <i><strong>{domain-specific term}</strong></i>.<br>
+                                    Annotations, explanations, or repetitions are not needed.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• <strong>Belstar</strong> 214, descend to flight level 110 and contact Zurich Approach on 119.7. </li>
+                                        <li class="mb-2">• "Eurojet 650, maintain present heading and expect direct <strong>Belstar</strong> waypoint in ten miles.  "</li>
+                                        <li class="mb-2">• "Munich Tower, Lufthansa 327 passing <strong>Belstar</strong>, requesting climb to FL340.  "</li>
+                                        <li class="mb-2">• "Ryanair 982, after <strong>Belstar</strong>, proceed direct to Krakow VOR, flight planned route approved.  "</li>
+                                        <li class="mb-2">• "ATC to Swiss 87, radar contact established five miles south of <strong>Belstar</strong>, continue as cleared. "</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the following sentence in air traffic control into 9 different versions. <br>
+                                    Sentence: <i><strong>Lufthansa 307, taxi via Juliet and Alpha to holding point Runway 27R, contact Ground on 121.8.</strong></i><br>
+                                    <br>
+                                    Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                    Write all numbers in spelled-out English words instead of using digits. <br>
+                                    Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                    Annotations, explanations, or repetitions are not needed. <br>
+                                    Each sentence should be output on its own line, separated by line breaks. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• KLM Seven Oh-Five, make your way via Tango and November to the pre-departure zone of Runway One Five Left, Ground on One Two Four Decimal Three.</li>
+                                        <li class="mb-2">• "Air Canada Eight Twenty-One, proceed via Sierra and Echo to the staging area for Runway One Seven, then switch to Ground on One Two Three Point Four."</li>
+                                        <li class="mb-2">• "United Five Fifty-Zero, use Foxtrot and Mike to access the holding bay for Runway Three Six, then call Ground on One Two Four Point Nine."</li>
+                                        <li class="mb-2">• "Delta Twelve Fifty-Eight, taxi along Lima then Bravo to Runway Two Two Left departure point, contact Ground frequency One Two Two Decimal Seven."</li>
+                                        <li class="mb-2">• "Qantas Six Ninety-Nine, follow Golf and Papa to the wait position at Runway Zero Eight Right and reach out to Ground at One Two One Point Six."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -452,50 +550,276 @@
                                     <ul class="list-unstyled">
                                         <li class="mb-2">• "Patient presents with acute myocardial infarction"</li>
                                         <li class="mb-2">• "Administer 325mg aspirin and initiate cardiac monitoring"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="medsyn-cn" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"生成医疗术语和临床沟通，包括病人病情、诊断、治疗计划和医疗程序。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "病人出现急性心肌梗死症状"</li>
+                                        <li class="mb-2">• "给予325毫克阿司匹林并开始心脏监测"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="medsyn-jp" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"医療用語や臨床コミュニケーションを生成してください。患者の症状、診断、治療計画、医療手順を含めてください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "患者は急性心筋梗塞を呈しています"</li>
+                                        <li class="mb-2">• "325mgのアスピリンを投与し、心臓モニタリングを開始します"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- VCTK Samples -->
+
+
+<!-- LLM-based Phonetic Respelling -->
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
-	<h2 id="sr-samples" style="text-align: center;">VCTK Samples</h2>
-	<div class="table-responsive pt-3">
-		<table class="table table-hover pt-2">
-			<thead>
-				<tr>
-					<th style="text-align: center">Text</th>
-					<th style="text-align: center">Prompt</th>
-					<th style="text-align: center">Ground Truth</th>
-					<th style="text-align: center">Baseline</th>
-					<th style="text-align: center">NaturalSpeech 2</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td style="text-align: left;vertical-align:middle;width: 500px">It is an absolute nonsense.</td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-primary">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-success">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-warning">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-info">Play Audio</button></td>
-				</tr>
-				<tr>
-					<td style="text-align: left;vertical-align:middle;width: 500px">Truth is the child of time.</td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-primary">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-success">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-warning">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-info">Play Audio</button></td>
-				</tr>
-				<tr>
-					<td style="text-align: left;vertical-align:middle;width: 500px">We have a long way to go this week.</td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-primary">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-success">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-warning">Play Audio</button></td>
-					<td style="text-align: center"><button class="btn btn-sm btn-outline-info">Play Audio</button></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+    <h2 id="sr-samples" style="text-align: center;">LLM-based Phonetic Respelling</h2>
+    <br>
+    <ul class="nav nav-tabs justify-content-center mb-4" id="respellingTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="respelling-atcosim-tab" data-bs-toggle="tab" data-bs-target="#respelling-atcosim" type="button" role="tab">ATCOSIM</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-atco2-tab" data-bs-toggle="tab" data-bs-target="#respelling-atco2" type="button" role="tab">ATCO2</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-court-tab" data-bs-toggle="tab" data-bs-target="#respelling-court" type="button" role="tab">Court</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-medsyn-tab" data-bs-toggle="tab" data-bs-target="#respelling-medsyn" type="button" role="tab">MedSyn</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="respellingTabContent">
+        <div class="tab-pane fade show active" id="respelling-atcosim" role="tabpanel">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header"><strong>Prompt</strong></div>
+                        <div class="card-body">
+                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
+                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
+                            <br>
+                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
+                            ・Separate words using spaces as in normal English.<br>
+                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
+                            ・Annotations, explanations, or repetitions are not needed.<br>
+                            ・Output only the results with one line without line breaks.<br>
+                            <br>
+                            Sentence: <i><strong>{sentence}</strong></i>"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The airport staff checked the Turkair schedule.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Ze airpot stahf chekt ze Turker skedjool.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Pilot Chen, Airbus Three Twenty, proceed to Paris, class Bravo airspace.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Pailot Chen, Airbus Sree Twenny, pruhseed to Paris, klass Bravoh airspays.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-atco2" role="tabpanel">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header"><strong>Prompt</strong></div>
+                        <div class="card-body">
+                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
+                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
+                            <br>
+                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
+                            ・Separate words using spaces as in normal English.<br>
+                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
+                            ・Annotations, explanations, or repetitions are not needed.<br>
+                            ・Output only the results with one line without line breaks.<br>
+                            <br>
+                            Sentence: <i><strong>{text}</strong></i>"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle;width: 200px">ATCO2 sample 1</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 400px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">ATCO2 respelling 1</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">ATCO2 sample 2</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">ATCO2 respelling 2</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-court" role="tabpanel">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header"><strong>Prompt</strong></div>
+                        <div class="card-body">
+                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
+                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
+                            <br>
+                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
+                            ・Separate words using spaces as in normal English.<br>
+                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
+                            ・Annotations, explanations, or repetitions are not needed.<br>
+                            ・Output only the results with one line without line breaks.<br>
+                            <br>
+                            Sentence: <i><strong>{text}</strong></i>"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">Court sample 1</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">Court respelling 1</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">Court sample 2</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">Court respelling 2</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-medsyn" role="tabpanel">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header"><strong>Prompt</strong></div>
+                        <div class="card-body">
+                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
+                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
+                            <br>
+                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
+                            ・Separate words using spaces as in normal English.<br>
+                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
+                            ・Annotations, explanations, or repetitions are not needed.<br>
+                            ・Output only the results with one line without line breaks.<br>
+                            <br>
+                            Sentence: <i><strong>{text}</strong></i>"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn sample 1</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn respelling 1</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn sample 2</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn respelling 2</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- Ethics Statement -->
+<!-- Ethics Statement
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">	
 	<h2 id="Ethics-Statement" style="text-align: center;">	
 		Ethics Statement
@@ -505,8 +829,8 @@
 	</p>
 </div>
 
-<!-- Related Works -->
-<div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">	
+Related Works -->
+<!-- <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">	
 	<h2 id="related-works" style="text-align: center;">	
 		Other Related Works
 	</h2>
@@ -517,7 +841,7 @@
 	<p>
 		<a href="/">Speech research conducted at Microsoft Research Asia</a>
 	</p>
-</div>
+</div> -->
 
 </article>
 </main>
@@ -528,26 +852,26 @@
 
 <script>
 // Add some interactivity to the audio buttons
+// 既存のPlay Audioボタン用スクリプトを置き換え
+
 document.addEventListener('DOMContentLoaded', function() {
-    const audioButtons = document.querySelectorAll('.btn');
-    
+    const audioButtons = document.querySelectorAll('.play-audio');
     audioButtons.forEach(button => {
-        if (button.textContent === 'Play Audio') {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Visual feedback
-                const originalText = this.textContent;
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const audioId = this.getAttribute('data-audio');
+            const audioElem = document.getElementById(audioId);
+            if (audioElem) {
+                audioElem.currentTime = 0;
+                audioElem.play();
                 this.textContent = 'Playing...';
                 this.disabled = true;
-                
-                // Simulate audio playing
-                setTimeout(() => {
-                    this.textContent = originalText;
+                audioElem.onended = () => {
+                    this.textContent = 'Play Audio';
                     this.disabled = false;
-                }, 2000);
-            });
-        }
+                };
+            }
+        });
     });
 });
 </script>
