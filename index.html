@@ -614,6 +614,25 @@
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
     <h2 id="sr-samples" style="text-align: center;">LLM-based Phonetic Respelling</h2>
     <br>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header"><strong>Prompt</strong></div>
+                <div class="card-body">
+                    <p>"Please convert the following English sentence into a pronunciation respelling.<br>
+                    Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
+                    <br>
+                    ・Use English letters (not IPA) to represent each word as it would sound.<br>
+                    ・Separate words using spaces as in normal English.<br>
+                    ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
+                    ・Annotations, explanations, or repetitions are not needed.<br>
+                    ・Output only the results with one line without line breaks.<br>
+                    <br>
+                    Sentence: <i><strong>{sentence}</strong></i>"</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <ul class="nav nav-tabs justify-content-center mb-4" id="respellingTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="respelling-atcosim-tab" data-bs-toggle="tab" data-bs-target="#respelling-atcosim" type="button" role="tab">ATCOSIM</button>
@@ -630,25 +649,6 @@
     </ul>
     <div class="tab-content" id="respellingTabContent">
         <div class="tab-pane fade show active" id="respelling-atcosim" role="tabpanel">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header"><strong>Prompt</strong></div>
-                        <div class="card-body">
-                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
-                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
-                            <br>
-                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
-                            ・Separate words using spaces as in normal English.<br>
-                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
-                            ・Annotations, explanations, or repetitions are not needed.<br>
-                            ・Output only the results with one line without line breaks.<br>
-                            <br>
-                            Sentence: <i><strong>{sentence}</strong></i>"</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="table-responsive pt-3">
                 <table class="table table-hover pt-2">
                     <thead>
@@ -695,25 +695,6 @@
             </div>
         </div>
         <div class="tab-pane fade" id="respelling-atco2" role="tabpanel">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header"><strong>Prompt</strong></div>
-                        <div class="card-body">
-                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
-                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
-                            <br>
-                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
-                            ・Separate words using spaces as in normal English.<br>
-                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
-                            ・Annotations, explanations, or repetitions are not needed.<br>
-                            ・Output only the results with one line without line breaks.<br>
-                            <br>
-                            Sentence: <i><strong>{text}</strong></i>"</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="table-responsive pt-3">
                 <table class="table table-hover pt-2">
                     <thead>
@@ -726,41 +707,40 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="text-align: left;vertical-align:middle;width: 200px">ATCO2 sample 1</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 400px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">ATCO2 respelling 1</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">British Airways Seven Six Five keep level Two Four Zero.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Brit-ish Air-wayz Sev-n Siks Fyve keep lev-ul Too For Zer-oh.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">ATCO2 sample 2</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">ATCO2 respelling 2</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">American Airlines flight five five zero contacted Dallas center regarding light rime ice encounters.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Uh-meh-rih-kun Air-lienz flite fiv fiv zee-roh kahn-tak-tid Dal-lis sen-ter ri-gar-ding lite rime ice en-kown-ters.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Can Captain Li Four land on Seven Charlie runway, Frankfurt Tower?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Kan Cap-tin Lee For land on Sev-en Char-lee run-way, Frank-fert Tow-er?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Airbus Three Twenty began approach following airclub instructions.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Air bus Three Twenny bee gan uh proach folluh win air club instruckshuns</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">KLM Four Triple Seven experiences cargo shift, announces Amsterdam control.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">kay ell em for tripul sevin ekspeerienziz kargo shift, uhnaunsiz amsturdam cun-trohl.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="tab-pane fade" id="respelling-court" role="tabpanel">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header"><strong>Prompt</strong></div>
-                        <div class="card-body">
-                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
-                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
-                            <br>
-                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
-                            ・Separate words using spaces as in normal English.<br>
-                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
-                            ・Annotations, explanations, or repetitions are not needed.<br>
-                            ・Output only the results with one line without line breaks.<br>
-                            <br>
-                            Sentence: <i><strong>{text}</strong></i>"</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="table-responsive pt-3">
                 <table class="table table-hover pt-2">
                     <thead>
@@ -773,41 +753,40 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">Court sample 1</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">Court respelling 1</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The supreme court justices expressed differing opinions about the "hansaria."</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The supreem kort justisiz eksprest difering opinyuns about the hansaria.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">Court sample 2</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">Court respelling 2</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">A landmark decree by India's highest tribunal shaped legal views on potability limits concerning mercury levels.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">A landmaark dikree by Indiyas highest trybunal sheypt leegal views on potability limts concerning mercury levls.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The diary presented as evidence reflects the defendant's inner transformation.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The daiyari prezented az evidens refleks the difandents inner transformayshan.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Before the Supreme Court, Chinnaiah's defence team made a passionate representation.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Bifor the Supreme Kort, Chinnaiahz difens teem made a pashunet representeishun.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The psychological evaluation report raises concerns about a diagnosed impulse control issue.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The sy-koh-loj-i-kal eval-yoo-ay-shun report ray-ziz kun-sernz abowt a dy-ug-nost im-puls kun-trol ish-yoo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="tab-pane fade" id="respelling-medsyn" role="tabpanel">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header"><strong>Prompt</strong></div>
-                        <div class="card-body">
-                            <p>"Please convert the following English sentence into a pronunciation respelling.<br>
-                            Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
-                            <br>
-                            ・Use English letters (not IPA) to represent each word as it would sound.<br>
-                            ・Separate words using spaces as in normal English.<br>
-                            ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
-                            ・Annotations, explanations, or repetitions are not needed.<br>
-                            ・Output only the results with one line without line breaks.<br>
-                            <br>
-                            Sentence: <i><strong>{text}</strong></i>"</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="table-responsive pt-3">
                 <table class="table table-hover pt-2">
                     <thead>
@@ -820,16 +799,34 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn sample 1</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn respelling 1</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The supplement CalD3 supports bone health and density.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">thuh supluhment kal-dee-three suhports bohn helth and densuhtee.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn sample 2</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle;width: 400px">MedSyn respelling 2</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 280px;"><source src="audio/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Can you describe how Norvir interacts with Sandimmune?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Kan yoo dis-kribe how Nor-veer in-ter-aks wit San-dyoon?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The health program featured multiple oral liq brands containing Axnil.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Thuh helth proh-gram fee-churd mul-tuh-pul or-ul lick brandz kun-tay-ning Aks-nil.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The trend of consuming magnesium and calcium enriched vitamins persists.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Thuh trend uhv cun-soom-ing mag-nee-zee-um and kal-see-um en-richd vie-tuh-minz per-sists.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The patient's supplement protocol was enhanced with three distinct vitamin D compounds.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Thuh pay-shints sup-luh-ment proh-tuh-call wuz in-hanst widh three dis-tingkt vy-tuh-min dee com-pownds</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                     </tbody>
                 </table>
