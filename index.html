@@ -115,6 +115,7 @@
 <!-- Dataset Samples with Tabs -->
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
     <h2 style="text-align: center;">LLM-based test augmentation pipeline</h2>
+    <p>This section shows sample prompts and generated texts on each dataset. Results in three languages are also presented to demonstrate multilingual prompting.</p>
     <br>
     <ul class="nav nav-tabs justify-content-center mb-4" id="datasetTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -185,7 +186,7 @@
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
                                     <p>"Generate 10 English sentences according to following scenario in air traffic control in Europe.<br>
-                                    Scenario: <i><strong>{scenario}</strong></i><br>
+                                    Scenario: <i><strong>Instructing an aircraft to taxi to a runway</strong></i><br>
                                     <br>
                                     Make sure each sentence include as diverse names, locations, aircraft names, and technical terms as possible.<br>
                                     Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
@@ -216,12 +217,12 @@
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>Generate 10 English sentences in the different scenarios of air traffic control in Europe, including the term of '<i><strong>{domain-specific term}</strong></i>'. <br>
+                                    <p>Generate 10 English sentences in the different scenarios of air traffic control in Europe, including the term of '<i><strong>Belstar</strong></i>'. <br>
                                     Make sure that each sentence is a single sentence and use as different names, locations, aircraft names, technical terms, numbers, and contexts as possible. <br>
                                     Each sentence should be output on its own line, separated by line breaks.<br>
                                     Ensure that each sentence is at most 200 characters long.<br>
                                     The main language is English. <br>
-                                    Use the terms of <i><strong>{domain-specific term}</strong></i> itself, do not change the language for the term of <i><strong>{domain-specific term}</strong></i>.<br>
+                                    Use the terms of <i><strong>Belstar</strong></i> itself, do not change the language for the term of <i><strong>Belstar</strong></i>.<br>
                                     Annotations, explanations, or repetitions are not needed.</p>
                                 </div>
                             </div>
@@ -248,14 +249,13 @@
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"Rewrite and paraphrase the following sentence in air traffic control into 9 different versions. <br>
-                                    Sentence: <i><strong>Lufthansa 307, taxi via Juliet and Alpha to holding point Runway 27R, contact Ground on 121.8.</strong></i><br>
-                                    <br>
-                                    Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
-                                    Write all numbers in spelled-out English words instead of using digits. <br>
-                                    Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
-                                    Annotations, explanations, or repetitions are not needed. <br>
-                                    Each sentence should be output on its own line, separated by line breaks. "</p>
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Belstar 214, descend to flight level 110 and contact Zurich Approach on 119.7. </strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Belstar</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
                                 </div>
                             </div>
                         </div>
@@ -264,11 +264,11 @@
                                 <div class="card-header"><strong>Generated texts</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• KLM Seven Oh-Five, make your way via Tango and November to the pre-departure zone of Runway One Five Left, Ground on One Two Four Decimal Three.</li>
-                                        <li class="mb-2">• "Air Canada Eight Twenty-One, proceed via Sierra and Echo to the staging area for Runway One Seven, then switch to Ground on One Two Three Point Four."</li>
-                                        <li class="mb-2">• "United Five Fifty-Zero, use Foxtrot and Mike to access the holding bay for Runway Three Six, then call Ground on One Two Four Point Nine."</li>
-                                        <li class="mb-2">• "Delta Twelve Fifty-Eight, taxi along Lima then Bravo to Runway Two Two Left departure point, contact Ground frequency One Two Two Decimal Seven."</li>
-                                        <li class="mb-2">• "Qantas Six Ninety-Nine, follow Golf and Papa to the wait position at Runway Zero Eight Right and reach out to Ground at One Two One Point Six."</li>
+                                        <li class="mb-2">• Belstar two one four, descend to altitude one one zero and switch to Geneva Approach frequency one one nine point seven.</li>
+                                        <li class="mb-2">• "Approach clearance for Belstar two one four: reduce your altitude to flight level one one zero and contact Vienna Control at one one nine point seven."</li>
+                                        <li class="mb-2">• "Belstar two one four, you are cleared to descend to one one zero flight level and reach out to Munich Approach on one one nine decimal seven."</li>
+                                        <li class="mb-2">• "Descend to flight level one one zero, Belstar two one four, and proceed to communicate with Marseille Approach on frequency one one nine point seven."</li>
+                                        <li class="mb-2">• "Belstar two one four, adjust your altitude to one one zero, then call Amsterdam Approach on one one nine decimal seven."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -277,24 +277,156 @@
                 </div>
                 <div class="tab-pane fade" id="atcosim-cn" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"生成中文航空管制通信，包括起飞和降落许可、高度指令和天气通报的标准用语。"</p>
+                                    <p>"请生成 <i><strong>{n}</strong></i> 个关于空中交通管制中管制员发话的情境/场景，内容为中文。<br>
+                                        请注意，生成的应是发言发生的情境或场景，而不是发言内容本身。<br>
+                                        无需注释或解释，仅输出 <i><strong>{n}</strong></i> 个中文情境或场景。<br>
+                                        请尽可能多样化地生成这些情境或场景。<br>
+                                        每个句子的长度不少于5个汉字且不超过100个汉字。<br>
+                                        不需要添加注释、说明或重复。"</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "塔台，东航123，请求25左跑道起飞许可"</li>
-                                        <li class="mb-2">• "地面管制，国航456，在12号登机口推出"</li>
-                                        <li class="mb-2">• "进近管制，下降保持高度3000米"</li>
-                                        <li class="mb-2">• "交通警告，有飞机在07跑道最后进近"</li>
-                                        <li class="mb-2">• "风向280度，风速15节，能见度10公里，可以着陆"</li>
+                                        <li class="mb-2">• "允许起飞"</li>
+                                        <li class="mb-2">• "允许降落"</li>
+                                        <li class="mb-2">• "允许滑行"</li>
+                                        <li class="mb-2">• "进入跑道等待"</li>
+                                        <li class="mb-2">• "跑道进入许可"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请根据以下欧洲航空管制场景，生成10个中文句子。<br>
+                                        场景：允许起飞<br>
+                                        <br>
+                                        请确保每个句子尽可能包含多样的人名、地点、飞机名称和技术术语。<br>
+                                        请确保每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        不需要注释、解释或重复内容。<br>
+                                        每个句子应单独占一行，并用换行符分隔。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "巴黎塔台呼叫奥地利航空OS423，允许使用27L跑道起飞，风速210度8节。"</li>
+                                        <li class="mb-2">• "伦敦塔台通知汉莎航班LH789，空中客车A320可从09R跑道按仪表程序起飞。"</li>
+                                        <li class="mb-2">• "马德里地面呼叫伊比利亚航空IB520，波音737已获准滑行至36L等待起飞指令。"</li>
+                                        <li class="mb-2">• "阿姆斯特丹塔台，荷兰皇家航空KL1023，你已经获得起飞许可，请由24跑道起飞。"</li>
+                                        <li class="mb-2">• "柏林塔台呼叫瑞士国际LX987，你的A220飞机已批准从08R跑道起飞。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>请在欧洲航空管制的各种场景下，生成10个包含<i><strong>belstar</strong></i>术语的中文句子。<br>
+                                        要求：<br>
+                                        - 每个句子仅限一句，并尽可能使用不同的人名、地点、飞机名称、技术术语、数字和语境。<br>
+                                        - 每个句子应单独占一行，并用换行符分隔。<br>
+                                        - 每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        - 主要语言为中文。<br>
+                                        - 请直接使用<i><strong>belstar</strong></i>这一术语，不要更改该术语的语言。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "地面管制通知<i><strong>belstar</strong></i> 125，准备前往巴黎戴高乐机场起飞许可已批准。"</li>
+                                        <li class="mb-2">• "机长安德烈通过无线电报告，<i><strong>belstar</strong></i> 452目前即将抵达法兰克福011号滑行道。"</li>
+                                        <li class="mb-2">• "<i><strong>belstar</strong></i> 301，请在跑道27左等待下一步起飞通知。"</li>
+                                        <li class="mb-2">• "由于布鲁塞尔上空突发雷雨，<i><strong>belstar</strong></i> 789请求绕道飞行并等待新指令。"</li>
+                                        <li class="mb-2">• "航路管制员询问<i><strong>belstar</strong></i> 522，目前是否已经达到了预定的巡航高度FL390。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate the <i><strong>Chinese</strong></i> sentence of <i><strong>sentence</strong></i> in air traffic control to English. <br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Each sentence should be output on its own line, separated by line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Ground control informs Belstar one two five that clearance for departure to Paris Charles de Gaulle Airport has been granted."</li>
+                                        <li class="mb-2">• "Captain Andre reports via radio that Belstar four five two is currently approaching Frankfurt taxiway zero one one."</li>
+                                        <li class="mb-2">• "Belstar three zero one, please hold short at runway two seven left and await further departure instructions."</li>
+                                        <li class="mb-2">• "Due to a sudden thunderstorm over Brussels, Belstar seven eight nine requests diversion and awaits new instructions."</li>
+                                        <li class="mb-2">• "The enroute controller asks Belstar five two two whether the assigned cruising altitude flight level three niner zero has been reached."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Ground control informs Belstar one two five that clearance for departure to Paris Charles de Gaulle Airport has been granted.</strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Belstar</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Moscow Ramp to Belstar Uniform Eight, clearance received, ready for departure for JFK, permission to take off."</li>
+                                        <li class="mb-2">• "Control tower to Belstar Alpha Six, permission granted for departure to Heathrow, you’re clear for takeoff."</li>
+                                        <li class="mb-2">• "Madrid Ground to Belstar Three Zero Eight, takeoff clearance given, proceed toward Frankfurt Airport."</li>
+                                        <li class="mb-2">• "Belstar Juliet One Seven, you’re authorized for runway departure, onward to Tokyo Narita, have a safe takeoff."</li>
+                                        <li class="mb-2">• "Tango Control calling Belstar Bravo Niner, runway is yours to depart for Dubai International, cleared for takeoff."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -303,24 +435,156 @@
                 </div>
                 <div class="tab-pane fade" id="atcosim-jp" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"航空管制通信の日本語テキストを生成してください。離着陸許可、高度指示、気象情報の標準用語を含めてください。"</p>
+                                    <p>"航空管制における，管制官が発話する状況・シナリオを日本語で<i><strong>{n}</strong></i>個生成して。<br>
+                                        発話そのものではなく，発話の状況・シナリオであることに注意して。<br>
+                                        本文の注釈は不要で，<i><strong>{n}</strong></i>個の状況・シナリオのみを日本語で出力して。<br>
+                                        できるだけ多様な状況・シナリオを生成してください。<br>
+                                        各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                        注釈、説明、繰り返しは不要です。"</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "タワー、JAL123、滑走路25レフトの離陸許可を要求します"</li>
-                                        <li class="mb-2">• "グランドコントロール、ANA456、ゲート12からプッシュバック"</li>
-                                        <li class="mb-2">• "アプローチコントロール、高度3000フィートまで降下"</li>
-                                        <li class="mb-2">• "トラフィックアラート、滑走路07にファイナルアプローチ中の航空機"</li>
-                                        <li class="mb-2">• "風向280度、風速15ノット、視程10マイル、着陸許可"</li>
+                                        <li class="mb-2">• "出発クリアランスの発出"</li>
+                                        <li class="mb-2">• "出発クリアランスの再確認"</li>
+                                        <li class="mb-2">• "出発クリアランスの変更指示"</li>
+                                        <li class="mb-2">• "離陸許可の発出"</li>
+                                        <li class="mb-2">• "離陸許可のキャンセル"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"ヨーロッパの航空管制における以下のシナリオに従って、10個の日本語の文を生成してください。<br>
+                                    シナリオ: <i><strong>出発クリアランスの発出</strong></i><br>
+
+                                    各文にはできるだけ多様な名前、場所、航空機名、専門用語を含めてください。<br>
+                                    各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                    注釈、説明、繰り返しは不要です。<br>
+                                    各文は1行ずつで出力し，それぞれ改行してください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "フランクフルトグランド、ルフトハンザ410、滑走路25Cから出発クリアランスをお願いします。"</li>
+                                        <li class="mb-2">• "チューリッヒ出発、スイスエア312、コペンハーゲン行き、FL350でのクリアランスを受領しました。"</li>
+                                        <li class="mb-2">• "パリグランド、エールフランス75、ターミナル2F、エンジンスタート許可を申請します。"</li>
+                                        <li class="mb-2">• "ミラノタワー、アリタリア722、ルートLIMC via DCT、出発指示を確認しました。"</li>
+                                        <li class="mb-2">• "アムステルダム地上、KLM436、ビーコン点灯、ALPHA9へタキシーします。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>ヨーロッパの航空管制のさまざまなシナリオにおいて、『<i><strong>Belstar</strong></i>』という用語を含む10個の日本語の文を生成してください。<br>
+                                    各文は1文のみとし、できるだけ異なる名前、場所、航空機名、専門用語、数字、文脈を使ってください。
+                                    各文は1行ずつで出力し，それぞれ改行してください。
+                                    各文は5文字以上100文字以下であることを必ず守ってください。
+                                    主な言語は日本語です。
+                                    『<i><strong>Belstar</strong></i>』という用語自体を使用し、その用語の言語は変更しないでください。
+                                    注釈、説明、繰り返しは不要です。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "東京タワー管制へ、belstar450、現在マドリード上空FL320、天候良好。"</li>
+                                        <li class="mb-2">• "モナコ空港でbelstar機の再着陸指示が発令された。"</li>
+                                        <li class="mb-2">• "belstar123、次のウェイポイントまでの距離を教えてください。"</li>
+                                        <li class="mb-2">• "ロンドンからパリへ向かうbelstar777便に乱気流警報が出ました。"</li>
+                                        <li class="mb-2">• "ザルツブルク上空でbelstarの通信トラブルが確認されました。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate the Japanese sentence of <i><strong>sentence</strong></i> in air traffic control to English. <br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Each sentence should be output on its own line, separated by line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Tokyo Tower Control, belstar four five zero, currently over Madrid at flight level three two zero, weather is good."</li>
+                                        <li class="mb-2">• "A go-around was ordered for the Belstar flight at Monaco airport."</li>
+                                        <li class="mb-2">• "Belstar one two three, please advise the distance to the next waypoint."</li>
+                                        <li class="mb-2">• "A turbulence advisory has been issued for Belstar triple seven flight bound from London to Paris."</li>
+                                        <li class="mb-2">• "A communication problem with Belstar was confirmed over Salzburg."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Tokyo Tower Control, belstar four five zero, currently over Madrid at flight level three two zero, weather is good.</strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Belstar</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "London Radar, belstar four five zero, passing over Rome at altitude flight level two nine zero, experiencing clear skies."</li>
+                                        <li class="mb-2">• "New York Approach, belstar four five zero, maintaining flight level three five zero over Paris, visibility excellent."</li>
+                                        <li class="mb-2">• "Sydney Center, belstar four five zero, currently cruising above Johannesburg at level three three zero, weather fair."</li>
+                                        <li class="mb-2">• "Dubai Control, belstar four five zero, over Berlin at flight level three one zero, with no weather issues reported."</li>
+                                        <li class="mb-2">• "Honolulu Tower, belstar four five zero, at this time above Lisbon at cruising altitude three two zero, conditions calm."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -346,24 +610,126 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="atco2-en" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"Create realistic air traffic control communications for busy international airports. Include emergency procedures and complex routing instructions."</p>
+                                    <p>"Generate <i><strong>{n}</strong></i> situations/scenarios in English where pilots are speaking in air traffic control.<br>
+										Note that you should generate the scenarios or situations in which utterances take place, not the utterances themselves.<br>
+										No annotations or explanations are needed; output only <i><strong>{n}</strong></i> scenarios or situations in English.<br>
+										Please generate as diverse a set of scenarios and situations as possible.<br>
+										Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+										Annotations, explanations, or repetitions are not needed."</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "Approach control, United 789, descending flight level 280"</li>
-                                        <li class="mb-2">• "Center, Southwest 321, level at flight level 350"</li>
-                                        <li class="mb-2">• "Emergency declared, aircraft requesting immediate landing"</li>
-                                        <li class="mb-2">• "Proceed direct WAYPOINT, then as filed to destination"</li>
-                                        <li class="mb-2">• "Hold short of runway 09, traffic departing opposite direction"</li>
+                                        <li class="mb-2">• "A pilot descends early at ATC’s request for traffic separation."</li>
+                                        <li class="mb-2">• "A pilot relays a passenger disturbance requiring security assistance on arrival."</li>
+                                        <li class="mb-2">• "A pilot updates ATC with revised estimates after a change in groundspeed."</li>
+                                        <li class="mb-2">• "A pilot asks for a climb to avoid reported icing conditions."</li>
+                                        <li class="mb-2">• "A pilot declares a medical emergency and requests immediate descent."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate 10 English sentences according to following scenario in air traffic control in Europe.<br>
+                                    Scenario: <i><strong>A pilot descends early at ATC’s request for traffic separation.</strong></i><br>
+                                    <br>
+                                    Make sure each sentence include as diverse names, locations, aircraft names, and technical terms as possible.<br>
+                                    Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+                                    Annotations, explanations, or repetitions are not needed.<br>
+                                    Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Captain Smith, this is London Center, descend your Airbus A320 to flight level 150 for traffic separation from the approaching Boeing 737.  "</li>
+                                        <li class="mb-2">• "Lufthansa 472, reduce altitude to 3,500 feet as requested by Frankfurt Tower due to nearby Ryanair 738 climbing through your altitude.  "</li>
+                                        <li class="mb-2">• "EasyJet 2945, initiate descent now to 7,000 feet, Paris Control advises traffic conflict with a descending Cessna Citation XLS.  "</li>
+                                        <li class="mb-2">• "Turkish Airlines 1904, descend early to 12,000 feet for radar separation with the preceding Emirates A380, Brussels Center instructs.  "</li>
+                                        <li class="mb-2">• "Delta 867, start your early descent to 4,500 feet; Amsterdam ATC managing separation from the climbing Bombardier CRJ900.  "</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>Generate 10 English sentences in the different scenarios of air traffic control in Europe, including the term of '<i><strong>QNH</strong></i>'. <br>
+                                    Make sure that each sentence is a single sentence and use as different names, locations, aircraft names, technical terms, numbers, and contexts as possible. <br>
+                                    Each sentence should be output on its own line, separated by line breaks.<br>
+                                    Ensure that each sentence is at most 200 characters long.<br>
+                                    The main language is English. <br>
+                                    Use the terms of <i><strong>Belstar</strong></i> itself, do not change the language for the term of <i><strong>QNH</strong></i>.<br>
+                                    Annotations, explanations, or repetitions are not needed.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "EasyJet 243, descend to 5,000 feet and set <i><strong>QNH</strong></i> 1013 on your altimeter for the approach into Heathrow."</li>
+                                        <li class="mb-2">• "Lufthansa 482, climb flight level 120 and report when passing <i><strong>QNH</strong></i> 1009 near Frankfurt airspace.  "</li>
+                                        <li class="mb-2">• "Ryanair 512, maintain current heading, adjust <i><strong>QNH</strong></i> to 1015 for Paris Charles de Gaulle transition."</li>
+                                        <li class="mb-2">• "British Airways 789, holding at waypoint ALPHA, set <i><strong>QNH</strong></i> 1017 and await further clearance from London Control."</li>
+                                        <li class="mb-2">• "Air France 320, cleared to land runway 27, verify <i><strong>QNH</strong></i> 1020 and report established on final approach."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>EasyJet 243, descend to 5,000 feet and set QNH 1013 on your altimeter for the approach into Heathrow. </strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>QNH</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Delta three forty-seven, descend now to fourteen thousand feet and dial QNH one-zero-one-three on your altimeter for your arrival into JFK."</li>
+                                        <li class="mb-2">• "Emirates five twenty-one, reduce altitude to eight thousand feet and adjust QNH one-zero-one-three on your altimeter for approach at Dubai International."</li>
+                                        <li class="mb-2">• "British Airways one ninety-eight, lower altitude to six thousand feet and set QNH one-zero-one-three on your altimeter as you prepare to land at Gatwick."</li>
+                                        <li class="mb-2">• "Lufthansa three twelve, descend to seven thousand feet, and input QNH one-zero-one-three on your altimeter for the approach into Frankfurt."</li>
+                                        <li class="mb-2">• "Qantas four sixty, drop to ten thousand feet and tune QNH one-zero-one-three on your altimeter for final approach at Sydney Airport."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -372,24 +738,156 @@
                 </div>
                 <div class="tab-pane fade" id="atco2-cn" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"为繁忙的国际机场创建真实的航空管制通信。包括应急程序和复杂的航路指令。"</p>
+                                    <p>"生成 <i><strong>{n}</strong></i> 个飞行员在空中交通管制中讲话的情景或场景（用中文）。
+                                        请注意，您应该生成的是发生话语的情景或场景，而不是话语本身。
+                                        不需要注释或解释，仅输出 <i><strong>{n}</strong></i> 个中文情景或场景。
+                                        请尽量生成多样化的情景和场景。
+                                        确保每句话至少有 5 个字符，且不超过 100 个字符。
+                                        不需要注释、解释或重复。"</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "进近管制，联合航空789，从高度层280下降"</li>
-                                        <li class="mb-2">• "区域管制，西南航空321，保持高度层350"</li>
-                                        <li class="mb-2">• "宣布紧急情况，飞机要求立即着陆"</li>
-                                        <li class="mb-2">• "直飞导航点，然后按计划飞往目的地"</li>
-                                        <li class="mb-2">• "在跑道09前等待，有飞机从相反方向起飞"</li>
+                                        <li class="mb-2">• "飞行员请求冲出跑道撤离。"</li>
+                                        <li class="mb-2">• "飞行员报告有医疗紧急情况。"</li>
+                                        <li class="mb-2">• "飞行员通报飞机客舱压力异常。"</li>
+                                        <li class="mb-2">• "飞行员要求终止当前进近，执行复飞。"</li>
+                                        <li class="mb-2">• "飞行员报告液压系统报警。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请根据以下欧洲航空管制场景，生成10个中文句子。<br>
+                                        场景：飞行员请求冲出跑道撤离。<br>
+                                        <br>
+                                        请确保每个句子尽可能包含多样的人名、地点、飞机名称和技术术语。<br>
+                                        请确保每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        不需要注释、解释或重复内容。<br>
+                                        每个句子应单独占一行，并用换行符分隔。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "上海飞行员张伟请求空管允许波音737紧急冲出巴黎戴高乐机场跑道撤离。"</li>
+                                        <li class="mb-2">• "伦敦希思罗机场塔台指挥官刘洋指示空中巴士A320机组立即准备跑道紧急撤离程序。"</li>
+                                        <li class="mb-2">• "法兰克福机场控制员陈晨确认俄罗斯苏霍伊Superjet100飞行员米哈伊的撤离请求。"</li>
+                                        <li class="mb-2">• "马德里机场地勤人员与飞行员王强协调空客A350跑道冲出后的消防及救援工作。"</li>
+                                        <li class="mb-2">• "米兰马尔彭萨机场塔台指挥王丽指示波音777飞行员约翰执行跑道紧急撤离程序。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>请在欧洲航空管制的各种场景下，生成10个包含<i><strong>QNH</strong></i>术语的中文句子。<br>
+                                        要求：<br>
+                                        - 每个句子仅限一句，并尽可能使用不同的人名、地点、飞机名称、技术术语、数字和语境。<br>
+                                        - 每个句子应单独占一行，并用换行符分隔。<br>
+                                        - 每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        - 主要语言为中文。<br>
+                                        - 请直接使用<i><strong>QNH</strong></i>这一术语，不要更改该术语的语言。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "飞行员张明，请报告MH370当前<i><strong>qnh</strong></i>设置。"</li>
+                                        <li class="mb-2">• "伦敦塔台通知空客A320，<i><strong>qnh</strong></i>已调整至1013百帕。"</li>
+                                        <li class="mb-2">• "柏林空管指示波音747调整<i><strong>qnh</strong></i>至1020以适应降落。"</li>
+                                        <li class="mb-2">• "飞行员安娜，飞越阿姆斯特丹，请确认你收到的<i><strong>qnh</strong></i>数值。"</li>
+                                        <li class="mb-2">• "苏黎世控制中心要求空中巴士A380更新<i><strong>qnh</strong></i>为1008。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate the <i><strong>Chinese</strong></i> sentence of <i><strong>sentence</strong></i> in air traffic control to English. <br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Each sentence should be output on its own line, separated by line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Pilot Zhang Ming, please report the current QNH setting of MH Three Seven Zero."</li>
+                                        <li class="mb-2">• "London Tower informs Airbus A three two zero that the QNH has been adjusted to one zero one three hectopascals."</li>
+                                        <li class="mb-2">• "Berlin air traffic control instructed the Boeing seven four seven to adjust the QNH to one zero two zero to accommodate landing."</li>
+                                        <li class="mb-2">• "Pilot Anna, flying over Amsterdam, please confirm the QNH value you have received."</li>
+                                        <li class="mb-2">• "Zurich Control Center requested Airbus A380 to update QNH to one thousand and eight."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Pilot Zhang Ming, please report the current QNH setting of MH Three Seven Zero.</strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>QNH</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Captain Li Wei, kindly provide the present QNH configuration for flight Delta Four Five Eight at Beijing Approach."</li>
+                                        <li class="mb-2">• "Flight Engineer Anna Smith, please confirm the QNH setting currently assigned to Jetstream Eight Two Three over London Center."</li>
+                                        <li class="mb-2">• "Commander Raj Patel, report the existing QNH value for aircraft Bravo Seven Zero One near Mumbai Tower."</li>
+                                        <li class="mb-2">• "Pilot James Brown, advise the air pressure QNH reading for United Flight Echo Nine Six heading into New York Control."</li>
+                                        <li class="mb-2">• "Captain Maria Garcia, state the active QNH setting for Skyhawk Twelve Four Six inbound to Madrid Radar."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -398,24 +896,156 @@
                 </div>
                 <div class="tab-pane fade" id="atco2-jp" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"混雑する国際空港のリアルな航空管制通信を作成してください。緊急手順と複雑なルート指示を含めてください。"</p>
+                                    <p>"航空管制における，パイロットが発話する状況・シナリオを日本語で<i><strong>{n}</strong></i>個生成して。<br>
+                                        発話そのものではなく，発話の状況・シナリオであることに注意して。<br>
+                                        本文の注釈は不要で，<i><strong>{n}</strong></i>個の状況・シナリオのみを日本語で出力して。<br>
+                                        できるだけ多様な状況・シナリオを生成してください。<br>
+                                        各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                        注釈、説明、繰り返しは不要です。"</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "アプローチコントロール、ユナイテッド789、フライトレベル280から降下中"</li>
-                                        <li class="mb-2">• "センター、サウスウエスト321、フライトレベル350で水平飛行"</li>
-                                        <li class="mb-2">• "緊急事態宣言、航空機が緊急着陸を要求"</li>
-                                        <li class="mb-2">• "ウェイポイントへ直行、その後計画通り目的地へ"</li>
-                                        <li class="mb-2">• "滑走路09手前で待機、反対方向から離陸する航空機あり"</li>
+                                        <li class="mb-2">• "上昇高度の変更を要請する状況"</li>
+                                        <li class="mb-2">• "通信異常を報告する場面"</li>
+                                        <li class="mb-2">• "航空身体検査証明書の確認依頼場面"</li>
+                                        <li class="mb-2">• "他機とのニアミスを報告する場面"</li>
+                                        <li class="mb-2">• "滑走路上の異物を発見したことを伝える状況"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"ヨーロッパの航空管制における以下のシナリオに従って、10個の日本語の文を生成してください。<br>
+                                    シナリオ: <i><strong>上昇高度の変更を要請する状況</strong></i><br>
+
+                                    各文にはできるだけ多様な名前、場所、航空機名、専門用語を含めてください。<br>
+                                    各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                    注釈、説明、繰り返しは不要です。<br>
+                                    各文は1行ずつで出力し，それぞれ改行してください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "ブリュッセルコントロール、エアバスA320、FL350へ上昇許可を要請します。"</li>
+                                        <li class="mb-2">• "ルフトハンザ123便、モナコ上空でFL370までの上昇をリクエストします。"</li>
+                                        <li class="mb-2">• "ロンドン航空管制、ボーイング777、現在のFL320からFL390へ上がりたいです。"</li>
+                                        <li class="mb-2">• "パリCDGアプローチ、エミレーツA380、上昇によりFL410まで移行希望。"</li>
+                                        <li class="mb-2">• "アムステルダムCTRL、エアバスA321、FL340からFL360へ上昇許可をお願いします。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>ヨーロッパの航空管制のさまざまなシナリオにおいて、『<i><strong>QNH</strong></i>』という用語を含む10個の日本語の文を生成してください。<br>
+                                    各文は1文のみとし、できるだけ異なる名前、場所、航空機名、専門用語、数字、文脈を使ってください。
+                                    各文は1行ずつで出力し，それぞれ改行してください。
+                                    各文は5文字以上100文字以下であることを必ず守ってください。
+                                    主な言語は日本語です。
+                                    『<i><strong>QNH</strong></i>』という用語自体を使用し、その用語の言語は変更しないでください。
+                                    注釈、説明、繰り返しは不要です。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "ロンドンヒースロー空港では、離陸前にパイロットが最新の<i><strong>qnh</strong></i>を確認した。"</li>
+                                        <li class="mb-2">• "パリのATCは乱気流情報とともに<i><strong>qnh</strong></i>の更新を航空機に伝達した。"</li>
+                                        <li class="mb-2">• "エアバスA320の機長はフランクフルト着陸時に正確な<i><strong>qnh</strong></i>を設定した。"</li>
+                                        <li class="mb-2">• "オーロラ観測ツアーのヘリコプターはノルウェーの空域で<i><strong>qnh</strong></i>を頻繁に調整した。"</li>
+                                        <li class="mb-2">• "エジンバラ管制塔は霧が濃いため、到着便に<i><strong>qnh</strong></i>の再確認を指示した。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate the Japanese sentence of <i><strong>sentence</strong></i> in air traffic control to English. <br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Each sentence should be output on its own line, separated by line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "At London Heathrow Airport, the pilot confirmed the latest QNH before takeoff."</li>
+                                        <li class="mb-2">• "Paris ATC transmitted the QNH update to the aircraft along with turbulence information."</li>
+                                        <li class="mb-2">• "The captain of the Airbus A three twenty set the correct QNH during the Frankfurt landing."</li>
+                                        <li class="mb-2">• "The helicopter for the aurora observation tour frequently adjusted its QNH in Norwegian airspace."</li>
+                                        <li class="mb-2">• "Edinburgh control tower instructed arriving flights to reconfirm the qnh due to dense fog."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>At London Heathrow Airport, the pilot confirmed the latest QNH before takeoff.</strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>QNH</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "At New York JFK Airport, the captain of a Boeing seven seventy-seven verified the current QNH prior to departure."</li>
+                                        <li class="mb-2">• "Before takeoff from Sydney Kingsford Smith Airport, the Airbus A three hundred pilot checked the latest QNH reading."</li>
+                                        <li class="mb-2">• "The commander of a Bombardier Global Express at Paris Charles de Gaulle Airport confirmed the applicable QNH before leaving the stand."</li>
+                                        <li class="mb-2">• "At Dubai International Airport, the flight crew of an Embraer E two hundred ensured the QNH was up to date before taxiing for takeoff."</li>
+                                        <li class="mb-2">• "Prior to departure at Tokyo Haneda Airport, the pilot flying the Boeing seven eighty-seven validated the most recent QNH information."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -441,24 +1071,124 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="court-en" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"Generate formal courtroom dialogue including judicial proceedings, legal objections, witness testimonies, and procedural statements."</p>
+                                    <p>"Please generate <i><strong>{n}</strong></i> scenarios or situations in which utterances occur at the Supreme Court of India, in English.<br>
+                                        Note that you should generate the scenarios or situations in which utterances take place, not the utterances themselves.<br>
+                                        No annotations or explanations are needed; output only <i><strong>{n}</strong></i> scenarios or situations in English.<br>
+                                        Please generate as diverse a set of scenarios and situations as possible."</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "Your Honor, I object to the leading question"</li>
-                                        <li class="mb-2">• "The defendant pleads not guilty to all charges"</li>
-                                        <li class="mb-2">• "Will the witness please state their full name for the record"</li>
-                                        <li class="mb-2">• "Objection sustained, the jury will disregard that statement"</li>
-                                        <li class="mb-2">• "Court is now in session, please be seated"</li>
+                                        <li class="mb-2">• "Hearing a constitutional amendment case regarding reservation policies."</li>
+                                        <li class="mb-2">• "Reviewing a public interest litigation related to environmental protection."</li>
+                                        <li class="mb-2">• "Adjudicating a dispute between two state governments over water sharing."</li>
+                                        <li class="mb-2">• "Deciding on the validity of a new electoral reform law."</li>
+                                        <li class="mb-2">• "Addressing an appeal in a high-profile criminal case."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate 10 English sentences according to following scenario in supreme court in India.
+                                        Scenario: <i><strong>Hearing a constitutional amendment case regarding reservation policies.</strong></i><br>
+                                        <br>
+                                        Make sure each sentence include as diverse named entities and technical terms as possible.<br>
+                                        Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed.<br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "The Supreme Court bench, led by Chief Justice Dhananjaya, examined the constitutional validity of the 103rd Amendment impacting reservation policies for Economically Weaker Sections."</li>
+                                        <li class="mb-2">• "Justice Chandrachud referenced landmark cases such as Indra Sawhney and Minerva Mills to assess the balance between affirmative action and the basic structure doctrine."</li>
+                                        <li class="mb-2">• "The Union Government’s counsel submitted affidavits justifying the amendment under Articles 368 and 46, emphasizing socio-economic inclusion and social justice principles."</li>
+                                        <li class="mb-2">• "An NGO representing Dalit communities highlighted disparity data from the National Sample Survey Office supporting expanded reservations in educational institutions and public employment sectors."</li>
+                                        <li class="mb-2">• "Solicitor General Mehta cited the Kesavananda Bharati verdict to assert that reservation policies must not alter the Constitution’s fundamental framework including equality clauses under Article 14."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate 10 English sentences in the different scenarios of supreme court in India, including the term of <i><strong>'Sibal'</strong></i>. 
+                                        Make sure that each sentence is a single sentence and use as different named entities, technical terms, numbers, and contexts as possible. 
+                                        Each sentence should be output on its own line, separated by line breaks.
+                                        Ensure that each sentence is at least 5 characters and at most 200 characters long.
+                                        The main language is English. 
+                                        Use the terms of <i><strong>'Sibal'</strong></i> itself, do not change the language for the term of <i><strong>'Sibal'</strong></i>.
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "In the Supreme Court of India, <i><strong>Sibal</strong></i> argued the constitutional validity of the Aadhaar Act before a five-judge bench." </li>
+                                        <li class="mb-2">• "During the landmark 2012 hearing on internet censorship, <i><strong>Sibal</strong></i> represented the government in front of the Supreme Court.  "</li>
+                                        <li class="mb-2">• "<i><strong>Sibal</strong></i> submitted extensive documentation on digital privacy rights during the Public Interest Litigation (PIL) at the Supreme Court."</li>
+                                        <li class="mb-2">• "The Supreme Court referred to <i><strong>Sibal</strong></i>'s brief while deliberating the admissibility of electronic evidence in criminal trials."</li>
+                                        <li class="mb-2">• "In a 2015 Supreme Court case concerning freedom of speech, <i><strong>Sibal</strong></i> contended the limits of Section 66A of the IT Act."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>In the Supreme Court of India, Sibal argued the constitutional validity of the Aadhaar Act before a five-judge bench.</strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Sibal</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "In the Supreme Court of India, Sibal presented arguments defending the Aadhaar Act’s constitutionality before a panel of five judges."</li>
+                                        <li class="mb-2">• "Sibal appeared in India’s highest judiciary forum to contest the Aadhaar Act’s legal standing before a bench comprising five justices."</li>
+                                        <li class="mb-2">• "Arguing the Aadhaar Act’s constitutional validity, Sibal addressed a quintet of judges at the supreme judicial forum in India."</li>
+                                        <li class="mb-2">• "Before a cluster of five judges at India’s top court, Sibal upheld the Aadhaar Act’s constitutional legitimacy."</li>
+                                        <li class="mb-2">• "At India’s apex court, Sibal challenged the legal framework of the Aadhaar Act before a distinguished five-member bench."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -467,24 +1197,154 @@
                 </div>
                 <div class="tab-pane fade" id="court-cn" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"生成正式的法庭对话，包括司法程序、法律异议、证人证词和程序性陈述。"</p>
+                                    <p>"请用中文生成 <i><strong>{n}</strong></i> 个在印度最高法院中发生发言的情境或场景。<br>
+                                        请注意，生成的应是发言发生的情境或场景，而不是发言内容本身。<br>
+                                        无需注释或解释，仅输出 <i><strong>{n}</strong></i> 个中文情境或场景。<br>
+                                        请尽可能多样化地生成这些情境或场景。</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "法官大人，我反对这个引导性问题"</li>
-                                        <li class="mb-2">• "被告对所有指控均不认罪"</li>
-                                        <li class="mb-2">• "请证人陈述您的全名以供记录"</li>
-                                        <li class="mb-2">• "反对成立，陪审团请忽略该陈述"</li>
-                                        <li class="mb-2">• "法庭现在开庭，请就座"</li>
+                                        <li class="mb-2">• "审理宪法修正案合法性的法庭。"</li>
+                                        <li class="mb-2">• "听取有关环境保护公益诉讼的案件。"</li>
+                                        <li class="mb-2">• "审理两个邦之间的水资源分配纠纷"</li>
+                                        <li class="mb-2">• "审查新的选举改革法的有效性。"</li>
+                                        <li class="mb-2">• "处理一起备受关注的刑事案件上诉。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请根据印度最高法院中的以下情境，生成10个中文句子。<br>
+                                        情境：<i><strong>审理宪法修正案合法性的法庭。</strong></i><br>
+                                        <br>
+                                        请确保每个句子都是单句，并尽可能多地使用不同的专有名词、专业术语、数字和情境。<br>
+                                        请确保每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        无需注释、解释或重复。<br>
+                                        每个句子请单独占一行，并用换行符分隔。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "印度最高法院于2024年3月15日开始审理第103号宪法修正案的合法性问题。"</li>
+                                        <li class="mb-2">• "首席大法官主持此次审判，涉及《基本权利平等原则》与修正案内容的冲突。"</li>
+                                        <li class="mb-2">• "法庭重点关注修正案是否违反了印度宪法第14条的平等保护条款。"</li>
+                                        <li class="mb-2">• "辩护方提出第103号修正案旨在促进社会正义，保护边缘群体权益。"</li>
+                                        <li class="mb-2">• "公诉方质疑修正案是否侵犯了宪法赋予公民的基本自由权利。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请在印度最高法院的不同场景下，生成 10 个包含<i><strong>“Sibal”</strong></i>术语的中文句子。
+                                        请确保每个句子都是单句，并尽可能多地使用不同的专有名词、专业术语、数字和情境。
+                                        每个句子应单独占一行，并用换行符分隔。
+                                        请确保每个句子的长度不少于5个字符且不超过100个字符。
+                                        主要语言为中文。
+                                        请直接使用<i><strong>“Sibal”</strong></i>这一术语，不要更改该术语的语言。
+                                        不需要注释、解释或重复。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "印度最高法院庭审中，律师<i><strong>sibal</strong></i>提请法官关注宪法第21条的问题。"</li>
+                                        <li class="mb-2">• "<i><strong>sibal</strong></i>在最高法院辩论印度信息技术法案第66条修订案的合宪性。"</li>
+                                        <li class="mb-2">• "最高法院第3号法庭由<i><strong>sibal</strong></i>代理案件，该案涉及土地征用补偿纠纷。"</li>
+                                        <li class="mb-2">• "<i><strong>sibal</strong></i>提交的诉状援引1973年最高法院判例，主张言论自由应获得保护。"</li>
+                                        <li class="mb-2">• "在最高法院调解会议上，<i><strong>sibal</strong></i>强调保护未成年人隐私权的重要性。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate the Chinese sentence of <i><strong>sentence</strong></i> in supreme court in India to English. <br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Output only the results with one line per conversation without line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "During the Supreme Court trial in India, lawyer Sibal urged the judge to focus on the issue of Article Twenty-one of the Constitution."</li>
+                                        <li class="mb-2">• "Sibal argued about the constitutionality of the amendment to Section sixty-six of the Indian Information Technology Act in the Supreme Court of India."</li>
+                                        <li class="mb-2">• "The Supreme Court's courtroom number three is represented by Sibal in a case involving land acquisition compensation disputes."</li>
+                                        <li class="mb-2">• "The complaint submitted by Sibal cites the nineteen seventy-three Supreme Court precedent, asserting that freedom of speech should be protected."</li>
+                                        <li class="mb-2">• "At the Supreme Court mediation meeting, Sibal emphasized the importance of protecting the privacy rights of minors."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>During the Supreme Court trial in India, lawyer Sibal urged the judge to focus on the issue of Article Twenty-one of the Constitution.</strong></i> in supreme court in India into 9 different versions. <br>
+                                        Make sure that the sentences use as different named entities, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Sibal</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "During the landmark case at India's highest judiciary, advocate Sibal emphasized to the bench the critical importance of Article twenty-one of the Indian Constitution."</li>
+                                        <li class="mb-2">• "In the constitutional bench hearing in New Delhi, lawyer Sibal implored the justices to prioritize matters concerning Article twenty-one protections."</li>
+                                        <li class="mb-2">• "At the apex court session held in the Republic of India, legal expert Sibal stressed the significance of examining Article twenty-one rights."</li>
+                                        <li class="mb-2">• "In the supreme judicial forum of India, counsel Sibal urged the presiding judge to concentrate on constitutional Article twenty-one issues."</li>
+                                        <li class="mb-2">• "During the judiciary panel's review in India’s capital, Sibal the lawyer pressed for attention toward Article twenty-one under the Constitution."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -493,24 +1353,156 @@
                 </div>
                 <div class="tab-pane fade" id="court-jp" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"正式な法廷での対話を生成してください。司法手続き、法的異議、証人の証言、手続き上の発言を含めてください。"</p>
+                                    <p>"インドの最高裁判所における，発話する状況・シナリオを日本語で10個生成して。<br>
+                                        発話そのものではなく，発話の状況・シナリオであることに注意して。<br>
+                                        本文の注釈は不要で，10個の状況・シナリオのみを日本語で出力して。<br>
+                                        できるだけ多様な状況・シナリオを生成してください。<br>
+                                        各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                        注釈、説明、繰り返しは不要です。</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "裁判長、誘導尋問に異議があります"</li>
-                                        <li class="mb-2">• "被告人は全ての罪状について無罪を主張します"</li>
-                                        <li class="mb-2">• "証人は記録のために氏名を述べてください"</li>
-                                        <li class="mb-2">• "異議を認めます、陪審員はその発言を無視してください"</li>
-                                        <li class="mb-2">• "開廷いたします、ご着席ください"</li>
+                                        <li class="mb-2">• "憲法改正の合憲性を巡る審理が行われている"</li>
+                                        <li class="mb-2">• "主要政党間で選挙法に関する意見陳述が交わされている"</li>
+                                        <li class="mb-2">• "少数民族の権利保護を求める訴訟の判決発表"</li>
+                                        <li class="mb-2">• "死刑判決の上告審理が進行している"</li>
+                                        <li class="mb-2">• "環境保護団体が産業開発計画に異議を申し立てる公聴会"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"インドの最高裁判所における以下のシナリオに従って、10個の日本語の文を生成してください。<br>
+                                        シナリオ: <i><strong>憲法改正の合憲性を巡る審理が行われている</strong></i><br>
+                                        <br>
+                                        各文にはできるだけ多様な固有表現や専門用語を含めてください。<br>
+                                        各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                        注釈、説明、繰り返しは不要です。<br>
+                                        各文は1行ずつで出力し，それぞれ改行してください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "インド最高裁は憲法改正の基本構造理論を検討している。"</li>
+                                        <li class="mb-2">• "憲法裁判所は議会の改正権限の範囲を詳細に審査した。"</li>
+                                        <li class="mb-2">• "最高裁判所の判事たちは連邦制維持の原則を重視している。"</li>
+                                        <li class="mb-2">• "憲法制定者の意図解釈が審理の中心課題となっている。"</li>
+                                        <li class="mb-2">• "改正条項と基本権保障の整合性が争点として浮上した。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"インドの最高裁判所のさまざまなシナリオにおいて、<i><strong>『Sibal』</strong></i>という用語を含む10個の日本語の文を生成してください。<br>
+                                        各文は1文のみとし、できるだけ異なる固有表現や専門用語、数字、文脈を使ってください。<br>
+                                        各文は1行ずつで出力し，それぞれ改行してください。<br>
+                                        各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                        主な言語は日本語です。<br>
+                                        <i><strong>『Sibal』</strong></i>という用語自体を使用し、その用語の言語は変更しないでください。<br>
+                                        注釈、説明、繰り返しは不要です。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "インド最高裁判所の判決で、<i><strong>sibal</strong></i>弁護士が重要な意見を述べた。"</li>
+                                        <li class="mb-2">• "<i><strong></strong>sibal</strong></i>は憲法改正に関する訴訟で注目された弁護士である。"</li>
+                                        <li class="mb-2">• "最高裁での<i><strong>sibal</strong></i>の主張は人権保障の新基準を提示した。"</li>
+                                        <li class="mb-2">• "<i><strong>sibal</strong></i>が担当したケースは環境法に関する重要判例となった。"</li>
+                                        <li class="mb-2">• "インド最高裁の判事が<i><strong>sibal</strong></i>の法的論点を評価した。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate the Japanese sentence of <i><strong>sentence</strong></i> in supreme court in India to English. <br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Output only the results with one line per conversation without line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "In the Supreme Court of India, Lawyer Sibal expressed an important opinion in the verdict."</li>
+                                        <li class="mb-2">• "Sibal is a lawyer who gained attention for lawsuits concerning constitutional amendments in the Supreme Court of India."</li>
+                                        <li class="mb-2">• "Sibal's argument in the Supreme Court presented a new standard for the protection of human rights."</li>
+                                        <li class="mb-2">• "The case handled by Sibal became an important precedent in environmental law in the Supreme Court of India."</li>
+                                        <li class="mb-2">• "A judge of the Supreme Court in India evaluated Sibal’s legal issues."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>In the Supreme Court of India, Lawyer Sibal expressed an important opinion in the verdict.</strong></i> in supreme court in India into 9 different versions. <br>
+                                        Make sure that the sentences use as different named entities, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Sibal</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "In a landmark ruling at the Supreme Court of India, Lawyer Sibal delivered a pivotal perspective during the decision announcement."</li>
+                                        <li class="mb-2">• "During the twenty-third session of the Supreme Court, Lawyer Sibal articulated a crucial viewpoint influencing the final judgment."</li>
+                                        <li class="mb-2">• "At India's top judicial tribunal, Lawyer Sibal offered a significant argument that shaped the court's verdict."</li>
+                                        <li class="mb-2">• "Lawyer Sibal contributed an essential insight in the Supreme Court's deliberation of a high-profile case within India’s highest legal forum."</li>
+                                        <li class="mb-2">• "In the January hearing held in New Delhi’s Supreme Court, Lawyer Sibal pronounced a vital opinion impacting the ruling."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -536,21 +1528,124 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="medsyn-en" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"Generate medical terminology and clinical communications including patient presentations, diagnoses, treatment plans, and medical procedures."</p>
+                                    <p>"Generate <i><strong>{n}</strong></i> situations or scenarios describing pharmaceuticals or health supplements.<br>
+                                        Please note that you should generate situations or scenarios of speaking, not the actual utterances.<br>
+                                        Do not include any explanatory notes or annotations in the text; output only the <i><strong>{n}</strong></i> situations or scenarios in English.<br>
+                                        Please generate as diverse a set of situations or scenarios as possible." </p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "Patient presents with acute myocardial infarction"</li>
-                                        <li class="mb-2">• "Administer 325mg aspirin and initiate cardiac monitoring"</li>
+                                        <li class="mb-2">• "A supplement store employee discussing product origin and testing."</li>
+                                        <li class="mb-2">• "A patient discussing over-the-counter painkiller choices for arthritis."</li>
+                                        <li class="mb-2">• "A transplant patient discussing medication adherence challenges online."</li>
+                                        <li class="mb-2">• "A nurse warning about taking expired medications."</li>
+                                        <li class="mb-2">• "A diabetic patient confirming with a pharmacist how to alternate injections."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate 10 English sentences according to following scenario describing pharmaceuticals or health supplements.<br>
+                                        Scenario: <i><strong>A supplement store employee discussing product origin and testing.</strong></i><br>
+                                        <br>
+                                        Make sure each sentence include as diverse drug names, supplement names, named entities and technical terms as possible.<br>
+                                        Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed.<br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Our CoQ10 capsules, sourced from Canadian farms, undergo rigorous HPLC testing to ensure purity and potency."</li>
+                                        <li class="mb-2">• "The Omega-3 softgels from Nordic Naturals are third-party tested for heavy metals at SGS laboratories in Switzerland."</li>
+                                        <li class="mb-2">• "Each batch of our patented Curcumin C3 Complex is validated using LC-MS/MS methods for authenticity and concentration."</li>
+                                        <li class="mb-2">• "We source Glucosamine Sulfate raw materials exclusively from European suppliers who comply with GMP certification standards."</li>
+                                        <li class="mb-2">• "Our Vitamin D3 supplements are derived from lanolin, verified through UV spectrophotometry to meet label claims accurately."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Please generate 10 English sentences describing pharmaceuticals or health supplements, each containing the term "<i><strong>Ofloxacin</strong></i>".<br>
+                                        Make sure that each sentence is a single sentence and use as different drug names, supplement names, named entities, technical terms, numbers, and contexts as possible.<br> 
+                                        Each sentence should be output on its own line, separated by line breaks.<br>
+                                        Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+                                        The main language is English. <br>
+                                        Use the terms of <i><strong>Ofloxacin</strong></i> itself, do not change the language for the term of <i><strong>Ofloxacin</strong></i>.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• <i><strong>Ofloxacin</strong></i> is commonly prescribed to treat bacterial infections such as urinary tract infections and respiratory tract infections.</li>
+                                        <li class="mb-2">• "The pharmacokinetics of <i><strong>Ofloxacin</strong></i> show rapid absorption with peak plasma concentrations occurring within one to two hours."</li>
+                                        <li class="mb-2">• "Doctors recommend <i><strong>Ofloxacin</strong></i> 200 mg twice daily for seven days to effectively manage acute bacterial exacerbations of chronic bronchitis. "</li>
+                                        <li class="mb-2">• "<i><strong>Ofloxacin</strong></i> ophthalmic solution 0.3% is used to treat bacterial conjunctivitis and other eye infections caused by susceptible strains."</li>
+                                        <li class="mb-2">• "In a clinical trial, <i><strong>Ofloxacin</strong></i> demonstrated a 90% success rate in eradicating Helicobacter pylori when combined with other antibiotics."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Ofloxacin is commonly prescribed to treat bacterial infections such as urinary tract infections and respiratory tract infections.</strong></i>, describing pharmaceuticals or health supplements, into 9 different versions.<br> 
+                                        Make sure that the sentences use as different drug names, supplement names, named entities, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Ofloxacin</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Ofloxacin is frequently utilized in pharmaceutical treatments for respiratory ailments and infections of the urinary system."</li>
+                                        <li class="mb-2">• "For various bacterial infections like infections of the kidneys and lungs, Ofloxacin is a commonly recommended antibiotic."</li>
+                                        <li class="mb-2">• "In the realm of antibiotics, Ofloxacin is a popular choice to combat bacterial illnesses affecting the urinary and respiratory tracts."</li>
+                                        <li class="mb-2">• "Physicians often prescribe Ofloxacin to address bacterial infections, particularly those impacting the respiratory and urinary systems."</li>
+                                        <li class="mb-2">• "Commonly, Ofloxacin is administered to patients suffering from respiratory tract infections as well as urinary bladder infections caused by bacteria."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -559,21 +1654,154 @@
                 </div>
                 <div class="tab-pane fade" id="medsyn-cn" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"生成医疗术语和临床沟通，包括病人病情、诊断、治疗计划和医疗程序。"</p>
+                                    <p>"请生成<i><strong>{n}</strong></i>个描述药品或保健品的情境或场景。<br>
+                                        请注意，你应生成的是发言的情境或场景，而不是实际的发言内容。<br>
+                                        请不要在正文中包含任何解释性说明或注释，只需用中文输出这<i><strong>{n}</strong></i>个情境或场景。<br>
+                                        请尽可能生成多样化的情境或场景。"</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "病人出现急性心肌梗死症状"</li>
-                                        <li class="mb-2">• "给予325毫克阿司匹林并开始心脏监测"</li>
+                                        <li class="mb-2">• "奶茶店推荐胶原蛋白饮品"</li>
+                                        <li class="mb-2">• "腰椎病患者尝试新型止痛贴。"</li>
+                                        <li class="mb-2">• "爱心公益活动为灾区捐赠药品"</li>
+                                        <li class="mb-2">• "中老年夫妻学习保健品服用顺序。"</li>
+                                        <li class="mb-2">• "环保志愿者户外必备防中暑药品"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请根据以下情境生成10个描述医药品或健康补充剂的中文句子。<br>
+                                        情境：<i><strong>奶茶店推荐胶原蛋白饮品</strong></i><br>
+                                        <br>
+                                        请确保每个句子都尽可能多地包含不同的药品名称、保健品名称、专有名词和专业术语。<br>
+                                        请确保每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        无需注释、解释或重复。<br>
+                                        每个句子请单独占一行，并用换行符分隔。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "本店推荐富含水解胶原蛋白肽的美容饮品，搭配维生素C促进胶原合成。"</li>
+                                        <li class="mb-2">• "饮品中特含鱼胶原蛋白和透明质酸，助力皮肤保湿与弹性修复，适合日常补充。"</li>
+                                        <li class="mb-2">• "结合葡萄籽提取物和肽类复合物的胶原蛋白奶茶，有助于抗氧化与延缓衰老。"</li>
+                                        <li class="mb-2">• "本款胶原蛋白饮料含有多肽胶原蛋白、辅酶Q10以及核酸，支持皮肤细胞再生。"</li>
+                                        <li class="mb-2">• "富含猪皮胶原蛋白和氨基葡萄糖的健康饮品，改善关节健康同时增强肌肤活力。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请生成10个包含术语<i><strong>Ofloxacin</strong></i>的中文句子，每个句子用于描述医药品或健康补充剂。<br>
+                                        请确保每个句子都是单句，并尽可能使用不同的药品名称、保健品名称、专有名词、专业术语、数字和语境。<br>
+                                        每个句子请单独占一行，并用换行分隔。<br>
+                                        每个句子的长度不少于5个汉字且不超过100个汉字。<br>
+                                        主要语言为中文。<br>
+                                        <i><strong>Ofloxacin</strong></i>一词请保持原语言，不要翻译。<br>
+                                        不需要添加注释、说明或重复。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "<i><strong>Ofloxacin</strong></i>是一种广谱抗菌药物，常用于治疗呼吸道感染和尿路感染。"</li>
+                                        <li class="mb-2">• "临床研究表明，<i><strong>Ofloxacin</strong></i>对革兰阴性菌具有显著抑制作用。"</li>
+                                        <li class="mb-2">• "患者在服用<i><strong>Ofloxacin</strong></i>期间应避免同时使用含镁或铝的抗酸药。"</li>
+                                        <li class="mb-2">• "<i><strong>Ofloxacin</strong></i>胶囊的推荐剂量通常为每天200毫克至400毫克。"</li>
+                                        <li class="mb-2">• "药品说明书建议孕妇慎用<i><strong>Ofloxacin</strong></i>，以防止对胎儿产生潜在风险。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate to English, the Chinese sentence of <i><strong>{sentence}</strong></i>, describing pharmaceuticals or health supplement.<br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Output only the results with one line per conversation without line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Ofloxacin is a broad-spectrum antibiotic commonly used to treat respiratory infections and urinary tract infections."</li>
+                                        <li class="mb-2">• "Clinical studies have shown that Ofloxacin has a significant inhibitory effect on Gram-negative bacteria."</li>
+                                        <li class="mb-2">• "Patients should avoid using antacids containing magnesium or aluminum simultaneously while taking Ofloxacin."</li>
+                                        <li class="mb-2">• "The recommended dosage of Ofloxacin capsules is usually two hundred to four hundred milligrams per day."</li>
+                                        <li class="mb-2">• "The pharmaceutical instructions recommend that pregnant women use Ofloxacin with caution to prevent potential risks to the fetus."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Ofloxacin is a broad-spectrum antibiotic commonly used to treat respiratory infections and urinary tract infections.</strong></i>, describing pharmaceuticals or health supplements, into 9 different versions.<br> 
+                                        Make sure that the sentences use as different drug names, supplement names, named entities, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Ofloxacin</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Dispertab formulations improve the absorption rate of ibuprofen in the digestive system while minimizing adverse reactions."</li>
+                                        <li class="mb-2">• "The use of Dispertab technology in curcumin supplements can greatly accelerate drug dissolution in the GI tract and lessen negative effects."</li>
+                                        <li class="mb-2">• "Dispertab tablets significantly boost the solubility of metformin in gastrointestinal fluids and help in decreasing unwanted side effects."</li>
+                                        <li class="mb-2">• "By employing Dispertab for vitamin D supplements, dissolution in the stomach is enhanced and potential side effects are reduced."</li>
+                                        <li class="mb-2">• "Dispertab enhances the rate at which aspirin dissolves in the intestines, contributing to faster therapeutic effects and fewer side effects."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -582,21 +1810,154 @@
                 </div>
                 <div class="tab-pane fade" id="medsyn-jp" role="tabpanel">
                     <div class="row">
+						<h4>1. Domain seed</h4>
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header"><strong>Prompt</strong></div>
                                 <div class="card-body">
-                                    <p>"医療用語や臨床コミュニケーションを生成してください。患者の症状、診断、治療計画、医療手順を含めてください。"</p>
+                                    <p>"医薬品や健康サプリメントの説明における，発話する状況・シナリオを日本語で<i><strong>{n}</strong></i>個生成して。<br>
+                                        発話そのものではなく，発話の状況・シナリオであることに注意して。<br>
+                                        本文の注釈は不要で，<i><strong>{n}</strong></i>個の状況・シナリオのみを日本語で出力して。<br>
+                                        できるだけ多様な状況・シナリオを生成してください。"</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Generated Text</strong></div>
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
                                 <div class="card-body">
                                     <ul class="list-unstyled">
-                                        <li class="mb-2">• "患者は急性心筋梗塞を呈しています"</li>
-                                        <li class="mb-2">• "325mgのアスピリンを投与し、心臓モニタリングを開始します"</li>
+                                        <li class="mb-2">• "子育て中の母親がママ友にサプリメントの安全性について説明する場面"</li>
+                                        <li class="mb-2">• "メール相談で薬剤師が市販風邪薬と処方薬の併用について説明する場面"</li>
+                                        <li class="mb-2">• "テレビ番組の健康特集で、ゲスト医師が医薬品とサプリの違いを解説する場面"</li>
+                                        <li class="mb-2">• "自律神経失調シンドローム患者向けサプリ説明会"</li>
+                                        <li class="mb-2">• "健康食品店で販売員がオメガ3サプリの効能を紹介する場面"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"医薬品や健康サプリメントの説明における以下のシナリオに従って、{n_generate}個の日本語の文を生成してください。<br>
+                                        シナリオ: <i><strong>子育て中の母親がママ友にサプリメントの安全性について説明する場面</strong></i><br>
+                                        <br>
+                                        各文にはできるだけ多様な医薬品名やサプリメント名、固有表現、専門用語を含めてください。<br>
+                                        各文は5文字以上100文字以下であることを必ず守ってください。<br>
+                                        注釈、説明、繰り返しは不要です。<br>
+                                        各文は1行ずつで出力し，それぞれ改行してください。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "私は毎日、鉄分とカルシウムが豊富な「ネイチャーメイド マルチビタミン」で栄養補給しています。"</li>
+                                        <li class="mb-2">• "DHAやEPAを含む「ディアナチュラ スピルリナ」は脳の健康維持に効果的で安心です。"</li>
+                                        <li class="mb-2">• "小児用ビオフェルミン」は子どもの腸内環境を整え、安全性も高くおすすめです。"</li>
+                                        <li class="mb-2">• "免疫力を高めるために「アサヒ クリアフォーラム ビタミンC」を使っています。"</li>
+                                        <li class="mb-2">• "「ミルクシスルエキス」は肝機能サポートに優れていて、副作用の心配がほとんどありません。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"医薬品や健康サプリメントの説明において、<i><strong>Ofloxacin</strong></i>という用語を含む10個の日本語の文を生成してください。
+                                        各文は1文のみとし、できるだけ異なる医薬品名やサプリメント名，固有表現や専門用語、数字、文脈を使ってください。
+                                        各文は1行ずつで出力し，それぞれ改行してください。
+                                        各文は5文字以上100文字以下であることを必ず守ってください。
+                                        主な言語は日本語です。
+                                        <i><strong>Ofloxacin</strong></i>という用語自体を使用し、その用語の言語は変更しないでください。
+                                        注釈、説明、繰り返しは不要です。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "オフロキサシン(Ofloxacin)は、一般細菌性副鼻腔炎の治療に使用されることがあります。"</li>
+                                        <li class="mb-2">• "Ofloxacinはニューキノロン系抗菌薬の一種であり、幅広い抗菌スペクトルを持つことで知られています。"</li>
+                                        <li class="mb-2">• "耳感染症の治療において、Ofloxacin点耳液は有効な選択肢となることがあります。"</li>
+                                        <li class="mb-2">• "眼科領域では、Ofloxacin点眼液が細菌性結膜炎の治療に使用されます。"</li>
+                                        <li class="mb-2">• "抗菌薬Ofloxacinは、呼吸器感染症の治療にも効果を発揮します。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate to English, the Japanese sentence of <i><strong>{sentence}</strong></i>, describing pharmaceuticals or health supplement.<br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Output only the results with one line per conversation without line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Ofloxacin is sometimes used for the treatment of general bacterial sinusitis."</li>
+                                        <li class="mb-2">• "Ofloxacin is a type of new quinolone antibacterial agent and is known to have a broad antibacterial spectrum."</li>
+                                        <li class="mb-2">• "Ofloxacin otic solution may be a valid option in the treatment of ear infections."</li>
+                                        <li class="mb-2">• "In the ophthalmology field, ofloxacin eye drops are used for the treatment of bacterial conjunctivitis."</li>
+                                        <li class="mb-2">• "The antibacterial drug Ofloxacin is also effective in the treatment of respiratory infections."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Ofloxacin is sometimes used for the treatment of general bacterial sinusitis..</strong></i>, describing pharmaceuticals or health supplements, into 9 different versions.<br> 
+                                        Make sure that the sentences use as different drug names, supplement names, named entities, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Ofloxacin</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Ofloxacin is occasionally prescribed to address bacterial sinus infections in adult patients."</li>
+                                        <li class="mb-2">• "Ofloxacin may be utilized in treating mild bacterial sinusitis as part of outpatient therapy."</li>
+                                        <li class="mb-2">• "Ofloxacin is sometimes recommended for managing bacterial sinus infections caused by common pathogens."</li>
+                                        <li class="mb-2">• "Ofloxacin has limited use in combating bacterial sinus infections resistant to other antibiotics."</li>
+                                        <li class="mb-2">• "Ofloxacin is prescribed in certain cases for addressing acute bacterial sinusitis symptoms."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -605,6 +1966,309 @@
                 </div>
             </div>
         </div>
+        
+        <!-- MedSyn Tab -->
+        <!-- <div class="tab-pane fade" id="medsyn" role="tabpanel" aria-labelledby="medsyn-tab">
+            <ul class="nav nav-pills justify-content-center mb-3" id="medsyn-lang-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="medsyn-en-tab" data-bs-toggle="pill" data-bs-target="#medsyn-en" type="button" role="tab">English</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="medsyn-cn-tab" data-bs-toggle="pill" data-bs-target="#medsyn-cn" type="button" role="tab">Chinese</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="medsyn-jp-tab" data-bs-toggle="pill" data-bs-target="#medsyn-jp" type="button" role="tab">Japanese</button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="medsyn-en" role="tabpanel">
+                    <div class="row">
+						<h4>1. Domain seed</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate <i><strong>{n}</strong></i> situations/scenarios in English where air traffic controllers are speaking in air traffic control.<br>
+										Note that you should generate the scenarios or situations in which utterances take place, not the utterances themselves.<br>
+										No annotations or explanations are needed; output only <i><strong>{n}</strong></i> scenarios or situations in English.<br>
+										Please generate as diverse a set of scenarios and situations as possible.<br>
+										Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+										Annotations, explanations, or repetitions are not needed."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Instructing an aircraft to taxi to a runway"</li>
+                                        <li class="mb-2">• "Denying pushback due to ramp congestion"</li>
+                                        <li class="mb-2">• "Granting clearance to cross active runway"</li>
+                                        <li class="mb-2">• "Assigning runway for departure"</li>
+                                        <li class="mb-2">• "Issuing landing clearance"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Generate 10 English sentences according to following scenario in air traffic control in Europe.<br>
+                                    Scenario: <i><strong>Instructing an aircraft to taxi to a runway</strong></i><br>
+                                    <br>
+                                    Make sure each sentence include as diverse names, locations, aircraft names, and technical terms as possible.<br>
+                                    Ensure that each sentence is at least 5 characters and at most 200 characters long.<br>
+                                    Annotations, explanations, or repetitions are not needed.<br>
+                                    Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Lufthansa 307, taxi via Juliet and Alpha to holding point Runway 27R, contact Ground on 121.8."</li>
+                                        <li class="mb-2">• "Alitalia 452, proceed to Runway 04L via taxiways Bravo and Kilo, hold short at Sierra intersection."</li>
+                                        <li class="mb-2">• "KLM 263, proceed via Golf and Uniform to holding point Runway 36C, give way to the arriving Embraer."</li>
+                                        <li class="mb-2">• "Swiss 118, taxi to Runway 18R via Lima, Oscar, cross Runway 14, advise when ready for departure."</li>
+                                        <li class="mb-2">• "Air France 214, taxi via Charlie and Mike to Runway 09, hold short of Whiskey, expect departure shortly."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>Generate 10 English sentences in the different scenarios of air traffic control in Europe, including the term of '<i><strong>Belstar</strong></i>'. <br>
+                                    Make sure that each sentence is a single sentence and use as different names, locations, aircraft names, technical terms, numbers, and contexts as possible. <br>
+                                    Each sentence should be output on its own line, separated by line breaks.<br>
+                                    Ensure that each sentence is at most 200 characters long.<br>
+                                    The main language is English. <br>
+                                    Use the terms of <i><strong>Belstar</strong></i> itself, do not change the language for the term of <i><strong>Belstar</strong></i>.<br>
+                                    Annotations, explanations, or repetitions are not needed.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• <strong>Belstar</strong> 214, descend to flight level 110 and contact Zurich Approach on 119.7. </li>
+                                        <li class="mb-2">• "Eurojet 650, maintain present heading and expect direct <strong>Belstar</strong> waypoint in ten miles.  "</li>
+                                        <li class="mb-2">• "Munich Tower, Lufthansa 327 passing <strong>Belstar</strong>, requesting climb to FL340.  "</li>
+                                        <li class="mb-2">• "Ryanair 982, after <strong>Belstar</strong>, proceed direct to Krakow VOR, flight planned route approved.  "</li>
+                                        <li class="mb-2">• "ATC to Swiss 87, radar contact established five miles south of <strong>Belstar</strong>, continue as cleared. "</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Belstar 214, descend to flight level 110 and contact Zurich Approach on 119.7. </strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Belstar</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• Belstar two one four, descend to altitude one one zero and switch to Geneva Approach frequency one one nine point seven.</li>
+                                        <li class="mb-2">• "Approach clearance for Belstar two one four: reduce your altitude to flight level one one zero and contact Vienna Control at one one nine point seven."</li>
+                                        <li class="mb-2">• "Belstar two one four, you are cleared to descend to one one zero flight level and reach out to Munich Approach on one one nine decimal seven."</li>
+                                        <li class="mb-2">• "Descend to flight level one one zero, Belstar two one four, and proceed to communicate with Marseille Approach on frequency one one nine point seven."</li>
+                                        <li class="mb-2">• "Belstar two one four, adjust your altitude to one one zero, then call Amsterdam Approach on one one nine decimal seven."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="medsyn-cn" role="tabpanel">
+                    <div class="row">
+						<h4>1. Domain seed</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请生成 <i><strong>{n}</strong></i> 个关于空中交通管制中管制员发话的情境/场景，内容为中文。<br>
+                                        请注意，生成的应是发言发生的情境或场景，而不是发言内容本身。<br>
+                                        无需注释或解释，仅输出 <i><strong>{n}</strong></i> 个中文情境或场景。<br>
+                                        请尽可能多样化地生成这些情境或场景。<br>
+                                        每个句子的长度不少于5个汉字且不超过100个汉字。<br>
+                                        不需要添加注释、说明或重复。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated scenarios</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "允许起飞"</li>
+                                        <li class="mb-2">• "允许降落"</li>
+                                        <li class="mb-2">• "允许滑行"</li>
+                                        <li class="mb-2">• "进入跑道等待"</li>
+                                        <li class="mb-2">• "跑道进入许可"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.1. Context seed: from scenarios</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"请根据以下欧洲航空管制场景，生成10个中文句子。<br>
+                                        场景：允许起飞<br>
+                                        <br>
+                                        请确保每个句子尽可能包含多样的人名、地点、飞机名称和技术术语。<br>
+                                        请确保每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        不需要注释、解释或重复内容。<br>
+                                        每个句子应单独占一行，并用换行符分隔。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "巴黎塔台呼叫奥地利航空OS423，允许使用27L跑道起飞，风速210度8节。"</li>
+                                        <li class="mb-2">• "伦敦塔台通知汉莎航班LH789，空中客车A320可从09R跑道按仪表程序起飞。"</li>
+                                        <li class="mb-2">• "马德里地面呼叫伊比利亚航空IB520，波音737已获准滑行至36L等待起飞指令。"</li>
+                                        <li class="mb-2">• "阿姆斯特丹塔台，荷兰皇家航空KL1023，你已经获得起飞许可，请由24跑道起飞。"</li>
+                                        <li class="mb-2">• "柏林塔台呼叫瑞士国际LX987，你的A220飞机已批准从08R跑道起飞。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>2.2. Context seed: from domain-specific terms</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>请在欧洲航空管制的各种场景下，生成10个包含<i><strong>belstar</strong></i>术语的中文句子。<br>
+                                        要求：<br>
+                                        - 每个句子仅限一句，并尽可能使用不同的人名、地点、飞机名称、技术术语、数字和语境。<br>
+                                        - 每个句子应单独占一行，并用换行符分隔。<br>
+                                        - 每个句子的长度不少于5个字符且不超过100个字符。<br>
+                                        - 主要语言为中文。<br>
+                                        - 请直接使用<i><strong>belstar</strong></i>这一术语，不要更改该术语的语言。"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "地面管制通知<i><strong>belstar</strong></i> 125，准备前往巴黎戴高乐机场起飞许可已批准。"</li>
+                                        <li class="mb-2">• "机长安德烈通过无线电报告，<i><strong>belstar</strong></i> 452目前即将抵达法兰克福011号滑行道。"</li>
+                                        <li class="mb-2">• "<i><strong>belstar</strong></i> 301，请在跑道27左等待下一步起飞通知。"</li>
+                                        <li class="mb-2">• "由于布鲁塞尔上空突发雷雨，<i><strong>belstar</strong></i> 789请求绕道飞行并等待新指令。"</li>
+                                        <li class="mb-2">• "航路管制员询问<i><strong>belstar</strong></i> 522，目前是否已经达到了预定的巡航高度FL390。"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>3. Multilingual Prompting: Translation</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Translate the Japanese sentence of <i><strong>sentence</strong></i> in air traffic control to English. <br>
+                                        Write all numbers in spelled-out English words instead of using digits.<br>
+                                        Each sentence should be output on its own line, separated by line breaks.<br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. "</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "Tokyo Tower Control, belstar four five zero, currently over Madrid at flight level three two zero, weather is good."</li>
+                                        <li class="mb-2">• "A go-around was ordered for the Belstar flight at Monaco airport."</li>
+                                        <li class="mb-2">• "Belstar one two three, please advise the distance to the next waypoint."</li>
+                                        <li class="mb-2">• "A turbulence advisory has been issued for Belstar triple seven flight bound from London to Paris."</li>
+                                        <li class="mb-2">• "A communication problem with Belstar was confirmed over Salzburg."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>4. Paraphrasing</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Prompt</strong></div>
+                                <div class="card-body">
+                                    <p>"Rewrite and paraphrase the sentence of <i><strong>Tokyo Tower Control, belstar four five zero, currently over Madrid at flight level three two zero, weather is good.</strong></i> in air traffic control into 9 different versions. <br>
+                                        Make sure that the sentences use as different names, locations, aircraft names, technical terms, numbers, the order of words, and contexts as possible. <br>
+                                        Write all numbers in spelled-out English words instead of using digits. <br>
+                                        Do not change or replace the words of <i><strong>Belstar</strong></i>. <br>
+                                        Ensure that each sentence is a single sentence and is at least 5 characters and at most 200 characters long.<br>
+                                        Annotations, explanations, or repetitions are not needed. <br>
+                                        Each sentence should be output on its own line, separated by line breaks."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Generated texts</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "London Radar, belstar four five zero, passing over Rome at altitude flight level two nine zero, experiencing clear skies."</li>
+                                        <li class="mb-2">• "New York Approach, belstar four five zero, maintaining flight level three five zero over Paris, visibility excellent."</li>
+                                        <li class="mb-2">• "Sydney Center, belstar four five zero, currently cruising above Johannesburg at level three three zero, weather fair."</li>
+                                        <li class="mb-2">• "Dubai Control, belstar four five zero, over Berlin at flight level three one zero, with no weather issues reported."</li>
+                                        <li class="mb-2">• "Honolulu Tower, belstar four five zero, at this time above Lisbon at cruising altitude three two zero, conditions calm."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
     </div>
 </div>
 
@@ -751,6 +2415,19 @@
                             <th style="text-align: center">Synthesized Respelling Audio</th>
                         </tr>
                     </thead>
+                    <!-- <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The supreme court justices expressed differing opinions about the "hansaria."</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The supreem kort justisiz eksprest difering opinyuns about the hansaria.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">A landmark decree by India's highest tribunal shaped legal views on potability limits concerning mercury levels.</td>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead> -->
                     <tbody>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The supreme court justices expressed differing opinions about the "hansaria."</td>
@@ -835,8 +2512,7 @@
     </div>
 </div>
 
-<!-- Ethics Statement
-<div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">	
+<!-- Ethics Statement<div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">	
 	<h2 id="Ethics-Statement" style="text-align: center;">	
 		Ethics Statement
 	</h2>
