@@ -66,21 +66,26 @@
         <h3>A Robust ASR Domain Adaptation via LLM-based Text Augmentation Pipeline and Phonetic Respelling</h3>
 		<!-- [<a href="https://arxiv.org/abs/2304.09116">Paper</a>] -->
          [<span>Paper</span>]
+         [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">Filtering code</a>]
 
         <p class="fst-italic mb-0">
 			<br>
-			Natsuo Yamashita, Koichi Nagatsuka, Hiroaki Kokubo, Kota Dohi, Tuan Vu Ho, Yohei Kawaguchi <br>
+			Natsuo Yamashita, Koichi Nagatsuka, Hiroaki Kokubo, Kota Dohi, Tuan Vu Ho <br>
 			<p></p>
         </p>
-        <p><b>Hitachi, Ltd., Japan</b></p>
+        <p><b>Hitachi, Ltd.</b></p>
 	</div>
 	<p>
         <b>Abstract</b> 
-		End-to-end automatic speech recognition often degrades on domain-specific data due to scarce in-domain resources. 
-		To address this challenge, we propose a robust domain adaptation framework that combines (i) a large language model (LLM)-based text augmentation pipeline and (ii) an LLM-based phonetic respelling method.
-		Our pipeline produces domain-relevant texts by combining multi-stage LLM-based augmentation with a novel filtering strategy that optimizes lexical diversity, perplexity, and domain-specific vocabulary weighting. 
-		The phonetic respelling method introduces pronunciation variability directly at the text generation stage, simulating a wider range of realistic speech variations for synthetic speech. 
-		Experimental results across multiple domain-specific datasets demonstrate that the proposed methods consistently improve recognition accuracy.
+		End-to-end automatic speech recognition often degrades on domainspecific data due to scarce in-domain resources. 
+        We propose a synthetic-data-based domain adaptation framework with two contributions: (1) a large language model (LLM)-based text augmentation pipeline with a filtering strategy that balances lexical diversity,
+        perplexity, and domain-term coverage, and (2) phonetic respell augmentation (PRA), a novel method that introduces pronunciation
+        variability through LLM-generated orthographic pseudo-spellings.
+        Unlike conventional acoustic-level methods such as SpecAugment,
+        PRA provides phonetic diversity before speech synthesis, enabling
+        synthetic speech to better approximate real-world variability. Experimental results across four domain-specific datasets demonstrate
+        consistent reductions in word error rate, confirming that combining domain-specific lexical coverage with realistic pronunciation
+        variation significantly improves ASR robustness.
 		<br>
 		<br>
 			This page is <b> for research demonstration purposes </b> only, which provides prompt examples, generated texts and synthesized audio with proposed methods.
@@ -114,7 +119,7 @@
 
 <!-- Dataset Samples with Tabs -->
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
-    <h2 style="text-align: center;">LLM-based test augmentation pipeline</h2>
+    <h2 style="text-align: center;">LLM-based text augmentation pipeline</h2>
     <p>This section shows sample prompts and generated texts on each dataset. Results in three languages are also presented to demonstrate multilingual prompting.</p>
     <br>
     <ul class="nav nav-tabs justify-content-center mb-4" id="datasetTab" role="tablist">
@@ -269,6 +274,32 @@
                                         <li class="mb-2">• "Belstar two one four, you are cleared to descend to one one zero flight level and reach out to Munich Approach on one one nine decimal seven."</li>
                                         <li class="mb-2">• "Descend to flight level one one zero, Belstar two one four, and proceed to communicate with Marseille Approach on frequency one one nine point seven."</li>
                                         <li class="mb-2">• "Belstar two one four, adjust your altitude to one one zero, then call Amsterdam Approach on one one nine decimal seven."</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts (high perplexity samples)</strong></div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">• "London Radar, belstar four five zero, passing over Rome at altitude flight level two nine zero, experiencing clear skies."</li>
+                                        <li class="mb-2">• "New York Approach, belstar four five zero, maintaining flight level three five zero over Paris, visibility excellent."</li>
+                                        <li class="mb-2">• "Sydney Center, belstar four five zero, currently cruising above Johannesburg at level three three zero, weather fair."</li>
+                                        <li class="mb-2">• "Dubai Control, belstar four five zero, over Berlin at flight level three one zero, with no weather issues reported."</li>
+                                        <li class="mb-2">• "Honolulu Tower, belstar four five zero, at this time above Lisbon at cruising altitude three two zero, conditions calm."</li>
                                     </ul>
                                 </div>
                             </div>
@@ -590,6 +621,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -2276,7 +2308,7 @@
 
 <!-- LLM-based Phonetic Respelling -->
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
-    <h2 id="sr-samples" style="text-align: center;">LLM-based Phonetic Respelling</h2>
+    <h2 id="sr-samples" style="text-align: center;">Phonetic Respell Augmentation</h2>
     <br>
     <div class="row mb-4">
         <div class="col-12">
