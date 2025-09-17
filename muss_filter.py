@@ -1,3 +1,7 @@
+# =========================
+# Sample code for MUSS filtering with the combined score of TTR, perplexity, and domain-specific term weighting.
+# =========================
+
 import os
 import re
 import random
