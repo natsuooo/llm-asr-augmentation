@@ -5,7 +5,6 @@ import pickle
 import joblib
 import argparse
 import multiprocessing
-from functools import partial
 from collections import Counter
 
 import numpy as np
@@ -43,12 +42,12 @@ torch.manual_seed(SEED)
 # -------------------------
 N_CLUSTERS = 1000
 N_CLUSTER_SAMPLES = 200
-TARGET_TOTAL = 60000                # total candidates after Step 3
+TARGET_TOTAL = 60000                # number of candidates gathered after Step 3
 MAX_HOURS = 50                      # 50h matches the paper setting
 MAX_DURATION_SEC = MAX_HOURS * 3600
 MAX_DURATION_MIN = MAX_DURATION_SEC // 60
 
-SAMPLE_SIZE = 500                   # sampling size for greedy proposals
+SAMPLE_SIZE = 500                   # argmax sampling set size (used only where allowed)
 BATCH_SIZE = 32                     # GPU batch for PPL
 
 # weights: (TTR : PPL : TERM) = (6 : 3 : 1) as in the paper
@@ -56,7 +55,7 @@ ttr_weight = 0.6
 ppl_weight = 0.3
 term_weight = 0.1
 
-OUTPUT_DIR = "muss_ttr_ppl_term_060301_strict"  # reflect strict matching
+OUTPUT_DIR = "muss_ttr_ppl_term_060301_paper_consistent"
 
 # -------------------------
 # Devices / resources
@@ -70,17 +69,18 @@ print(f"CPU cores for parallelism: {num_cores}")
 # -------------------------
 # Paths
 # -------------------------
+base_root = f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}"
 output_base_dir = f"/lustre/home/70988567/airport_asr/output/{version}/tts/{dataset}/{OUTPUT_DIR}"
 os.makedirs(output_base_dir, exist_ok=True)
 audio_dir = f"{output_base_dir}/audio"
 os.makedirs(audio_dir, exist_ok=True)
 
-texts_path = f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}/generated_dedup.txt"
+texts_path = f"{base_root}/generated_dedup.txt"
 with open(texts_path, encoding="utf-8") as f:
     raw_texts = [s.strip() for s in f.readlines()]
 print(f"#raw_texts: {len(raw_texts)}")
 
-term_path = f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}/terms.txt"
+term_path = f"{base_root}/terms.txt"
 with open(term_path, encoding="utf-8") as f:
     terms = set([line.strip().lower() for line in f.readlines()])
 print(f"#domain terms: {len(terms)}")
@@ -89,26 +89,23 @@ save_points = [h*3600 for h in range(10, MAX_HOURS+1, 10)]
 save_idx = 0
 
 # -------------------------
-# Quality guard (paper's language-specific length constraints, simplified)
+# Quality guard (language-specific length constraints; simplified)
 # -------------------------
 ENABLE_QUALITY_GUARD = True
 EN_MIN_WORDS = 5
 EN_MAX_WORDS = 200
-
-basic_char_re = re.compile(r"^[A-Za-z0-9 ,.;:'\"?!\-()/&%$+#*]+$")  # permissive ASCII
+word_re_for_qc = re.compile(r"[A-Za-z']+")
 
 def pass_quality_guard(text: str) -> bool:
+    """Lightweight guard to exclude collapsed or ill-formed outputs."""
     if not ENABLE_QUALITY_GUARD:
         return True
-    # count words (English assumption for these corpora)
-    words = re.findall(r"[A-Za-z']+", text)
+    words = word_re_for_qc.findall(text)
     if not (EN_MIN_WORDS <= len(words) <= EN_MAX_WORDS):
         return False
-    # allow some punctuation; if text contains non-ASCII letters a lot, we still allow,
-    # but we try to catch obviously broken strings (optional).
+    # heuristic ASCII share (corpora are English in this experiment)
     ascii_ratio = sum(c.isascii() for c in text) / max(1, len(text))
     if ascii_ratio < 0.8:
-        # still allow if it's mostly letters/spaces
         letters = re.findall(r"[A-Za-z\s]", text)
         if len(letters) / max(1, len(text)) < 0.6:
             return False
@@ -120,7 +117,7 @@ print(f"#texts after quality guard: {len(texts)}")
 # =========================
 # Perplexity (GPT-2) with caching
 # =========================
-ppl_cache_path = f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}/ppl_cache.pkl"
+ppl_cache_path = f"{base_root}/ppl_cache.pkl"
 
 def compute_ppl_batch(model, tokenizer, batch_texts):
     """Compute per-sample perplexity in a batch (higher is 'harder')."""
@@ -195,7 +192,7 @@ ppl_scores = load_or_compute_ppl()
 # =========================
 # Token / term features with caching
 # =========================
-token_cache_path = f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}/token_term_cache.pkl"
+token_cache_path = f"{base_root}/token_term_cache.pkl"
 
 word_re = re.compile(r"[A-Za-z']+")
 
@@ -204,7 +201,7 @@ def process_text_tokens(text):
     Tokenization for TTR/term features.
     - Lowercased, alphabetic tokens only.
     - TTR uses unique tokens.
-    - Term ratio uses occurrence counts (not unique).
+    - TERM ratio uses occurrence counts (not unique).
     """
     toks = word_re.findall(text.lower())
     length = len(toks)
@@ -244,29 +241,22 @@ tokens_list, lens_list, term_scores = load_or_compute_token_term()
 print(f"Term ratio stats: min={term_scores.min():.4f}, max={term_scores.max():.4f}, mean={term_scores.mean():.4f}")
 
 # =========================
-# KMeans clusters
+# Clustering (labels) load
 # =========================
 print("Step 1: Load clustering results ...")
-kmeans = joblib.load(f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}/kmeans_model_qwen_{N_CLUSTERS}.joblib")
-labels = np.load(f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}/kmeans_labels_qwen_{N_CLUSTERS}.npy")
+# Note: we only need labels; the model is not used here but kept for compatibility.
+_ = joblib.load(f"{base_root}/kmeans_model_qwen_{N_CLUSTERS}.joblib")
+labels = np.load(f"{base_root}/kmeans_labels_qwen_{N_CLUSTERS}.npy")
 clusters = [[] for _ in range(N_CLUSTERS)]
 for idx, label in enumerate(labels):
     clusters[label].append(idx)
 
 # =========================
-# Scoring utils (strict per paper)
+# Scoring utilities
 # =========================
-def minmax_norm(arr):
-    arr = np.asarray(arr, dtype=float)
-    mn = float(np.min(arr))
-    mx = float(np.max(arr))
-    denom = max(1e-8, mx - mn)
-    return (arr - mn) / denom, mn, mx
-
-def compute_raw_components_for_indices(global_token_set, idx_list):
+def compute_raw_components_for_indices(V_set, idx_list):
     """
-    Compute raw (unnormalized) components for a list of candidate indices,
-    using the paper's definition:
+    Compute raw (unnormalized) components for the given candidate indices.
       TTR_raw(s)   = |Vocab(s) \ V| / |s|
       PPL_raw(s)   = ppl_scores[idx]
       TERM_raw(s)  = term_scores[idx]
@@ -275,145 +265,158 @@ def compute_raw_components_for_indices(global_token_set, idx_list):
     ppl_raw = []
     term_raw = []
     for idx in idx_list:
-        new_types = len(tokens_list[idx] - global_token_set)
+        new_types = len(tokens_list[idx] - V_set)
         length = max(1, lens_list[idx])
         ttr_raw.append(new_types / length)
         ppl_raw.append(ppl_scores[idx])
         term_raw.append(term_scores[idx])
     return np.array(ttr_raw, dtype=float), np.array(ppl_raw, dtype=float), np.array(term_raw, dtype=float)
 
-def combined_scores_from_raw(ttr_raw, ppl_raw, term_raw):
-    nttr, _, _ = minmax_norm(ttr_raw)
-    nppl, _, _ = minmax_norm(ppl_raw)
-    nterm, _, _ = minmax_norm(term_raw)
-    return (ttr_weight * nttr) + (ppl_weight * nppl) + (term_weight * nterm)
+def minmax_params(arr):
+    """Return (min, denom) with denom >= 1e-8 to avoid zero-division."""
+    arr = np.asarray(arr, dtype=float)
+    mn = float(np.min(arr))
+    mx = float(np.max(arr))
+    denom = max(1e-8, mx - mn)
+    return mn, denom
+
+def normalized_scores(ttr_raw, ppl_raw, term_raw):
+    """Min-max normalize each component across the provided arrays and combine."""
+    t_mn, t_dn = minmax_params(ttr_raw)
+    p_mn, p_dn = minmax_params(ppl_raw)
+    d_mn, d_dn = minmax_params(term_raw)
+    nttr  = (ttr_raw  - t_mn) / t_dn
+    nppl  = (ppl_raw  - p_mn) / p_dn
+    nterm = (term_raw - d_mn) / d_dn
+    return ttr_weight*nttr + ppl_weight*nppl + term_weight*nterm
+
+def normalized_scores_with_given_minmax(ttr_raw, ppl_raw, term_raw,
+                                        t_mn, t_dn, p_mn, p_dn, d_mn, d_dn):
+    """Combine with externally supplied min/max (useful for sampling argmax)."""
+    nttr  = (ttr_raw  - t_mn) / t_dn
+    nppl  = (ppl_raw  - p_mn) / p_dn
+    nterm = (term_raw - d_mn) / d_dn
+    return ttr_weight*nttr + ppl_weight*nppl + term_weight*nterm
 
 # =========================
-# Step 2: In-cluster greedy (global V referenced; round-robin)
+# Step 2: In-cluster greedy with LOCAL vocabulary sets (parallelizable)
 # =========================
-print("Step 2: Per-cluster greedy (TTR + PPL + TERM) with global V ...")
+print("Step 2: Per-cluster greedy (LOCAL V) with cluster-wide normalization ...")
 
-USE_SAMPLING = True  # set False for stricter but slower selection
-cluster_reps = [[] for _ in range(N_CLUSTERS)]
-cluster_rest = [list(indices) for indices in clusters]
-cluster_taken = [0] * N_CLUSTERS
+def select_reps_for_cluster(indices):
+    """
+    Greedy selection inside a cluster:
+    - Maintain local vocabulary V_local per cluster.
+    - At each step:
+        * compute raw components for ALL remaining indices (cluster-wide),
+          derive min/max for normalization from the FULL remaining set,
+        * optionally choose argmax among a sampled subset, BUT normalize
+          using the full-set min/max (paper-consistent).
+    """
+    if not indices:
+        return []
 
-global_token_set = set()
-global_token_count = 0  # not used directly in strict TTR term, kept for completeness
+    rest = list(indices)
+    V_local = set()
+    taken = []
 
-total_step2_selected = 0
-progress_total_target = sum(min(N_CLUSTER_SAMPLES, len(r)) for r in cluster_rest)
+    # Repeat up to N_CLUSTER_SAMPLES or until cluster empties
+    for _ in range(min(N_CLUSTER_SAMPLES, len(rest))):
+        # cluster-wide raw components for normalization params
+        ttr_raw_full, ppl_raw_full, term_raw_full = compute_raw_components_for_indices(V_local, rest)
+        t_mn, t_dn = minmax_params(ttr_raw_full)
+        p_mn, p_dn = minmax_params(ppl_raw_full)
+        d_mn, d_dn = minmax_params(term_raw_full)
 
-with tqdm(total=progress_total_target, desc="Cluster reps (round-robin)") as pbar:
-    # continue until every cluster meets its quota or empties
-    while True:
-        progressed = False
-        for ci in range(N_CLUSTERS):
-            rest = cluster_rest[ci]
-            if not rest:
-                continue
-            if cluster_taken[ci] >= min(N_CLUSTER_SAMPLES, len(clusters[ci])):
-                continue
+        # candidate subset for argmax search (sampling to keep speed)
+        cand = rest if len(rest) <= SAMPLE_SIZE else random.sample(rest, SAMPLE_SIZE)
+        ttr_raw_c, ppl_raw_c, term_raw_c = compute_raw_components_for_indices(V_local, cand)
+        scores = normalized_scores_with_given_minmax(ttr_raw_c, ppl_raw_c, term_raw_c,
+                                                     t_mn, t_dn, p_mn, p_dn, d_mn, d_dn)
+        best_pos = int(np.argmax(scores))
+        best_idx = cand[best_pos]
 
-            # candidate set for scoring (sampling optional)
-            if USE_SAMPLING and len(rest) > SAMPLE_SIZE:
-                cand = random.sample(rest, SAMPLE_SIZE)
-            else:
-                cand = rest
+        # update local state
+        taken.append(best_idx)
+        V_local |= tokens_list[best_idx]
+        rest.remove(best_idx)
 
-            # compute raw components w.r.t current GLOBAL V
-            ttr_raw, ppl_raw, term_raw = compute_raw_components_for_indices(global_token_set, cand)
-            scores = combined_scores_from_raw(ttr_raw, ppl_raw, term_raw)
-            best_local = int(np.argmax(scores))
-            best_idx = cand[best_local]
-
-            # select best
-            cluster_reps[ci].append(best_idx)
-            rest.remove(best_idx)
-            cluster_taken[ci] += 1
-            total_step2_selected += 1
-            progressed = True
-
-            # update GLOBAL V per selection (strict adherence)
-            global_token_set |= tokens_list[best_idx]
-            global_token_count += lens_list[best_idx]
-
-            pbar.update(1)
-
-        if not progressed:
+        if not rest:
             break
 
+    return taken
+
+# Run Step2 in parallel over clusters
+with multiprocessing.Pool(processes=num_cores) as pool:
+    cluster_reps = list(tqdm(pool.imap(select_reps_for_cluster, clusters),
+                             total=len(clusters), desc="Cluster reps"))
+
+total_selected_step2 = sum(len(r) for r in cluster_reps if r)
 nonempty_clusters = sum(1 for r in cluster_reps if r)
 print(f"#clusters: {len(cluster_reps)}, #nonempty clusters: {nonempty_clusters}, "
-      f"#selected (step2): {sum(len(r) for r in cluster_reps)}")
+      f"#selected (step2): {total_selected_step2}")
 
 # =========================
-# Step 3: Cluster-level greedy
+# Step 3: Cluster-level greedy with GLOBAL vocabulary
+# (Start with EMPTY V to reflect the staged selection described in the paper)
 # =========================
-print("Step 3: Cluster-level greedy (TTR + PPL + TERM) ...")
+print("Step 3: Cluster-level greedy (GLOBAL V starts empty) ...")
 
 candidate_clusters = [i for i, reps in enumerate(cluster_reps) if reps]
-selected_clusters = []
 rest_clusters = list(candidate_clusters)
+selected_clusters = []
 
-# We'll recompute scores at each iteration; normalization is across current rest_clusters.
-def cluster_raw_components(global_token_set, cluster_idx):
+V_global = set()     # start from empty
+token_count_global = 0
+current_total = 0
+
+def cluster_components_for_scoring(V_set, cluster_idx):
+    """Aggregate cluster-level raw components vs current GLOBAL V."""
     reps = cluster_reps[cluster_idx]
-    all_cluster_tokens = set()
-    total_cluster_len = 0
-    ppl_vals = []
-    term_vals = []
+    all_tokens = set()
+    total_len = 0
+    ppl_vals, term_vals = [], []
     for idx in reps:
-        all_cluster_tokens |= tokens_list[idx]
-        total_cluster_len += lens_list[idx]
+        all_tokens |= tokens_list[idx]
+        total_len += lens_list[idx]
         ppl_vals.append(ppl_scores[idx])
         term_vals.append(term_scores[idx])
 
-    length = max(1, total_cluster_len)
-    ttr = len(all_cluster_tokens - global_token_set) / length
+    length = max(1, total_len)
+    ttr = len(all_tokens - V_set) / length
     ppl_avg = float(np.mean(ppl_vals)) if ppl_vals else 0.0
     term_avg = float(np.mean(term_vals)) if term_vals else 0.0
-    return ttr, ppl_avg, term_avg, all_cluster_tokens, total_cluster_len
-
-global_token_set_step3 = set(global_token_set)  # start from end of step2
-global_token_count_step3 = global_token_count
-
-current_total = 0
+    return ttr, ppl_avg, term_avg, all_tokens, total_len
 
 with tqdm(desc="Select clusters", total=TARGET_TOTAL) as pbar:
     while rest_clusters and current_total < TARGET_TOTAL:
-        # compute raw per cluster
-        raw_ttr = []
-        raw_ppl = []
-        raw_term = []
-        cluster_cache = {}  # cache tokens & lengths for update after selection
+        # compute raw for all remaining clusters
+        raw_ttr, raw_ppl, raw_term = [], [], []
+        cache = {}
         for ci in rest_clusters:
-            ttr, ppl_avg, term_avg, cl_tokens, cl_len = cluster_raw_components(global_token_set_step3, ci)
+            ttr, ppl_avg, term_avg, cl_tokens, cl_len = cluster_components_for_scoring(V_global, ci)
             raw_ttr.append(ttr)
             raw_ppl.append(ppl_avg)
             raw_term.append(term_avg)
-            cluster_cache[ci] = (cl_tokens, cl_len)
+            cache[ci] = (cl_tokens, cl_len)
 
-        # normalize across all remaining clusters
-        scores = combined_scores_from_raw(np.array(raw_ttr), np.array(raw_ppl), np.array(raw_term))
-
-        # pick best cluster
+        # normalize across remaining clusters and pick best
+        scores = normalized_scores(np.array(raw_ttr), np.array(raw_ppl), np.array(raw_term))
         best_pos = int(np.argmax(scores))
-        best_cidx = rest_clusters[best_pos]
-        selected_clusters.append(best_cidx)
+        best_cluster = rest_clusters[best_pos]
+        selected_clusters.append(best_cluster)
 
-        reps = cluster_reps[best_cidx]
-        cl_tokens, cl_len = cluster_cache[best_cidx]
+        # update global state
+        cl_tokens, cl_len = cache[best_cluster]
+        V_global |= cl_tokens
+        token_count_global += cl_len
 
-        # update global state for step3
-        global_token_set_step3 |= cl_tokens
-        global_token_count_step3 += cl_len
+        # bookkeeping
+        current_total += len(cluster_reps[best_cluster])
+        rest_clusters.remove(best_cluster)
+        pbar.update(len(cluster_reps[best_cluster]))
 
-        rest_clusters.remove(best_cidx)
-        current_total += len(reps)
-        pbar.update(len(reps))
-
-print(f"#selected clusters: {len(selected_clusters)}, selected sentences (step3): {current_total}")
+print(f"#selected clusters: {len(selected_clusters)}, gathered sentences (step3): {current_total}")
 
 candidate_indices = []
 for ci in selected_clusters:
@@ -433,11 +436,13 @@ print(f"Saved step3 result: {step3_result_path}")
 
 # =========================
 # Step 4: Global greedy with TTS budget
+# - Strict version: normalize across the FULL remaining candidate set each iteration.
 # =========================
-print("Step 4: Global greedy with TTS generation (TTR + PPL + TERM) ...")
+print("Step 4: Global greedy with TTS generation (strict normalization over full REST) ...")
 
-token_set = set()   # fresh global V for final selection (paper's final global greedy)
-token_count = 0
+# fresh GLOBAL V for final greedy (as a new stage)
+V_final = set()
+token_count_final = 0
 final_selected_idxs = []
 duration_sec = 0.0
 save_texts = []
@@ -447,8 +452,10 @@ current_min = 0
 from kokoro import KPipeline
 pipeline = KPipeline(lang_code='a')
 speakers = [
-    "af_alloy", "af_aoede", "af_bella", "af_heart", "af_jessica", "af_kore", "af_nicole", "af_nova", "af_river", "af_sarah", "af_sky",
-    "am_adam", "am_echo", "am_eric", "am_fenrir", "am_liam", "am_michael", "am_onyx", "am_puck"
+    "af_alloy", "af_aoede", "af_bella", "af_heart", "af_jessica", "af_kore", "af_nicole",
+    "af_nova", "af_river", "af_sarah", "af_sky",
+    "am_adam", "am_echo", "am_eric", "am_fenrir", "am_liam", "am_michael",
+    "am_onyx", "am_puck"
 ]
 
 rest = list(set(candidate_indices))
@@ -461,21 +468,19 @@ MAX_UTT_SEC = 30.0  # discard too-long utterances
 
 with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pbar:
     while duration_sec < MAX_DURATION_SEC and rest:
-        # STRICT: normalize across the full remaining set 'rest' (can be heavy)
-        # For performance, you may switch to sampling; here we keep strict by default.
-        cand = rest  # full set
+        # compute raw for ALL remaining candidates vs current V_final
+        ttr_raw_full, ppl_raw_full, term_raw_full = compute_raw_components_for_indices(V_final, rest)
+        # normalize across full remaining set
+        scores_full = normalized_scores(ttr_raw_full, ppl_raw_full, term_raw_full)
+        best_pos = int(np.argmax(scores_full))
+        best_idx = rest[best_pos]
 
-        ttr_raw, ppl_raw, term_raw = compute_raw_components_for_indices(token_set, cand)
-        scores = combined_scores_from_raw(ttr_raw, ppl_raw, term_raw)
-
-        best_pos = int(np.argmax(scores))
-        best_idx = cand[best_pos]
-
+        # send to TTS queue
         tts_queue.append((best_idx, texts[best_idx], random.choice(speakers)))
-        rest.remove(best_idx)
+        rest.pop(best_pos)
 
+        # process TTS queue
         if len(tts_queue) >= MAX_QUEUE_SIZE or len(rest) == 0:
-            # process queue
             for idx, text_for_tts, speaker in tts_queue:
                 try:
                     generator = pipeline([text_for_tts], voice=speaker)
@@ -486,7 +491,7 @@ with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pb
                             exceeded = True
                             break
 
-                        # save audio
+                        # write wav
                         duration_sec += duration
                         new_min = int(duration_sec // 60)
                         if new_min > current_min:
@@ -499,10 +504,10 @@ with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pb
 
                         if not exceeded:
                             final_selected_idxs.append(idx)
-                            # update global V after the actual acceptance
-                            token_set |= tokens_list[idx]
-                            token_count += lens_list[idx]
-                        break  # only one chunk per utt
+                            # update final global vocabulary AFTER acceptance
+                            V_final |= tokens_list[idx]
+                            token_count_final += lens_list[idx]
+                        break  # one chunk per utt
                 except Exception as e:
                     print(f"[WARN] TTS failed for idx={idx}: {e}")
 
@@ -520,7 +525,7 @@ with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pb
             if duration_sec >= MAX_DURATION_SEC:
                 break
 
-print(f"Reached budget: {int(duration_sec // 60)} min audio, #selected {len(final_selected_idxs)}, |V|={len(token_set)}")
+print(f"Reached budget: {int(duration_sec // 60)} min audio, #selected {len(final_selected_idxs)}, |V|={len(V_final)}")
 
 # =========================
 # Final saves & stats
@@ -535,8 +540,8 @@ print(f"Saved: {all_save_path}")
 step4_result = {
     'final_selected_idxs': final_selected_idxs,
     'duration_sec': duration_sec,
-    'token_set': list(token_set),
-    'token_count': token_count
+    'token_set': list(V_final),
+    'token_count': token_count_final
 }
 step4_result_path = f"{output_base_dir}/step4_result.pkl"
 with open(step4_result_path, 'wb') as f:
@@ -546,7 +551,7 @@ print(f"Saved step4 result: {step4_result_path}")
 # Compute final stats on the chosen subset
 final_ppl  = [ppl_scores[idx] for idx in final_selected_idxs] if final_selected_idxs else []
 final_term = [term_scores[idx] for idx in final_selected_idxs] if final_selected_idxs else []
-final_ttr  = (len(token_set) / max(1, token_count)) if token_count else 0.0
+final_ttr  = (len(V_final) / max(1, token_count_final)) if token_count_final else 0.0
 
 print("\n=== Final selection stats ===")
 print(f"TTR (|V|/tokens): {final_ttr:.4f}")
@@ -558,7 +563,7 @@ if final_term:
     print(f"Term ratio mean: {np.mean(final_term):.4f}, min: {np.min(final_term):.4f}, max: {np.max(final_term):.4f}")
 else:
     print("Term ratio: N/A")
-print(f"|V| (unique words): {len(token_set)}")
-print(f"Total token count: {token_count}")
+print(f"|V| (unique words): {len(V_final)}")
+print(f"Total token count: {token_count_final}")
 print(f"Weights -> TTR: {ttr_weight}, PPL: {ppl_weight}, TERM: {term_weight}")
 print("=============================")
