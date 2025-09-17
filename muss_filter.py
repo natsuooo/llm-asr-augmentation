@@ -1,5 +1,6 @@
 # =========================
-# Sample code for MUSS filtering with the combined score of TTR, perplexity, and domain-specific term weighting.
+# MUSS filtering using TTR + PPL + domain-term weighting (PPL version)
+# Pool-adaptive winsorized min–max normalization at every greedy step.
 # =========================
 
 import os
@@ -55,7 +56,7 @@ MAX_DURATION_MIN = MAX_DURATION_SEC // 60
 SAMPLE_SIZE = 500                    # argmax sampling set size per iteration
 BATCH_SIZE = 32                      # GPU batch for PPL
 
-# weights (alpha:beta:gamma) = (TTR:logPPL:TERM) = (0.6 : 0.3 : 0.1)
+# weights (alpha:beta:gamma) = (TTR:PPL:TERM)
 ttr_weight = 0.6
 ppl_weight = 0.3
 term_weight = 0.1
@@ -65,7 +66,7 @@ WINS_LOW_Q = 0.05
 WINS_UP_Q  = 0.95
 EPS = 1e-8
 
-OUTPUT_DIR = "muss_ttr_logppl_term_060301_winsor"
+OUTPUT_DIR = "muss_ttr_ppl_term_060301_winsor"
 
 # -------------------------
 # Paths
@@ -105,9 +106,8 @@ texts = [t for t in raw_texts if pass_quality_guard(t)]
 print(f"#texts after QC: {len(texts)}")
 
 # =========================
-# Per-token NLL / PPL with caching
+# Per-sample PPL with caching (PPL = exp(NLL per token))
 # =========================
-# We cache PPL but convert to logPPL (= per-token NLL) via np.log(PPL).
 ppl_cache_path = f"{base_root}/ppl_cache.pkl"
 
 def compute_ppl_batch(model, tokenizer, batch_texts):
@@ -126,7 +126,7 @@ def compute_ppl_batch(model, tokenizer, batch_texts):
         flat_loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1))
         loss = flat_loss.view(input_ids.size(0), -1)
         token_counts = torch.clamp(shift_mask.sum(dim=1), min=1)
-        avg_loss = (loss * shift_mask).sum(dim=1) / token_counts  # this is per-token NLL (log-perplexity)
+        avg_loss = (loss * shift_mask).sum(dim=1) / token_counts  # NLL per token
         ppl = torch.exp(avg_loss).cpu().numpy()
     return ppl
 
@@ -177,8 +177,6 @@ def load_or_compute_ppl():
     return ppl_scores
 
 ppl_scores = load_or_compute_ppl()
-# Convert to per-token NLL (logPPL). Higher = harder = better for our maximization term.
-logppl_scores = np.log(np.clip(ppl_scores, EPS, None))
 
 # =========================
 # Token / term features with caching
@@ -265,13 +263,13 @@ def ttr_raw_for_indices(V_set, idx_list):
         raws.append(new_types / length)
     return np.array(raws, dtype=float)
 
-def combined_score(nttr, nlogppl, nterm):
-    return ttr_weight * nttr + ppl_weight * nlogppl + term_weight * nterm
+def combined_score(nttr, nppl, nterm):
+    return ttr_weight * nttr + ppl_weight * nppl + term_weight * nterm
 
 # =========================
 # Step 2: In-cluster greedy (LOCAL V) with winsorized min–max
 # =========================
-print("Step 2: In-cluster greedy with winsorized min–max (TTR/logPPL/TERM) ...")
+print("Step 2: In-cluster greedy with winsorized min–max (TTR/PPL/TERM) ...")
 
 def select_reps_for_cluster(indices):
     if not indices:
@@ -287,13 +285,13 @@ def select_reps_for_cluster(indices):
 
         # Build vectors over the full remaining pool (cluster-level)
         ttr_vec = ttr_raw_for_indices(V_local, rest)
-        logppl_vec = np.array([logppl_scores[i] for i in rest], dtype=float)
-        term_vec   = np.array([term_scores[i]   for i in rest], dtype=float)
+        ppl_vec = np.array([ppl_scores[i] for i in rest], dtype=float)
+        term_vec = np.array([term_scores[i] for i in rest], dtype=float)
 
         # Compute winsorization params on each component
-        ttr_ql, ttr_qu, ttr_dn       = winsor_params(ttr_vec)
-        logppl_ql, logppl_qu, logppl_dn = winsor_params(logppl_vec)
-        term_ql, term_qu, term_dn    = winsor_params(term_vec)
+        ttr_ql, ttr_qu, ttr_dn = winsor_params(ttr_vec)
+        ppl_ql, ppl_qu, ppl_dn = winsor_params(ppl_vec)
+        term_ql, term_qu, term_dn = winsor_params(term_vec)
 
         # Score only a sample for speed; normalize using the above params
         cand = rest if len(rest) <= SAMPLE_SIZE else random.sample(rest, SAMPLE_SIZE)
@@ -303,15 +301,15 @@ def select_reps_for_cluster(indices):
         for idx in cand:
             # raw components
             ttr_raw = len(tokens_list[idx] - V_local) / max(1, lens_list[idx])
-            lpp_raw = logppl_scores[idx]
+            ppl_raw = ppl_scores[idx]
             term_raw = term_scores[idx]
 
-            # winsorized min–max normalization
-            nttr    = winsor_norm(ttr_raw,  ttr_ql,    ttr_qu,    ttr_dn)
-            nlogppl = winsor_norm(lpp_raw,  logppl_ql, logppl_qu, logppl_dn)
-            nterm   = winsor_norm(term_raw, term_ql,   term_qu,   term_dn)
+            # winsorized min–max normalization within current pool
+            nttr = winsor_norm(ttr_raw,  ttr_ql,  ttr_qu,  ttr_dn)
+            nppl = winsor_norm(ppl_raw,  ppl_ql,  ppl_qu,  ppl_dn)
+            nterm = winsor_norm(term_raw, term_ql, term_qu, term_dn)
 
-            score = combined_score(nttr, nlogppl, nterm)
+            score = combined_score(nttr, nppl, nterm)
             if score > best_score:
                 best_score = score
                 best_idx = idx
@@ -353,34 +351,34 @@ def cluster_components(cluster_idx, V_set):
     reps = cluster_reps[cluster_idx]
     all_tokens = set()
     total_len = 0
-    lpp_vals, term_vals = [], []
+    ppl_vals, term_vals = [], []
     for idx in reps:
         all_tokens |= tokens_list[idx]
         total_len  += lens_list[idx]
-        lpp_vals.append(logppl_scores[idx])
+        ppl_vals.append(ppl_scores[idx])
         term_vals.append(term_scores[idx])
     length = max(1, total_len)
     ttr = len(all_tokens - V_set) / length
-    logppl_avg = float(np.mean(lpp_vals)) if lpp_vals else 0.0
-    term_avg   = float(np.mean(term_vals)) if term_vals else 0.0
-    return ttr, logppl_avg, term_avg, all_tokens, total_len
+    ppl_avg = float(np.mean(ppl_vals)) if ppl_vals else 0.0
+    term_avg = float(np.mean(term_vals)) if term_vals else 0.0
+    return ttr, ppl_avg, term_avg, all_tokens, total_len
 
 with tqdm(desc="Select clusters", total=TARGET_TOTAL) as pbar:
     while rest_clusters and current_total < TARGET_TOTAL:
         # Build vectors over all remaining clusters
-        ttr_list, lpp_list, term_list = [], [], []
+        ttr_list, ppl_list, term_list = [], [], []
         cache = {}
         for ci in rest_clusters:
-            ttr, lpp_avg, term_avg, cl_tokens, cl_len = cluster_components(ci, V_global)
+            ttr, ppl_avg, term_avg, cl_tokens, cl_len = cluster_components(ci, V_global)
             ttr_list.append(ttr)
-            lpp_list.append(lpp_avg)
+            ppl_list.append(ppl_avg)
             term_list.append(term_avg)
-            cache[ci] = (ttr, lpp_avg, term_avg, cl_tokens, cl_len)
+            cache[ci] = (ttr, ppl_avg, term_avg, cl_tokens, cl_len)
 
         # Winsorization params on cluster-level distributions
-        ttr_ql, ttr_qu, ttr_dn       = winsor_params(ttr_list)
-        lpp_ql, lpp_qu, lpp_dn       = winsor_params(lpp_list)
-        term_ql, term_qu, term_dn    = winsor_params(term_list)
+        ttr_ql, ttr_qu, ttr_dn   = winsor_params(ttr_list)
+        ppl_ql, ppl_qu, ppl_dn   = winsor_params(ppl_list)
+        term_ql, term_qu, term_dn = winsor_params(term_list)
 
         # Sample subset for argmax (optional)
         cand = rest_clusters if len(rest_clusters) <= SAMPLE_SIZE else random.sample(rest_clusters, SAMPLE_SIZE)
@@ -388,11 +386,11 @@ with tqdm(desc="Select clusters", total=TARGET_TOTAL) as pbar:
         best_cluster = None
         best_score = -1e18
         for ci in cand:
-            ttr, lpp_avg, term_avg, _, _ = cache[ci]
-            nttr    = winsor_norm(ttr,     ttr_ql, ttr_qu, ttr_dn)
-            nlogppl = winsor_norm(lpp_avg, lpp_ql, lpp_qu, lpp_dn)
-            nterm   = winsor_norm(term_avg,term_ql, term_qu, term_dn)
-            score = combined_score(nttr, nlogppl, nterm)
+            ttr, ppl_avg, term_avg, _, _ = cache[ci]
+            nttr = winsor_norm(ttr,     ttr_ql, ttr_qu, ttr_dn)
+            nppl = winsor_norm(ppl_avg, ppl_ql, ppl_qu, ppl_dn)
+            nterm = winsor_norm(term_avg, term_ql, term_qu, term_dn)
+            score = combined_score(nttr, nppl, nterm)
             if score > best_score:
                 best_score = score
                 best_cluster = ci
@@ -457,14 +455,14 @@ MAX_UTT_SEC = 30.0  # discard too-long utterances
 with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pbar:
     while duration_sec < MAX_DURATION_SEC and rest:
         # Build vectors over the full remaining pool (sentence-level)
-        ttr_vec    = ttr_raw_for_indices(V_final, rest)
-        logppl_vec = np.array([logppl_scores[i] for i in rest], dtype=float)
-        term_vec   = np.array([term_scores[i]   for i in rest], dtype=float)
+        ttr_vec  = ttr_raw_for_indices(V_final, rest)
+        ppl_vec  = np.array([ppl_scores[i] for i in rest], dtype=float)
+        term_vec = np.array([term_scores[i] for i in rest], dtype=float)
 
         # Winsorization params over current pool
-        ttr_ql, ttr_qu, ttr_dn       = winsor_params(ttr_vec)
-        lpp_ql, lpp_qu, lpp_dn       = winsor_params(logppl_vec)
-        term_ql, term_qu, term_dn    = winsor_params(term_vec)
+        ttr_ql, ttr_qu, ttr_dn   = winsor_params(ttr_vec)
+        ppl_ql, ppl_qu, ppl_dn   = winsor_params(ppl_vec)
+        term_ql, term_qu, term_dn = winsor_params(term_vec)
 
         # Score only a sample for speed
         cand = rest if len(rest) <= SAMPLE_SIZE else random.sample(rest, SAMPLE_SIZE)
@@ -473,14 +471,14 @@ with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pb
         best_score = -1e18
         for idx in cand:
             ttr_raw  = len(tokens_list[idx] - V_final) / max(1, lens_list[idx])
-            lpp_raw  = logppl_scores[idx]
+            ppl_raw  = ppl_scores[idx]
             term_raw = term_scores[idx]
 
-            nttr    = winsor_norm(ttr_raw,  ttr_ql, ttr_qu, ttr_dn)
-            nlogppl = winsor_norm(lpp_raw,  lpp_ql, lpp_qu, lpp_dn)
-            nterm   = winsor_norm(term_raw, term_ql, term_qu, term_dn)
+            nttr  = winsor_norm(ttr_raw,  ttr_ql,  ttr_qu,  ttr_dn)
+            nppl  = winsor_norm(ppl_raw,  ppl_ql,  ppl_qu,  ppl_dn)
+            nterm = winsor_norm(term_raw, term_ql, term_qu, term_dn)
 
-            score = combined_score(nttr, nlogppl, nterm)
+            score = combined_score(nttr, nppl, nterm)
             if score > best_score:
                 best_score = score
                 best_idx = idx
@@ -560,21 +558,21 @@ with open(step4_result_path, 'wb') as f:
 print(f"Saved step4 result: {step4_result_path}")
 
 # Final stats (for sanity)
-final_lpp  = [logppl_scores[idx] for idx in final_selected_idxs] if final_selected_idxs else []
+final_ppl  = [ppl_scores[idx] for idx in final_selected_idxs] if final_selected_idxs else []
 final_term = [term_scores[idx] for idx in final_selected_idxs] if final_selected_idxs else []
 final_ttr  = (len(V_final) / max(1, token_count_final)) if token_count_final else 0.0
 
 print("\n=== Final selection stats ===")
 print(f"TTR (|V|/tokens): {final_ttr:.4f}")
-if final_lpp:
-    print(f"logPPL mean: {np.mean(final_lpp):.3f}, min: {np.min(final_lpp):.3f}, max: {np.max(final_lpp):.3f}")
+if final_ppl:
+    print(f"PPL mean: {np.mean(final_ppl):.3f}, min: {np.min(final_ppl):.3f}, max: {np.max(final_ppl):.3f}")
 else:
-    print("logPPL: N/A")
+    print("PPL: N/A")
 if final_term:
     print(f"TERM ratio mean: {np.mean(final_term):.4f}, min: {np.min(final_term):.4f}, max: {np.max(final_term):.4f}")
 else:
     print("TERM ratio: N/A")
 print(f"|V| (unique words): {len(V_final)}")
 print(f"Total token count: {token_count_final}")
-print(f"Weights -> TTR: {ttr_weight}, logPPL: {ppl_weight}, TERM: {term_weight}")
+print(f"Weights -> TTR: {ttr_weight}, PPL: {ppl_weight}, TERM: {term_weight}")
 print("=============================")
