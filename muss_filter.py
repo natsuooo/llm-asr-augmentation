@@ -1,6 +1,5 @@
 # =========================
-# MUSS filtering using TTR + PPL + domain-term weighting (PPL version)
-# Pool-adaptive winsorized min–max normalization at every greedy step.
+# MUSS filtering using TTR + PPL + domain-term weighting.
 # =========================
 
 import os
