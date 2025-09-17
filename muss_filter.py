@@ -51,9 +51,8 @@ MAX_DURATION_MIN = MAX_DURATION_SEC // 60
 SAMPLE_SIZE = 500                   # argmax sampling set size
 BATCH_SIZE = 32                     # GPU batch for PPL
 
-# weights （ここでは 0.3 : 0.6 : 0.1）
-ttr_weight = 0.3
-ppl_weight = 0.6
+ttr_weight = 0.6
+ppl_weight = 0.3
 term_weight = 0.1
 
 OUTPUT_DIR = "muss_ttr_ppl_term_030601_minmax_fixed"
