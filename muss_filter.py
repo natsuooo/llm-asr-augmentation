@@ -30,41 +30,33 @@ if dataset == "atcosim":
     version = "v5"
 
 # -------------------------
-# Reproducibility
+# Devices / resources
 # -------------------------
-SEED = 42
-random.seed(SEED)
-np.random.seed(SEED)
-torch.manual_seed(SEED)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"デバイス: {device}")
+
+num_cores = min(24, multiprocessing.cpu_count())
+print(f"並列処理コア数: {num_cores}")
 
 # -------------------------
 # Selection / filtering params
 # -------------------------
 N_CLUSTERS = 1000
 N_CLUSTER_SAMPLES = 200
-TARGET_TOTAL = 60000                # number of candidates gathered after Step 3
-MAX_HOURS = 50                      # 50h matches the paper setting
+TARGET_TOTAL = 60000                # gather after Step 3
+MAX_HOURS = 100
 MAX_DURATION_SEC = MAX_HOURS * 3600
 MAX_DURATION_MIN = MAX_DURATION_SEC // 60
 
-SAMPLE_SIZE = 500                   # argmax sampling set size (used only where allowed)
+SAMPLE_SIZE = 500                   # argmax sampling set size
 BATCH_SIZE = 32                     # GPU batch for PPL
 
-# weights: (TTR : PPL : TERM) = (6 : 3 : 1) as in the paper
-ttr_weight = 0.6
-ppl_weight = 0.3
+# weights （ここでは 0.3 : 0.6 : 0.1）
+ttr_weight = 0.3
+ppl_weight = 0.6
 term_weight = 0.1
 
-OUTPUT_DIR = "muss_ttr_ppl_term_060301_paper_consistent"
-
-# -------------------------
-# Devices / resources
-# -------------------------
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"Device: {device}")
-
-num_cores = min(24, multiprocessing.cpu_count())
-print(f"CPU cores for parallelism: {num_cores}")
+OUTPUT_DIR = "muss_ttr_ppl_term_030601_minmax_fixed"
 
 # -------------------------
 # Paths
@@ -78,41 +70,32 @@ os.makedirs(audio_dir, exist_ok=True)
 texts_path = f"{base_root}/generated_dedup.txt"
 with open(texts_path, encoding="utf-8") as f:
     raw_texts = [s.strip() for s in f.readlines()]
-print(f"#raw_texts: {len(raw_texts)}")
+print(f"全ての文数: {len(raw_texts)}")
 
 term_path = f"{base_root}/terms.txt"
 with open(term_path, encoding="utf-8") as f:
     terms = set([line.strip().lower() for line in f.readlines()])
-print(f"#domain terms: {len(terms)}")
+print(f"専門用語数: {len(terms)}")
 
 save_points = [h*3600 for h in range(10, MAX_HOURS+1, 10)]
 save_idx = 0
 
 # -------------------------
-# Quality guard (language-specific length constraints; simplified)
+# Quality guard（任意、簡易）
 # -------------------------
-ENABLE_QUALITY_GUARD = True
-EN_MIN_WORDS = 5
-EN_MAX_WORDS = 200
-word_re_for_qc = re.compile(r"[A-Za-z']+")
+ENABLE_QUALITY_GUARD = False  # 必要なら True
+word_re_for_qc = re.compile(r"[A-Za-z0-9'\-]+")
 
 def pass_quality_guard(text: str) -> bool:
-    """Lightweight guard to exclude collapsed or ill-formed outputs."""
     if not ENABLE_QUALITY_GUARD:
         return True
-    words = word_re_for_qc.findall(text)
-    if not (EN_MIN_WORDS <= len(words) <= EN_MAX_WORDS):
+    toks = word_re_for_qc.findall(text)
+    if not (5 <= len(toks) <= 200):
         return False
-    # heuristic ASCII share (corpora are English in this experiment)
-    ascii_ratio = sum(c.isascii() for c in text) / max(1, len(text))
-    if ascii_ratio < 0.8:
-        letters = re.findall(r"[A-Za-z\s]", text)
-        if len(letters) / max(1, len(text)) < 0.6:
-            return False
     return True
 
 texts = [t for t in raw_texts if pass_quality_guard(t)]
-print(f"#texts after quality guard: {len(texts)}")
+print(f"品質ガード後の文数: {len(texts)}")
 
 # =========================
 # Perplexity (GPT-2) with caching
@@ -142,16 +125,16 @@ def compute_ppl_batch(model, tokenizer, batch_texts):
 def load_or_compute_ppl():
     ppl_scores = None
     if os.path.exists(ppl_cache_path):
-        print(f"Load PPL cache: {ppl_cache_path}")
+        print(f"パープレキシティのキャッシュを読み込み: {ppl_cache_path}")
         with open(ppl_cache_path, 'rb') as f:
             ppl_scores = pickle.load(f)
         # integrity check
         if not isinstance(ppl_scores, (list, np.ndarray)) or len(ppl_scores) != len(texts):
-            print("PPL cache length mismatch. Recomputing PPL...")
+            print("PPLキャッシュの長さ不一致。再計算します...")
             ppl_scores = None
 
     if ppl_scores is None:
-        print("Preparing GPT-2 model for PPL computation...")
+        print("パープレキシティ計算モデルの準備...")
         model_name = "gpt2"
         tokenizer = GPT2TokenizerFast.from_pretrained(model_name)
         tokenizer.pad_token = tokenizer.eos_token
@@ -159,12 +142,12 @@ def load_or_compute_ppl():
         model.eval().to(device)
 
         ppl_scores = []
-        for i in tqdm(range(0, len(texts), BATCH_SIZE), desc="Compute PPL"):
+        for i in tqdm(range(0, len(texts), BATCH_SIZE), desc="PPL計算"):
             batch_texts = texts[i:i+BATCH_SIZE]
             try:
                 batch_ppl = compute_ppl_batch(model, tokenizer, batch_texts)
             except Exception as e:
-                print(f"[WARN] batch PPL failed: {e}. Fallback to single samples.")
+                print(f"[WARN] batch PPL failed: {e}. 個別計算にフォールバック。")
                 batch_ppl = []
                 for t in batch_texts:
                     try:
@@ -184,7 +167,7 @@ def load_or_compute_ppl():
             pickle.dump(ppl_scores, f)
 
     ppl_scores = np.asarray(ppl_scores, dtype=float)
-    print(f"PPL stats: min={ppl_scores.min():.2f}, max={ppl_scores.max():.2f}, mean={ppl_scores.mean():.2f}")
+    print(f"パープレキシティ統計: 最小={ppl_scores.min():.2f}, 最大={ppl_scores.max():.2f}, 平均={ppl_scores.mean():.2f}")
     return ppl_scores
 
 ppl_scores = load_or_compute_ppl()
@@ -194,16 +177,16 @@ ppl_scores = load_or_compute_ppl()
 # =========================
 token_cache_path = f"{base_root}/token_term_cache.pkl"
 
-word_re = re.compile(r"[A-Za-z']+")
+word_re = re.compile(r"[A-Za-z0-9'\-]+")
 
 def process_text_tokens(text):
     """
     Tokenization for TTR/term features.
-    - Lowercased, alphabetic tokens only.
-    - TTR uses unique tokens.
+    - Lowercased, alphabetic/num tokens (英数字と'/-含む)。
+    - TTR uses unique token types.
     - TERM ratio uses occurrence counts (not unique).
     """
-    toks = word_re.findall(text.lower())
+    toks = [t.lower() for t in word_re.findall(text)]
     length = len(toks)
     term_count = sum(1 for tok in toks if tok in terms)
     tokens = set(toks)
@@ -212,19 +195,17 @@ def process_text_tokens(text):
 
 def load_or_compute_token_term():
     if os.path.exists(token_cache_path):
-        print(f"Load token/term cache: {token_cache_path}")
+        print(f"トークン/用語キャッシュを読み込み: {token_cache_path}")
         with open(token_cache_path, 'rb') as f:
             token_data = pickle.load(f)
         # integrity check
-        if (not isinstance(token_data, tuple) or len(token_data) != 3):
-            print("Token cache format mismatch. Recomputing tokens...")
-        else:
+        if (isinstance(token_data, tuple) and len(token_data) == 3):
             tokens_list, lens_list, term_scores = token_data
             if len(tokens_list) == len(texts) and len(lens_list) == len(texts) and len(term_scores) == len(texts):
                 return list(tokens_list), list(lens_list), np.array(term_scores, dtype=float)
-            print("Token cache length mismatch. Recomputing tokens...")
+        print("トークンキャッシュ不整合。再計算します...")
 
-    print(f"Parallel tokenization on {num_cores} cores ...")
+    print(f"並列トークナイズ（{num_cores}コア） ...")
     with multiprocessing.Pool(processes=num_cores) as pool:
         results = list(tqdm(pool.imap(process_text_tokens, texts),
                             total=len(texts), desc="Tokenize/terms"))
@@ -238,13 +219,31 @@ def load_or_compute_token_term():
     return tokens_list, lens_list, term_scores
 
 tokens_list, lens_list, term_scores = load_or_compute_token_term()
-print(f"Term ratio stats: min={term_scores.min():.4f}, max={term_scores.max():.4f}, mean={term_scores.mean():.4f}")
+print(f"専門用語比率統計: 最小={term_scores.min():.4f}, 最大={term_scores.max():.4f}, 平均={term_scores.mean():.4f}")
+
+# -------------------------
+# グローバル min–max（PPL/TERM）は一度だけ固定
+# -------------------------
+def safe_minmax(arr):
+    arr = np.asarray(arr, dtype=float)
+    mn = float(np.min(arr))
+    mx = float(np.max(arr))
+    dn = max(1e-8, mx - mn)
+    return mn, dn
+
+ppl_min, ppl_dn   = safe_minmax(ppl_scores)
+term_min, term_dn = safe_minmax(term_scores)
+
+def norm_ppl(val):
+    return (val - ppl_min) / ppl_dn
+
+def norm_term(val):
+    return (val - term_min) / term_dn
 
 # =========================
 # Clustering (labels) load
 # =========================
-print("Step 1: Load clustering results ...")
-# Note: we only need labels; the model is not used here but kept for compatibility.
+print("Step 1: クラスタリング読み込み ...")
 _ = joblib.load(f"{base_root}/kmeans_model_qwen_{N_CLUSTERS}.joblib")
 labels = np.load(f"{base_root}/kmeans_labels_qwen_{N_CLUSTERS}.npy")
 clusters = [[] for _ in range(N_CLUSTERS)]
@@ -252,67 +251,34 @@ for idx, label in enumerate(labels):
     clusters[label].append(idx)
 
 # =========================
-# Scoring utilities
+# スコア計算ユーティリティ
 # =========================
-def compute_raw_components_for_indices(V_set, idx_list):
-    """
-    Compute raw (unnormalized) components for the given candidate indices.
-      TTR_raw(s)   = |Vocab(s) \ V| / |s|
-      PPL_raw(s)   = ppl_scores[idx]
-      TERM_raw(s)  = term_scores[idx]
-    """
-    ttr_raw = []
-    ppl_raw = []
-    term_raw = []
+def ttr_raw_for_indices(V_set, idx_list):
+    """現Vに対する各インデックスの TTR_raw = |新規タイプ| / 文長"""
+    raws = []
     for idx in idx_list:
         new_types = len(tokens_list[idx] - V_set)
         length = max(1, lens_list[idx])
-        ttr_raw.append(new_types / length)
-        ppl_raw.append(ppl_scores[idx])
-        term_raw.append(term_scores[idx])
-    return np.array(ttr_raw, dtype=float), np.array(ppl_raw, dtype=float), np.array(term_raw, dtype=float)
+        raws.append(new_types / length)
+    return np.array(raws, dtype=float)
 
-def minmax_params(arr):
-    """Return (min, denom) with denom >= 1e-8 to avoid zero-division."""
-    arr = np.asarray(arr, dtype=float)
-    mn = float(np.min(arr))
-    mx = float(np.max(arr))
-    denom = max(1e-8, mx - mn)
-    return mn, denom
+def minmax_params_over_rest_ttr(V_set, idx_list):
+    """残余プール（またはクラスタ残余）で TTR の min/max を計算（各イテレーションで更新）"""
+    ttr_vals = ttr_raw_for_indices(V_set, idx_list)
+    mn = float(np.min(ttr_vals))
+    mx = float(np.max(ttr_vals))
+    dn = max(1e-8, mx - mn)
+    return mn, dn
 
-def normalized_scores(ttr_raw, ppl_raw, term_raw):
-    """Min-max normalize each component across the provided arrays and combine."""
-    t_mn, t_dn = minmax_params(ttr_raw)
-    p_mn, p_dn = minmax_params(ppl_raw)
-    d_mn, d_dn = minmax_params(term_raw)
-    nttr  = (ttr_raw  - t_mn) / t_dn
-    nppl  = (ppl_raw  - p_mn) / p_dn
-    nterm = (term_raw - d_mn) / d_dn
-    return ttr_weight*nttr + ppl_weight*nppl + term_weight*nterm
-
-def normalized_scores_with_given_minmax(ttr_raw, ppl_raw, term_raw,
-                                        t_mn, t_dn, p_mn, p_dn, d_mn, d_dn):
-    """Combine with externally supplied min/max (useful for sampling argmax)."""
-    nttr  = (ttr_raw  - t_mn) / t_dn
-    nppl  = (ppl_raw  - p_mn) / p_dn
-    nterm = (term_raw - d_mn) / d_dn
-    return ttr_weight*nttr + ppl_weight*nppl + term_weight*nterm
+def combined_score_from_components(nttr, nppl, nterm):
+    return ttr_weight * nttr + ppl_weight * nppl + term_weight * nterm
 
 # =========================
-# Step 2: In-cluster greedy with LOCAL vocabulary sets (parallelizable)
+# Step 2: クラスタ内 greedy（LOCAL V） with 残余TTR正規化
 # =========================
-print("Step 2: Per-cluster greedy (LOCAL V) with cluster-wide normalization ...")
+print("Step 2: クラスタ内greedy（TTRは残余でmin-max、PPL/TERMはグローバル） ...")
 
 def select_reps_for_cluster(indices):
-    """
-    Greedy selection inside a cluster:
-    - Maintain local vocabulary V_local per cluster.
-    - At each step:
-        * compute raw components for ALL remaining indices (cluster-wide),
-          derive min/max for normalization from the FULL remaining set,
-        * optionally choose argmax among a sampled subset, BUT normalize
-          using the full-set min/max (paper-consistent).
-    """
     if not indices:
         return []
 
@@ -320,58 +286,66 @@ def select_reps_for_cluster(indices):
     V_local = set()
     taken = []
 
-    # Repeat up to N_CLUSTER_SAMPLES or until cluster empties
+    # 最大 N_CLUSTER_SAMPLES まで
     for _ in range(min(N_CLUSTER_SAMPLES, len(rest))):
-        # cluster-wide raw components for normalization params
-        ttr_raw_full, ppl_raw_full, term_raw_full = compute_raw_components_for_indices(V_local, rest)
-        t_mn, t_dn = minmax_params(ttr_raw_full)
-        p_mn, p_dn = minmax_params(ppl_raw_full)
-        d_mn, d_dn = minmax_params(term_raw_full)
+        if not rest:
+            break
 
-        # candidate subset for argmax search (sampling to keep speed)
+        # TTR min-max は “クラスタ残余 全体” で求める（サンプルではない）
+        ttr_mn, ttr_dn = minmax_params_over_rest_ttr(V_local, rest)
+
+        # スコア計算はサンプル（高速化）。ただし正規化は上の全体 min-max を使用
         cand = rest if len(rest) <= SAMPLE_SIZE else random.sample(rest, SAMPLE_SIZE)
-        ttr_raw_c, ppl_raw_c, term_raw_c = compute_raw_components_for_indices(V_local, cand)
-        scores = normalized_scores_with_given_minmax(ttr_raw_c, ppl_raw_c, term_raw_c,
-                                                     t_mn, t_dn, p_mn, p_dn, d_mn, d_dn)
-        best_pos = int(np.argmax(scores))
-        best_idx = cand[best_pos]
 
-        # update local state
+        best_idx = None
+        best_score = -1e18
+
+        for idx in cand:
+            # TTR
+            ttr_raw = len(tokens_list[idx] - V_local) / max(1, lens_list[idx])
+            nttr = (ttr_raw - ttr_mn) / ttr_dn
+            # PPL/TERM（グローバルで固定正規化）
+            nppl  = norm_ppl(ppl_scores[idx])
+            nterm = norm_term(term_scores[idx])
+
+            score = combined_score_from_components(nttr, nppl, nterm)
+            if score > best_score:
+                best_score = score
+                best_idx = idx
+
+        if best_idx is None:
+            break
+
+        # 受理
         taken.append(best_idx)
         V_local |= tokens_list[best_idx]
         rest.remove(best_idx)
 
-        if not rest:
-            break
-
     return taken
 
-# Run Step2 in parallel over clusters
 with multiprocessing.Pool(processes=num_cores) as pool:
     cluster_reps = list(tqdm(pool.imap(select_reps_for_cluster, clusters),
                              total=len(clusters), desc="Cluster reps"))
 
 total_selected_step2 = sum(len(r) for r in cluster_reps if r)
 nonempty_clusters = sum(1 for r in cluster_reps if r)
-print(f"#clusters: {len(cluster_reps)}, #nonempty clusters: {nonempty_clusters}, "
-      f"#selected (step2): {total_selected_step2}")
+print(f"クラスタ数: {len(cluster_reps)}, 非空クラスタ数: {nonempty_clusters}, "
+      f"Step2選出合計: {total_selected_step2}")
 
 # =========================
-# Step 3: Cluster-level greedy with GLOBAL vocabulary
-# (Start with EMPTY V to reflect the staged selection described in the paper)
+# Step 3: クラスタ選抜（GLOBAL V は空から開始）
 # =========================
-print("Step 3: Cluster-level greedy (GLOBAL V starts empty) ...")
+print("Step 3: クラスタ選抜 greedy（TTRは残余クラスタでmin-max、PPL/TERMはグローバル） ...")
 
 candidate_clusters = [i for i, reps in enumerate(cluster_reps) if reps]
 rest_clusters = list(candidate_clusters)
 selected_clusters = []
 
-V_global = set()     # start from empty
+V_global = set()
 token_count_global = 0
 current_total = 0
 
-def cluster_components_for_scoring(V_set, cluster_idx):
-    """Aggregate cluster-level raw components vs current GLOBAL V."""
+def cluster_components_for_scoring(cluster_idx, V_set):
     reps = cluster_reps[cluster_idx]
     all_tokens = set()
     total_len = 0
@@ -381,42 +355,49 @@ def cluster_components_for_scoring(V_set, cluster_idx):
         total_len += lens_list[idx]
         ppl_vals.append(ppl_scores[idx])
         term_vals.append(term_scores[idx])
-
     length = max(1, total_len)
     ttr = len(all_tokens - V_set) / length
     ppl_avg = float(np.mean(ppl_vals)) if ppl_vals else 0.0
     term_avg = float(np.mean(term_vals)) if term_vals else 0.0
     return ttr, ppl_avg, term_avg, all_tokens, total_len
 
-with tqdm(desc="Select clusters", total=TARGET_TOTAL) as pbar:
+with tqdm(desc="クラスタ選択", total=TARGET_TOTAL) as pbar:
     while rest_clusters and current_total < TARGET_TOTAL:
-        # compute raw for all remaining clusters
-        raw_ttr, raw_ppl, raw_term = [], [], []
+        # 残余クラスタで TTR の min-max を算出
+        ttr_list = []
         cache = {}
         for ci in rest_clusters:
-            ttr, ppl_avg, term_avg, cl_tokens, cl_len = cluster_components_for_scoring(V_global, ci)
-            raw_ttr.append(ttr)
-            raw_ppl.append(ppl_avg)
-            raw_term.append(term_avg)
-            cache[ci] = (cl_tokens, cl_len)
+            ttr, ppl_avg, term_avg, cl_tokens, cl_len = cluster_components_for_scoring(ci, V_global)
+            ttr_list.append(ttr)
+            cache[ci] = (ttr, ppl_avg, term_avg, cl_tokens, cl_len)
+        ttr_mn = float(np.min(ttr_list))
+        ttr_dn = max(1e-8, float(np.max(ttr_list)) - ttr_mn)
 
-        # normalize across remaining clusters and pick best
-        scores = normalized_scores(np.array(raw_ttr), np.array(raw_ppl), np.array(raw_term))
-        best_pos = int(np.argmax(scores))
-        best_cluster = rest_clusters[best_pos]
+        # サンプリング上で argmax（正規化は残余全体のmin-max）
+        cand = rest_clusters if len(rest_clusters) <= SAMPLE_SIZE else random.sample(rest_clusters, SAMPLE_SIZE)
+        best_cluster = None
+        best_score = -1e18
+
+        for ci in cand:
+            ttr, ppl_avg, term_avg, cl_tokens, cl_len = cache[ci]
+            nttr  = (ttr - ttr_mn) / ttr_dn
+            nppl  = norm_ppl(ppl_avg)
+            nterm = norm_term(term_avg)
+            score = combined_score_from_components(nttr, nppl, nterm)
+            if score > best_score:
+                best_score = score
+                best_cluster = ci
+
+        # 受理＆更新
         selected_clusters.append(best_cluster)
-
-        # update global state
-        cl_tokens, cl_len = cache[best_cluster]
+        _, _, _, cl_tokens, cl_len = cache[best_cluster]
         V_global |= cl_tokens
         token_count_global += cl_len
-
-        # bookkeeping
         current_total += len(cluster_reps[best_cluster])
         rest_clusters.remove(best_cluster)
         pbar.update(len(cluster_reps[best_cluster]))
 
-print(f"#selected clusters: {len(selected_clusters)}, gathered sentences (step3): {current_total}")
+print(f"選択クラスタ数: {len(selected_clusters)}, 収集文数（Step3）: {current_total}")
 
 candidate_indices = []
 for ci in selected_clusters:
@@ -432,15 +413,13 @@ step3_result = {
 step3_result_path = f"{output_base_dir}/step3_result.pkl"
 with open(step3_result_path, 'wb') as f:
     pickle.dump(step3_result, f)
-print(f"Saved step3 result: {step3_result_path}")
+print(f"ステップ3の結果を保存: {step3_result_path}")
 
 # =========================
-# Step 4: Global greedy with TTS budget
-# - Strict version: normalize across the FULL remaining candidate set each iteration.
+# Step 4: 最終グローバル greedy（TTRは残余候補でmin-max、PPL/TERMはグローバル）
 # =========================
-print("Step 4: Global greedy with TTS generation (strict normalization over full REST) ...")
+print("Step 4: 全体greedy（TTRは残余でmin-max、PPL/TERMはグローバル, サンプリング） ...")
 
-# fresh GLOBAL V for final greedy (as a new stage)
 V_final = set()
 token_count_final = 0
 final_selected_idxs = []
@@ -459,27 +438,41 @@ speakers = [
 ]
 
 rest = list(set(candidate_indices))
-print(f"#candidates: {len(rest)}, #selected clusters: {len(selected_clusters)}")
+print(f"候補文数: {len(rest)}, 選択クラスタ数: {len(selected_clusters)}")
 
 tts_queue = []
 MAX_QUEUE_SIZE = 10
 SR = 24000
 MAX_UTT_SEC = 30.0  # discard too-long utterances
 
-with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pbar:
+with tqdm(total=MAX_DURATION_MIN, desc="累積音声分", unit="min") as pbar:
     while duration_sec < MAX_DURATION_SEC and rest:
-        # compute raw for ALL remaining candidates vs current V_final
-        ttr_raw_full, ppl_raw_full, term_raw_full = compute_raw_components_for_indices(V_final, rest)
-        # normalize across full remaining set
-        scores_full = normalized_scores(ttr_raw_full, ppl_raw_full, term_raw_full)
-        best_pos = int(np.argmax(scores_full))
-        best_idx = rest[best_pos]
+        # TTR の min-max を “残余全文” から計算
+        ttr_mn, ttr_dn = minmax_params_over_rest_ttr(V_final, rest)
 
-        # send to TTS queue
+        # スコア計算はサンプル（ただし正規化は上の min-max）
+        cand = rest if len(rest) <= SAMPLE_SIZE else random.sample(rest, SAMPLE_SIZE)
+
+        best_idx = None
+        best_score = -1e18
+        for idx in cand:
+            ttr_raw = len(tokens_list[idx] - V_final) / max(1, lens_list[idx])
+            nttr  = (ttr_raw - ttr_mn) / ttr_dn
+            nppl  = norm_ppl(ppl_scores[idx])
+            nterm = norm_term(term_scores[idx])
+            score = combined_score_from_components(nttr, nppl, nterm)
+            if score > best_score:
+                best_score = score
+                best_idx = idx
+
+        if best_idx is None:
+            break
+
+        # キューへ
         tts_queue.append((best_idx, texts[best_idx], random.choice(speakers)))
-        rest.pop(best_pos)
+        rest.remove(best_idx)
 
-        # process TTS queue
+        # バッチでTTS実行
         if len(tts_queue) >= MAX_QUEUE_SIZE or len(rest) == 0:
             for idx, text_for_tts, speaker in tts_queue:
                 try:
@@ -504,28 +497,28 @@ with tqdm(total=MAX_DURATION_MIN, desc="Accum. audio minutes", unit="min") as pb
 
                         if not exceeded:
                             final_selected_idxs.append(idx)
-                            # update final global vocabulary AFTER acceptance
+                            # 受理後に V を更新
                             V_final |= tokens_list[idx]
                             token_count_final += lens_list[idx]
                         break  # one chunk per utt
                 except Exception as e:
-                    print(f"[WARN] TTS failed for idx={idx}: {e}")
+                    print(f"[WARN] TTS失敗 idx={idx}: {e}")
 
             tts_queue = []
 
-            # periodic save of text list
+            # 途中保存
             while save_idx < len(save_points) and duration_sec >= save_points[save_idx]:
                 save_path = f"{output_base_dir}/selected_texts_{int(save_points[save_idx]//3600)}h.tsv"
                 with open(save_path, "w", encoding="utf-8") as f:
                     for wav_filename, t in save_texts:
                         f.write(f"{wav_filename}\t{t}\n")
-                print(f"== Saved text list at {save_points[save_idx]//3600}h: {save_path}")
+                print(f"== {save_points[save_idx]//3600}時間分のテキスト&ファイル名を保存: {save_path}")
                 save_idx += 1
 
             if duration_sec >= MAX_DURATION_SEC:
                 break
 
-print(f"Reached budget: {int(duration_sec // 60)} min audio, #selected {len(final_selected_idxs)}, |V|={len(V_final)}")
+print(f"終了: 合成音声 {int(duration_sec // 60)} 分, 選択数 {len(final_selected_idxs)}, |V|={len(V_final)}")
 
 # =========================
 # Final saves & stats
@@ -534,8 +527,8 @@ all_save_path = f"{output_base_dir}/selected_texts_all.tsv"
 with open(all_save_path, "w", encoding="utf-8") as f:
     for wav_filename, t in save_texts:
         f.write(f"{wav_filename}\t{t}\n")
-print(f"Done! total selected: {len(final_selected_idxs)}, total minutes: {int(duration_sec // 60)}")
-print(f"Saved: {all_save_path}")
+print(f"Done! 合計選出: {len(final_selected_idxs)}, 累積音声時間: {int(duration_sec // 60)} 分")
+print(f"全データを {all_save_path} に保存しました")
 
 step4_result = {
     'final_selected_idxs': final_selected_idxs,
@@ -546,24 +539,24 @@ step4_result = {
 step4_result_path = f"{output_base_dir}/step4_result.pkl"
 with open(step4_result_path, 'wb') as f:
     pickle.dump(step4_result, f)
-print(f"Saved step4 result: {step4_result_path}")
+print(f"ステップ4の結果を保存: {step4_result_path}")
 
 # Compute final stats on the chosen subset
 final_ppl  = [ppl_scores[idx] for idx in final_selected_idxs] if final_selected_idxs else []
 final_term = [term_scores[idx] for idx in final_selected_idxs] if final_selected_idxs else []
 final_ttr  = (len(V_final) / max(1, token_count_final)) if token_count_final else 0.0
 
-print("\n=== Final selection stats ===")
-print(f"TTR (|V|/tokens): {final_ttr:.4f}")
+print("\n=== 最終選択データの統計 ===")
+print(f"TTR（|V|/tokens）: {final_ttr:.4f}")
 if final_ppl:
-    print(f"PPL mean: {np.mean(final_ppl):.2f}, min: {np.min(final_ppl):.2f}, max: {np.max(final_ppl):.2f}")
+    print(f"PPL 平均: {np.mean(final_ppl):.2f}, 最小: {np.min(final_ppl):.2f}, 最大: {np.max(final_ppl):.2f}")
 else:
     print("PPL: N/A")
 if final_term:
-    print(f"Term ratio mean: {np.mean(final_term):.4f}, min: {np.min(final_term):.4f}, max: {np.max(final_term):.4f}")
+    print(f"専門用語比率 平均: {np.mean(final_term):.4f}, 最小: {np.min(final_term):.4f}, 最大: {np.max(final_term):.4f}")
 else:
-    print("Term ratio: N/A")
-print(f"|V| (unique words): {len(V_final)}")
-print(f"Total token count: {token_count_final}")
-print(f"Weights -> TTR: {ttr_weight}, PPL: {ppl_weight}, TERM: {term_weight}")
+    print("専門用語比率: N/A")
+print(f"|V|（ユニーク語数）: {len(V_final)}")
+print(f"総トークン数: {token_count_final}")
+print(f"重み -> TTR: {ttr_weight}, PPL: {ppl_weight}, TERM: {term_weight}")
 print("=============================")
