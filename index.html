@@ -11,7 +11,7 @@
 	<!-- Bootstrap CSS from CDN -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 	
-	<title>A Robust ASR Domain Adaptation via LLM-based Text Augmentation Pipeline and Phonetic Respelling</title>
+	<title>Synthetic Data Domain Adaptation for ASR via LLM-based Text and Phonetic Respelling Augmentation</title>
 	
 	<style>
 		.custom-container {
@@ -63,7 +63,7 @@
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
 	<div class="text-center">
 	<h1>Demo Page:</h1>
-        <h3>A Robust ASR Domain Adaptation via LLM-based Text Augmentation Pipeline and Phonetic Respelling</h3>
+        <h3>Synthetic Data Domain Adaptation for ASR via LLM-based Text and Phonetic Respelling Augmentation</h3>
 		<!-- [<a href="https://arxiv.org/abs/2304.09116">Paper</a>] -->
          [<span>Paper</span>]
          [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">Filtering code</a>]
@@ -77,15 +77,7 @@
 	</div>
 	<p>
         <b>Abstract</b> 
-		End-to-end automatic speech recognition often degrades on domainspecific data due to scarce in-domain resources. 
-        We propose a synthetic-data-based domain adaptation framework with two contributions: (1) a large language model (LLM)-based text augmentation pipeline with a filtering strategy that balances lexical diversity,
-        perplexity, and domain-term coverage, and (2) phonetic respell augmentation (PRA), a novel method that introduces pronunciation
-        variability through LLM-generated orthographic pseudo-spellings.
-        Unlike conventional acoustic-level methods such as SpecAugment,
-        PRA provides phonetic diversity before speech synthesis, enabling
-        synthetic speech to better approximate real-world variability. Experimental results across four domain-specific datasets demonstrate
-        consistent reductions in word error rate, confirming that combining domain-specific lexical coverage with realistic pronunciation
-        variation significantly improves ASR robustness.
+		End-to-end automatic speech recognition often degrades on domain-specific data due to scarce in-domain resources. We propose a synthetic-data-based domain adaptation framework with two contributions: (1) a large language model (LLM)-based text augmentation pipeline with a filtering strategy that balances lexical diversity, perplexity, and domain-term coverage, and (2) phonetic respelling augmentation (PRA), a novel method that introduces pronunciation variability through LLM-generated orthographic pseudo-spellings. Unlike conventional acoustic-level methods such as SpecAugment, PRA provides phonetic diversity before speech synthesis, enabling synthetic speech to better approximate real-world variability. Experimental results across four domain-specific datasets demonstrate consistent reductions in word error rate, confirming that combining domain-specific lexical coverage with realistic pronunciation variation significantly improves ASR robustness.
 		<br>
 		<br>
 			This page is <b> for research demonstration purposes </b> only, which provides prompt examples, generated texts and synthesized audio with proposed methods.
@@ -2309,6 +2301,7 @@
 <!-- LLM-based Phonetic Respelling -->
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
     <h2 id="sr-samples" style="text-align: center;">Phonetic Respell Augmentation</h2>
+    <p>This section shows example prompts and respelled texts with PRA on each dataset. Each text was synthesized by three TTS systems; kokoro-TTS, Azure TTS, Kyutai TTS.</p>
     <br>
     <div class="row mb-4">
         <div class="col-12">
@@ -2318,7 +2311,7 @@
                     <p>"Please convert the following English sentence into a pronunciation respelling.<br>
                     Reflect possible and various pronunciation errors, substitutions, or idiosyncrasies.<br>
                     <br>
-                    ・Use English letters (not IPA) to represent each word as it would sound.<br>
+                    ・Use English letters (not IPA) to represent each word as it would sound , and do not use hyphens.<br>
                     ・Separate words using spaces as in normal English.<br>
                     ・Do not use IPA, but use clear respelling so that a reader can pronounce it with the intended accent.<br>
                     ・Annotations, explanations, or repetitions are not needed.<br>
@@ -2329,6 +2322,8 @@
             </div>
         </div>
     </div>
+    <br>
+    <h4 id="sr-samples" style="text-align: center;">kokoro-TTS</h4>
     <ul class="nav nav-tabs justify-content-center mb-4" id="respellingTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="respelling-atcosim-tab" data-bs-toggle="tab" data-bs-target="#respelling-atcosim" type="button" role="tab">ATCOSIM</button>
@@ -2358,33 +2353,33 @@
                     <tbody>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The airport staff checked the Turkair schedule.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/original/00000.wav" />Your browser does not support the audio element.</audio></td>
                             <td style="text-align: left;vertical-align:middle">Ze airpot stahf chekt ze Turker skedjool.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">Pilot Chen, Airbus Three Twenty, proceed to Paris, class Bravo airspace.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/original/00001.wav" />Your browser does not support the audio element.</audio></td>
                             <td style="text-align: left;vertical-align:middle">Pailot Chen, Airbus Sree Twenny, pruhseed to Paris, klass Bravoh airspays.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">Air France One One Two, report over waypoint BALTR heading to Oslo.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/original/00002.wav" />Your browser does not support the audio element.</audio></td>
                             <td style="text-align: left;vertical-align:middle">Eh Frons wun wun too, repor ova waypoyn BALTR hedding tu Osslo.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">In aviation management, European regulation is strict.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/original/00003.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">In ay-vee-ay-shun man-ij-mint, Yoo-roh-pee-un reg-yoo-lay-shun iz strikt.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">In ayveeay shun manaj ment yooro peean regyoo lay shun iz strik.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">With devec tools, Paris airport reduces risks for Seven helicopter pilots.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/original/00004.wav" />Your browser does not support the audio element.</audio></td>
                             <td style="text-align: left;vertical-align:middle">Vit devec tools, Paris airport redooses risks for Sebben helicopter pailots.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atcosim/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atcosim/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                     </tbody>
                 </table>
@@ -2404,33 +2399,33 @@
                     <tbody>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">British Airways Seven Six Five keep level Two Four Zero.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Brit-ish Air-wayz Sev-n Siks Fyve keep lev-ul Too For Zer-oh.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">British Airweys Sevem Six Fife keep levul Two For Zero</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">American Airlines flight five five zero contacted Dallas center regarding light rime ice encounters.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00001.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Uh-meh-rih-kun Air-lienz flite fiv fiv zee-roh kahn-tak-tid Dal-lis sen-ter ri-gar-ding lite rime ice en-kown-ters.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Amerikin Airlynz flite fife fife zero contacted Dallas sentur regarding lite rime ice encounters.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">Can Captain Li Four land on Seven Charlie runway, Frankfurt Tower?</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00002.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Kan Cap-tin Lee For land on Sev-en Char-lee run-way, Frank-fert Tow-er?</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Kan Captn Lee For land on Seven Charlee runwye Frankfert Tower?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">Airbus Three Twenty began approach following airclub instructions.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00003.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Air bus Three Twenny bee gan uh proach folluh win air club instruckshuns</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Airbus Three Twenny began approach follwing airclub instruckshuns.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">KLM Four Triple Seven experiences cargo shift, announces Amsterdam control.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/original/00004.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">kay ell em for tripul sevin ekspeerienziz kargo shift, uhnaunsiz amsturdam cun-trohl.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/atco2/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">kay ell em for tripul sevin ekspeerienziz kargo shift, uhnaunsiz amsturdam control.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/atco2/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                     </tbody>
                 </table>
@@ -2447,49 +2442,37 @@
                             <th style="text-align: center">Synthesized Respelling Audio</th>
                         </tr>
                     </thead>
-                    <!-- <tbody>
-                        <tr>
-                            <td style="text-align: left;vertical-align:middle">The supreme court justices expressed differing opinions about the "hansaria."</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">The supreem kort justisiz eksprest difering opinyuns about the hansaria.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left;vertical-align:middle">A landmark decree by India's highest tribunal shaped legal views on potability limits concerning mercury levels.</td>
-                            <th style="text-align: center">Respelling Text</th>
-                            <th style="text-align: center">Synthesized Respelling Audio</th>
-                        </tr>
-                    </thead> -->
+
                     <tbody>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The supreme court justices expressed differing opinions about the "hansaria."</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/original/00000.wav" />Your browser does not support the audio element.</audio></td>
                             <td style="text-align: left;vertical-align:middle">The supreem kort justisiz eksprest difering opinyuns about the hansaria.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">A landmark decree by India's highest tribunal shaped legal views on potability limits concerning mercury levels.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/original/00001.wav" />Your browser does not support the audio element.</audio></td>
                             <td style="text-align: left;vertical-align:middle">A landmaark dikree by Indiyas highest trybunal sheypt leegal views on potability limts concerning mercury levls.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The diary presented as evidence reflects the defendant's inner transformation.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/original/00002.wav" />Your browser does not support the audio element.</audio></td>
                             <td style="text-align: left;vertical-align:middle">The daiyari prezented az evidens refleks the difandents inner transformayshan.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">Before the Supreme Court, Chinnaiah's defence team made a passionate representation.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00003.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Bifor the Supreme Kort, Chinnaiahz difens teem made a pashunet representeishun.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Befor the Supreme Kort, Chinnaiahz difens teem made a pashunet representeishun.</td>
                             <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The psychological evaluation report raises concerns about a diagnosed impulse control issue.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/original/00004.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">The sy-koh-loj-i-kal eval-yoo-ay-shun report ray-ziz kun-sernz abowt a dy-ug-nost im-puls kun-trol ish-yoo.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/court/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha sykolojikul evualayshun repor rayzez konzerns about a diagnozed impulz control ishoo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/court/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                     </tbody>
                 </table>
@@ -2509,39 +2492,449 @@
                     <tbody>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The supplement CalD3 supports bone health and density.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00000.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">thuh supluhment kal-dee-three suhports bohn helth and densuhtee.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha supplemen Kal Dee Three supportz bone helth and dencity.</td>
                             <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">Can you describe how Norvir interacts with Sandimmune?</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00001.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Kan yoo dis-kribe how Nor-veer in-ter-aks wit San-dyoon?</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Can yu describe how Norveer interaks with Sandimune.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The health program featured multiple oral liq brands containing Axnil.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00002.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Thuh helth proh-gram fee-churd mul-tuh-pul or-ul lick brandz kun-tay-ning Aks-nil.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha helth program feechurd multiple oral lick brands containin Axnil.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The trend of consuming magnesium and calcium enriched vitamins persists.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00003.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Thuh trend uhv cun-soom-ing mag-nee-zee-um and kal-see-um en-richd vie-tuh-minz per-sists.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha trend of konsummin magneezhum and kalshum enricht vitamins persists.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                         <tr>
                             <td style="text-align: left;vertical-align:middle">The patient's supplement protocol was enhanced with three distinct vitamin D compounds.</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/original/00004.wav" />Your browser does not support the audio element.</audio></td>
-                            <td style="text-align: left;vertical-align:middle">Thuh pay-shints sup-luh-ment proh-tuh-call wuz in-hanst widh three dis-tingkt vy-tuh-min dee com-pownds</td>
-                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/medsyn/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha payshent's supplemen protokol wuz enhanst with three distinkt vitamin Dee kompounds.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kokoro/medsyn/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <br>
+    <h4 id="sr-samples" style="text-align: center;">Azure TTS</h4>
+    <ul class="nav nav-tabs justify-content-center mb-4" id="respellingTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="respelling-atcosim-tab" data-bs-toggle="tab" data-bs-target="#respelling-atcosim" type="button" role="tab">ATCOSIM</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-atco2-tab" data-bs-toggle="tab" data-bs-target="#respelling-atco2" type="button" role="tab">ATCO2</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-court-tab" data-bs-toggle="tab" data-bs-target="#respelling-court" type="button" role="tab">Court</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-medsyn-tab" data-bs-toggle="tab" data-bs-target="#respelling-medsyn" type="button" role="tab">MedSyn</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="respellingTabContent">
+        <div class="tab-pane fade show active" id="respelling-atcosim" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The airport staff checked the Turkair schedule.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/original/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Ze airpot stahf chekt ze Turker skedjool.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/respelled/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Pilot Chen, Airbus Three Twenty, proceed to Paris, class Bravo airspace.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/original/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Pailot Chen, Airbus Sree Twenny, pruhseed to Paris, klass Bravoh airspays.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/respelled/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Air France One One Two, report over waypoint BALTR heading to Oslo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/original/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Eh Frons wun wun too, repor ova waypoyn BALTR hedding tu Osslo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/respelled/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">In aviation management, European regulation is strict.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/original/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">In ayveeay shun manaj ment yooro peean regyoo lay shun iz strik.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/respelled/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">With devec tools, Paris airport reduces risks for Seven helicopter pilots.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/original/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Vit devec tools, Paris airport redooses risks for Sebben helicopter pailots.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atcosim/respelled/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-atco2" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">British Airways Seven Six Five keep level Two Four Zero.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/original/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">British Airweys Sevem Six Fife keep levul Two For Zero</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/respelled/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">American Airlines flight five five zero contacted Dallas center regarding light rime ice encounters.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/original/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Amerikin Airlynz flite fife fife zero contacted Dallas sentur regarding lite rime ice encounters.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/respelled/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Can Captain Li Four land on Seven Charlie runway, Frankfurt Tower?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/original/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Kan Captn Lee For land on Seven Charlee runwye Frankfert Tower?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/respelled/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Airbus Three Twenty began approach following airclub instructions.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/original/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Airbus Three Twenny began approach follwing airclub instruckshuns.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/respelled/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">KLM Four Triple Seven experiences cargo shift, announces Amsterdam control.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/original/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">kay ell em for tripul sevin ekspeerienziz kargo shift, uhnaunsiz amsturdam control.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/atco2/respelled/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-court" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The supreme court justices expressed differing opinions about the "hansaria."</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/original/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The supreem kort justisiz eksprest difering opinyuns about the hansaria.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/respelled/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">A landmark decree by India's highest tribunal shaped legal views on potability limits concerning mercury levels.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/original/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">A landmaark dikree by Indiyas highest trybunal sheypt leegal views on potability limts concerning mercury levls.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/respelled/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The diary presented as evidence reflects the defendant's inner transformation.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/original/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The daiyari prezented az evidens refleks the difandents inner transformayshan.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/respelled/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Before the Supreme Court, Chinnaiah's defence team made a passionate representation.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/original/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Befor the Supreme Kort, Chinnaiahz difens teem made a pashunet representeishun.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/respelled/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The psychological evaluation report raises concerns about a diagnosed impulse control issue.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/original/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha sykolojikul evualayshun repor rayzez konzerns about a diagnozed impulz control ishoo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/court/respelled/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-medsyn" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The supplement CalD3 supports bone health and density.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/original/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha supplemen Kal Dee Three supportz bone helth and dencity.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/respelled/00000.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Can you describe how Norvir interacts with Sandimmune?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/original/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Can yu describe how Norveer interaks with Sandimune.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/respelled/00001.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The health program featured multiple oral liq brands containing Axnil.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/original/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha helth program feechurd multiple oral lick brands containin Axnil.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/respelled/00002.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The trend of consuming magnesium and calcium enriched vitamins persists.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/original/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha trend of konsummin magneezhum and kalshum enricht vitamins persists.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/respelled/00003.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The patient's supplement protocol was enhanced with three distinct vitamin D compounds.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/original/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha payshent's supplemen protokol wuz enhanst with three distinkt vitamin Dee kompounds.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/azure/medsyn/respelled/00004.mp3" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <h4 id="sr-samples" style="text-align: center;">Kyutai TTS</h4>
+    <ul class="nav nav-tabs justify-content-center mb-4" id="respellingTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="respelling-atcosim-tab" data-bs-toggle="tab" data-bs-target="#respelling-atcosim" type="button" role="tab">ATCOSIM</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-atco2-tab" data-bs-toggle="tab" data-bs-target="#respelling-atco2" type="button" role="tab">ATCO2</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-court-tab" data-bs-toggle="tab" data-bs-target="#respelling-court" type="button" role="tab">Court</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="respelling-medsyn-tab" data-bs-toggle="tab" data-bs-target="#respelling-medsyn" type="button" role="tab">MedSyn</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="respellingTabContent">
+        <div class="tab-pane fade show active" id="respelling-atcosim" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The airport staff checked the Turkair schedule.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Ze airpot stahf chekt ze Turker skedjool.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Pilot Chen, Airbus Three Twenty, proceed to Paris, class Bravo airspace.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Pailot Chen, Airbus Sree Twenny, pruhseed to Paris, klass Bravoh airspays.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Air France One One Two, report over waypoint BALTR heading to Oslo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Eh Frons wun wun too, repor ova waypoyn BALTR hedding tu Osslo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">In aviation management, European regulation is strict.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">In ayveeay shun manaj ment yooro peean regyoo lay shun iz strik.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">With devec tools, Paris airport reduces risks for Seven helicopter pilots.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Vit devec tools, Paris airport redooses risks for Sebben helicopter pailots.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atcosim/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-atco2" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">British Airways Seven Six Five keep level Two Four Zero.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">British Airweys Sevem Six Fife keep levul Two For Zero</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">American Airlines flight five five zero contacted Dallas center regarding light rime ice encounters.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Amerikin Airlynz flite fife fife zero contacted Dallas sentur regarding lite rime ice encounters.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Can Captain Li Four land on Seven Charlie runway, Frankfurt Tower?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Kan Captn Lee For land on Seven Charlee runwye Frankfert Tower?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Airbus Three Twenty began approach following airclub instructions.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Airbus Three Twenny began approach follwing airclub instruckshuns.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">KLM Four Triple Seven experiences cargo shift, announces Amsterdam control.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">kay ell em for tripul sevin ekspeerienziz kargo shift, uhnaunsiz amsturdam control.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/atco2/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-court" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The supreme court justices expressed differing opinions about the "hansaria."</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The supreem kort justisiz eksprest difering opinyuns about the hansaria.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">A landmark decree by India's highest tribunal shaped legal views on potability limits concerning mercury levels.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">A landmaark dikree by Indiyas highest trybunal sheypt leegal views on potability limts concerning mercury levls.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The diary presented as evidence reflects the defendant's inner transformation.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">The daiyari prezented az evidens refleks the difandents inner transformayshan.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Before the Supreme Court, Chinnaiah's defence team made a passionate representation.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Befor the Supreme Kort, Chinnaiahz difens teem made a pashunet representeishun.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The psychological evaluation report raises concerns about a diagnosed impulse control issue.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha sykolojikul evualayshun repor rayzez konzerns about a diagnozed impulz control ishoo.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/court/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="respelling-medsyn" role="tabpanel">
+            <div class="table-responsive pt-3">
+                <table class="table table-hover pt-2">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Text</th>
+                            <th style="text-align: center">Synthesized Audio</th>
+                            <th style="text-align: center">Respelling Text</th>
+                            <th style="text-align: center">Synthesized Respelling Audio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The supplement CalD3 supports bone health and density.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/original/00000.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha supplemen Kal Dee Three supportz bone helth and dencity.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/respelled/00000.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">Can you describe how Norvir interacts with Sandimmune?</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/original/00001.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Can yu describe how Norveer interaks with Sandimune.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/respelled/00001.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The health program featured multiple oral liq brands containing Axnil.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/original/00002.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha helth program feechurd multiple oral lick brands containin Axnil.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/respelled/00002.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The trend of consuming magnesium and calcium enriched vitamins persists.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/original/00003.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha trend of konsummin magneezhum and kalshum enricht vitamins persists.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/respelled/00003.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;vertical-align:middle">The patient's supplement protocol was enhanced with three distinct vitamin D compounds.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/original/00004.wav" />Your browser does not support the audio element.</audio></td>
+                            <td style="text-align: left;vertical-align:middle">Tha payshent's supplemen protokol wuz enhanst with three distinkt vitamin Dee kompounds.</td>
+                            <td style="text-align: center"><audio controls="controls" style="width: 240px;"><source src="audio/kyutai/medsyn/respelled/00004.wav" />Your browser does not support the audio element.</audio></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
 </div>
 
 <!-- Ethics Statement<div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">	
