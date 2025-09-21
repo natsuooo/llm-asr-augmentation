@@ -284,15 +284,38 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card">
-                                <div class="card-header"><strong>Filtered texts (high perplexity samples)</strong></div>
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
                                 <div class="card-body">
-                                    <ul class="list-unstyled">
-                                        <li class="mb-2">• "London Radar, belstar four five zero, passing over Rome at altitude flight level two nine zero, experiencing clear skies."</li>
-                                        <li class="mb-2">• "New York Approach, belstar four five zero, maintaining flight level three five zero over Paris, visibility excellent."</li>
-                                        <li class="mb-2">• "Sydney Center, belstar four five zero, currently cruising above Johannesburg at level three three zero, weather fair."</li>
-                                        <li class="mb-2">• "Dubai Control, belstar four five zero, over Berlin at flight level three one zero, with no weather issues reported."</li>
-                                        <li class="mb-2">• "Honolulu Tower, belstar four five zero, at this time above Lisbon at cruising altitude three two zero, conditions calm."</li>
-                                    </ul>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>34648</td>
+                                                <td>Trasadingen handles Three helicopters.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>31386</td>
+                                                <td>Manchester Tower issued routing about olben to Pilot Sarah flying Echo November Five Zero.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>31282</td>
+                                                <td>Delta Airbus Three Fifty leaves Atlanta on Proceed.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>29750</td>
+                                                <td>The Airbus Three Twenty exits Athens on Papa Oscar.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>28367</td>
+                                                <td>Ryanair navig Oslo airport using advanced navig.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -455,6 +478,54 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>34648</td>
+                                                <td>Trasadingen handles Three helicopters.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>31386</td>
+                                                <td>Manchester Tower issued routing about olben to Pilot Sarah flying Echo November Five Zero.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>31282</td>
+                                                <td>Delta Airbus Three Fifty leaves Atlanta on Proceed.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>29750</td>
+                                                <td>The Airbus Three Twenty exits Athens on Papa Oscar.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>28367</td>
+                                                <td>Ryanair navig Oslo airport using advanced navig.</td>
+                                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="atcosim-jp" role="tabpanel">
                     <div class="row">
@@ -613,6 +684,55 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>34648</td>
+                                                <td>Trasadingen handles Three helicopters.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>31386</td>
+                                                <td>Manchester Tower issued routing about olben to Pilot Sarah flying Echo November Five Zero.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>31282</td>
+                                                <td>Delta Airbus Three Fifty leaves Atlanta on Proceed.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>29750</td>
+                                                <td>The Airbus Three Twenty exits Athens on Papa Oscar.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>28367</td>
+                                                <td>Ryanair navig Oslo airport using advanced navig.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     
                 </div>
             </div>
@@ -755,6 +875,55 @@
                                         <li class="mb-2">• "Lufthansa three twelve, descend to seven thousand feet, and input QNH one-zero-one-three on your altimeter for the approach into Frankfurt."</li>
                                         <li class="mb-2">• "Qantas four sixty, drop to ten thousand feet and tune QNH one-zero-one-three on your altimeter for final approach at Sydney Airport."</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>249567</td>
+                                                <td>Air Europa Four Five Six maintain Two Hundred Forty level.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>22736</td>
+                                                <td>Vlasim Delivery clears Austrian Arrows 321 for engine start.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19033</td>
+                                                <td>Germany control point Munich Trans passed captain is Marx Fernaler.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>17124</td>
+                                                <td>Sierra Victor Six One Zero informs Rome Radar immediately about critical icing.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>16464</td>
+                                                <td>Tango Yankee Zero Four Seven notifies Sydney Centre of rapid ice accretion on airframe.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -917,6 +1086,55 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>249567</td>
+                                                <td>Air Europa Four Five Six maintain Two Hundred Forty level.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>22736</td>
+                                                <td>Vlasim Delivery clears Austrian Arrows 321 for engine start.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19033</td>
+                                                <td>Germany control point Munich Trans passed captain is Marx Fernaler.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>17124</td>
+                                                <td>Sierra Victor Six One Zero informs Rome Radar immediately about critical icing.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>16464</td>
+                                                <td>Tango Yankee Zero Four Seven notifies Sydney Centre of rapid ice accretion on airframe.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="atco2-jp" role="tabpanel">
                     <div class="row">
@@ -1075,6 +1293,55 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>249567</td>
+                                                <td>Air Europa Four Five Six maintain Two Hundred Forty level.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>22736</td>
+                                                <td>Vlasim Delivery clears Austrian Arrows 321 for engine start.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>19033</td>
+                                                <td>Germany control point Munich Trans passed captain is Marx Fernaler.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>17124</td>
+                                                <td>Sierra Victor Six One Zero informs Rome Radar immediately about critical icing.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>16464</td>
+                                                <td>Tango Yankee Zero Four Seven notifies Sydney Centre of rapid ice accretion on airframe.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1214,6 +1481,55 @@
                                         <li class="mb-2">• "Before a cluster of five judges at India’s top court, Sibal upheld the Aadhaar Act’s constitutional legitimacy."</li>
                                         <li class="mb-2">• "At India’s apex court, Sibal challenged the legal framework of the Aadhaar Act before a distinguished five-member bench."</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>4743</td>
+                                                <td>Mafatlal judgement affects Indian corporate tax strategies.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3621</td>
+                                                <td>The Indian judiciary's highest authority debated rebia protection legislation.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2776</td>
+                                                <td>Dehors reports compiled by advocacy NGOs guided the Court in assessing toxic discharge ramifications on suburban populations.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2624</td>
+                                                <td>The Indian Supreme Court oversaw a placitum involving extensive labor disagreement settlements.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2420</td>
+                                                <td>Opposing labor factions advocated before India’s Supreme Court for reinforced statutory actions targeting illicit economic protests.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -1370,6 +1686,55 @@
                                         <li class="mb-2">• "In the supreme judicial forum of India, counsel Sibal urged the presiding judge to concentrate on constitutional Article twenty-one issues."</li>
                                         <li class="mb-2">• "During the judiciary panel's review in India’s capital, Sibal the lawyer pressed for attention toward Article twenty-one under the Constitution."</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>4743</td>
+                                                <td>Mafatlal judgement affects Indian corporate tax strategies.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3621</td>
+                                                <td>The Indian judiciary's highest authority debated rebia protection legislation.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2776</td>
+                                                <td>Dehors reports compiled by advocacy NGOs guided the Court in assessing toxic discharge ramifications on suburban populations.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2624</td>
+                                                <td>The Indian Supreme Court oversaw a placitum involving extensive labor disagreement settlements.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2420</td>
+                                                <td>Opposing labor factions advocated before India’s Supreme Court for reinforced statutory actions targeting illicit economic protests.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -1532,6 +1897,55 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>4743</td>
+                                                <td>Mafatlal judgement affects Indian corporate tax strategies.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3621</td>
+                                                <td>The Indian judiciary's highest authority debated rebia protection legislation.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2776</td>
+                                                <td>Dehors reports compiled by advocacy NGOs guided the Court in assessing toxic discharge ramifications on suburban populations.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2624</td>
+                                                <td>The Indian Supreme Court oversaw a placitum involving extensive labor disagreement settlements.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2420</td>
+                                                <td>Opposing labor factions advocated before India’s Supreme Court for reinforced statutory actions targeting illicit economic protests.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1671,6 +2085,55 @@
                                         <li class="mb-2">• "Physicians often prescribe Ofloxacin to address bacterial infections, particularly those impacting the respiratory and urinary systems."</li>
                                         <li class="mb-2">• "Commonly, Ofloxacin is administered to patients suffering from respiratory tract infections as well as urinary bladder infections caused by bacteria."</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>14799</td>
+                                                <td>Has HealthyBend joint supplement manufacturing ceased?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11924</td>
+                                                <td>Will stopping Lovaza after extended usage trigger withdrawal symptoms?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11541</td>
+                                                <td>Does Nature's Bounty Omega Three supplement contain gluten?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11258</td>
+                                                <td>Red yeast rice capsules sold as Hypocol often mandate membership registration.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10908</td>
+                                                <td>Can Hu Gan Ning Granules cause stomach discomfort?</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -1831,6 +2294,55 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>14799</td>
+                                                <td>Has HealthyBend joint supplement manufacturing ceased?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11924</td>
+                                                <td>Will stopping Lovaza after extended usage trigger withdrawal symptoms?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11541</td>
+                                                <td>Does Nature's Bounty Omega Three supplement contain gluten?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11258</td>
+                                                <td>Red yeast rice capsules sold as Hypocol often mandate membership registration.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10908</td>
+                                                <td>Can Hu Gan Ning Granules cause stomach discomfort?</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="medsyn-jp" role="tabpanel">
                     <div class="row">
@@ -1983,6 +2495,55 @@
                                         <li class="mb-2">• "Ofloxacin has limited use in combating bacterial sinus infections resistant to other antibiotics."</li>
                                         <li class="mb-2">• "Ofloxacin is prescribed in certain cases for addressing acute bacterial sinusitis symptoms."</li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<h4>6. Filtering</h4>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Codes</strong></div>
+                                <div class="card-body">
+                                    <p>The code for filtering is available at [<a href="https://github.com/natsuooo/llm-asr-augmentation/blob/main/muss_filter.py">URL</a>].</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header"><strong>Filtered texts: highest perplexity samples</strong></div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Perplexity</th>
+                                                <th>Text</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>14799</td>
+                                                <td>Has HealthyBend joint supplement manufacturing ceased?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11924</td>
+                                                <td>Will stopping Lovaza after extended usage trigger withdrawal symptoms?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11541</td>
+                                                <td>Does Nature's Bounty Omega Three supplement contain gluten?</td>
+                                            </tr>
+                                            <tr>
+                                                <td>11258</td>
+                                                <td>Red yeast rice capsules sold as Hypocol often mandate membership registration.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10908</td>
+                                                <td>Can Hu Gan Ning Granules cause stomach discomfort?</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -2300,7 +2861,7 @@
 
 <!-- LLM-based Phonetic Respelling -->
 <div class="container pt-5 mt-5 shadow-card p-5 mb-5 bg-white rounded">
-    <h2 id="sr-samples" style="text-align: center;">Phonetic Respell Augmentation</h2>
+    <h2 id="sr-samples" style="text-align: center;">Phonetic Respelling Augmentation</h2>
     <p>This section shows example prompts and respelled texts with PRA on each dataset. Each text was synthesized by three TTS systems; kokoro-TTS, Azure TTS, Kyutai TTS.</p>
     <br>
     <div class="row mb-4">
