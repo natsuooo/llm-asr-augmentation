@@ -1,3 +1,14 @@
+# Copyright (c) 2025 Natsuo Yamashita, Hitachi, Ltd.
+#
+# Licensed for non-commercial use only.
+#
+# Non-commercial use includes academic research, educational use,
+# and reproduction of results for scientific publications.
+#
+# Any commercial use (e.g., use in commercial products, services,
+# or for monetary compensation) is prohibited without prior consent.
+
+
 # =========================
 # MUSS filtering using TTR + PPL + domain-term weighting.
 # =========================
