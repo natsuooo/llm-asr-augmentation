@@ -81,8 +81,8 @@ OUTPUT_DIR = "muss_ttr_ppl_term_060301_winsor"
 # -------------------------
 # Paths
 # -------------------------
-base_root = f"/lustre/home/70988567/airport_asr/output/{version}/{dataset}"
-output_base_dir = f"/lustre/home/70988567/airport_asr/output/{version}/tts/{dataset}/{OUTPUT_DIR}"
+base_root = f"output/{version}/{dataset}"
+output_base_dir = f"output/{version}/tts/{dataset}/{OUTPUT_DIR}"
 os.makedirs(output_base_dir, exist_ok=True)
 audio_dir = f"{output_base_dir}/audio"
 os.makedirs(audio_dir, exist_ok=True)
